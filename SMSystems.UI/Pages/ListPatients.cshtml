@@ -1,0 +1,12 @@
+﻿@page
+@model SMSystems.UI.Pages.ListPatientsModel
+@{
+}
+
+
+@foreach(var patient in Model.Patients)
+{
+    <ul>
+        <li>@Html.DisplayFor(modelPatient => patient.Name)</li>
+    </ul>
+}
