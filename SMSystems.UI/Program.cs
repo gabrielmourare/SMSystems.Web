@@ -3,11 +3,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-
-
+builder.Services.ConfigureServices(builder.Configuration);
+builder.Services.RegisterServices(builder.Configuration);
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -27,3 +26,5 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();
+
+

@@ -7,6 +7,11 @@
 @foreach(var patient in Model.Patients)
 {
     <ul>
+        <li>@Html.DisplayFor(modelPatient => patient.ID)</li>
         <li>@Html.DisplayFor(modelPatient => patient.Name)</li>
+        <li>@Html.DisplayFor(modelPatient => patient.SocialNumber)</li>
+        <li>@Html.DisplayFor(modelPatient => patient.Active)</li>
+        <li>@Html.DisplayFor(modelPatient => patient.BirthDate)</li>
+        <li>@Html.DisplayFor(modelPatient => patient.Email)</li>
     </ul>
 }

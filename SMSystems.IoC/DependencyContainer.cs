@@ -6,25 +6,33 @@ using SMSystems.Data.Repositories;
 using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace SMSystems.IoC
 {
-    public class DependencyContainer
+    public static class DependencyContainer
     {
-        public static IConfiguration Configuration { get; set; }
-        public static void RegisterServices(IServiceCollection services)
+        public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration Configuration)
         {
-            services.AddDbContext<SMSystemsDBContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString(""));
-            });
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IPatientRepository, PatientRepository>();
             services.AddScoped<IInvoiceService, InvoiceService>();
-            services.AddScoped<IInvoiceRepository, IInvoiceRepository>();
+            services.AddScoped<IInvoiceRepository, InvoiceRepository>();
             services.AddScoped<ISessionService, SessionService>();
             services.AddScoped<ISessionRepository, SessionRepository>();
 
+
+            return services;
+        }
+
+        public static void ConfigureServices(this IServiceCollection services, IConfiguration Configuration)
+        {
+            services.AddDbContext<SMSystemsDBContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("SMSystemsDevelopment"));
+
+
+            });
         }
     }
 }
