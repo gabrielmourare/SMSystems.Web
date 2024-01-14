@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SMSystems.Data.Repositories
 {
-    internal class InvoiceRepository : IInvoiceRepository
+    public class InvoiceRepository : IInvoiceRepository
     {
         public SMSystemsDBContext _context;
 

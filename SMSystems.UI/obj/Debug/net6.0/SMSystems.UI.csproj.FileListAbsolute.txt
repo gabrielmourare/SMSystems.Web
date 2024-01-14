@@ -284,3 +284,14 @@ D:\Projects\SMSystems\SMSystems.UI\obj\Debug\net6.0\refint\SMSystems.UI.dll
 D:\Projects\SMSystems\SMSystems.UI\obj\Debug\net6.0\SMSystems.UI.pdb
 D:\Projects\SMSystems\SMSystems.UI\obj\Debug\net6.0\SMSystems.UI.genruntimeconfig.cache
 D:\Projects\SMSystems\SMSystems.UI\obj\Debug\net6.0\ref\SMSystems.UI.dll
+D:\Projects\SMSystems\SMSystems.UI\bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll
+D:\Projects\SMSystems\SMSystems.UI\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\Projects\SMSystems\SMSystems.UI\bin\Debug\net6.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+D:\Projects\SMSystems\SMSystems.UI\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Json.dll
+D:\Projects\SMSystems\SMSystems.UI\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+D:\Projects\SMSystems\SMSystems.UI\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Physical.dll
+D:\Projects\SMSystems\SMSystems.UI\bin\Debug\net6.0\Microsoft.Extensions.FileSystemGlobbing.dll
+D:\Projects\SMSystems\SMSystems.UI\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+D:\Projects\SMSystems\SMSystems.UI\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+D:\Projects\SMSystems\SMSystems.UI\bin\Debug\net6.0\System.Text.Json.dll
+D:\Projects\SMSystems\SMSystems.UI\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
