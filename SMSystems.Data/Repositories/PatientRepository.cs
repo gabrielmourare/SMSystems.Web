@@ -11,7 +11,7 @@ namespace SMSystems.Data.Repositories
     public class PatientRepository : IPatientRepository
     {
         public SMSystemsDBContext _context;
-        
+
         public PatientRepository(SMSystemsDBContext context)
         {
             _context = context;
@@ -34,7 +34,8 @@ namespace SMSystems.Data.Repositories
 
         public void SavePatient(Patient patient)
         {
-            _context.Patients.Add(patient);            
+            _context.Patients.Add(patient);
+            _context.SaveChanges();
 
         }
 
@@ -44,7 +45,7 @@ namespace SMSystems.Data.Repositories
         }
 
         public void Save()
-        { 
+        {
             _context.SaveChanges();
         }
 
@@ -53,7 +54,7 @@ namespace SMSystems.Data.Repositories
         {
             if (!this.disposed)
             {
-                if(disposing)
+                if (disposing)
                 {
                     _context.Dispose();
                 }

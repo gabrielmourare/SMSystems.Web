@@ -2,3 +2,35 @@
 @model SMSystems.UI.Pages.Patients.RegisterPatientModel
 @{
 }
+
+<h1>Registrar Paciente </h1>
+
+<form method="post">
+    <label id="lblpatientName"> Nome:</label>
+    <input type="text" name="patientName" />
+    <br />
+
+    <lable id="lblBirthDate">Data de Nascimento: </lable>
+    <input type="date" name="patientBirthDate" />
+    <br />
+
+    <label id="lblSocialNumber">CPF:</label>
+    <input type="text" name="patientSocialNumber" />
+    <br />
+
+    <label id="lblTelephone">Whatsapp:</label>
+    <input type="tel" name="patientNumber" />
+    <br />    
+
+    <label id="lblEmail">Email:</label>
+    <input type="email" name="patientEmail" />
+    <br />    
+
+    <lbl id="lblICD">CID</lbl>
+    <input type="text" name="patientICD" />
+
+    <br />
+
+    
+    <input type="submit" >
+</form>
