@@ -15,7 +15,7 @@ namespace SMSystems.Application.Interfaces
         public void UpdatePatient(Patient patient);
         public void DeletePatient(int id);
         public void AddPatient(Patient patient);
-
+        public Patient GetPatientBySN(string socialNumber);
 
 
     }

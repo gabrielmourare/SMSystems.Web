@@ -61,6 +61,11 @@ public class PatientService : IPatientService
     {
         _patient.SavePatient(patient);
     }
+
+    public Patient GetPatientBySN(string socialNumber)
+    {
+        return _patient.GetPatientBySocialNumber(socialNumber);
+    }
    
 }
 

@@ -5,32 +5,70 @@
 
 <h1>Registrar Paciente </h1>
 
-<form method="post">
-    <label id="lblpatientName"> Nome:</label>
-    <input type="text" name="patientName" />
-    <br />
+<div class="grid-container">
 
-    <lable id="lblBirthDate">Data de Nascimento: </lable>
-    <input type="date" name="patientBirthDate" />
-    <br />
+    @if (!string.IsNullOrEmpty(Model.ModalMessage))
+    {
+        @await Html.PartialAsync("_ModalPartial", Model)
+    }
 
-    <label id="lblSocialNumber">CPF:</label>
-    <input type="text" name="patientSocialNumber" />
-    <br />
+    <form method="post">
+        <div>
+            <label id="lblpatientName"> Nome:</label>
+            <input type="text" id="txtName" name="patientName" />
+        </div>
 
-    <label id="lblTelephone">Whatsapp:</label>
-    <input type="tel" name="patientNumber" />
-    <br />    
+        <div>
+            <lable id="lblBirthDate">Data de Nascimento: </lable>
+            <input type="date" id="txtBirthDate" name="patientBirthDate" />
+        </div>
 
-    <label id="lblEmail">Email:</label>
-    <input type="email" name="patientEmail" />
-    <br />    
+        <div>
+            <label id="lblSocialNumber">CPF:</label>
+            <input type="text" id="txtSocialNumber" name="patientSocialNumber" />
+        </div>
 
-    <lbl id="lblICD">CID</lbl>
-    <input type="text" name="patientICD" />
+        <div>
+            <label id="lblTelephone">Whatsapp:</label>
+            <input type="tel" id="txtPatientNumber" name="patientNumber" />
+        </div>
 
-    <br />
+        <div>
+            <label id="lblEmail">Email:</label>
+            <input type="email" id="txtEmail" name="patientEmail" />
+        </div>
 
-    
-    <input type="submit" >
-</form>
+        <div>
+            <lbl id="lblICD">CID</lbl>
+            <input type="text" id="txtICD" name="patientICD" />
+        </div>
+
+
+        <input type="submit" value="Registrar">
+        <button type="button" id="btnCancela">Cancelar</button>
+    </form>
+
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('btnCancela').addEventListener('click', function () {
+
+                $('#txtICD').val('');
+                $('#txtEmail').val('');
+                $('#txtPatientNumber').val('');
+                $('#txtSocialNumber').val('');
+                $('#txtBirthDate').val('');
+                $('#txtName').val('');
+
+            });
+        });
+
+        $(document).ready(function () {
+            $('#myModal').modal('show');
+        });
+
+
+    </script>
+}

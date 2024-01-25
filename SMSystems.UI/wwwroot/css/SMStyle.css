@@ -1,0 +1,177 @@
+﻿/* color palette from <https://github.com/vuejs/theme> */
+@font-face {
+    font-display: auto;
+    font-family: "CenturyGothic";
+    src: url("Fonts/CenturyGothic/CenturyGothic.woff2") format('woff2');
+}
+
+@font-face {
+    font-display: auto;
+    font-family: "Autography";
+    src: url("Fonts/Autography/Autography.woff2") format('woff2');
+}
+
+:root {
+    --vt-c-white: #ffffff;
+    --vt-c-white-soft: #f8f8f8;
+    --vt-c-white-mute: #f2f2f2;
+    --vt-c-black: #ffffff;
+    --vt-c-black-soft: #222222;
+    --vt-c-black-mute: #ffffff;
+    --vt-c-indigo: #86D3E6;
+    --vt-c-divider-light-1: #ADA9A8;
+    --vt-c-divider-light-2: #ADA9A8;
+    --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
+    --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+    --vt-c-text-light-1: var(--vt-c-indigo);
+    --vt-c-text-light-2: #ffffff;
+    --vt-c-text-dark-1: var(--vt-c-white);
+    --vt-c-text-dark-2: #ADA9A8;
+}
+
+/* semantic color variables for this project */
+:root {
+    --color-background: var(--vt-c-white);
+    --color-background-soft: var(--vt-c-white-soft);
+    --color-background-mute: var(--vt-c-white-mute);
+    --color-border: var(--vt-c-divider-light-2);
+    --color-border-hover: var(--vt-c-divider-light-1);
+    --color-heading: var(--vt-c-text-light-1);
+    --color-text: var(--vt-c-text-light-1);
+    --section-gap: 160px;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-background: var(--vt-c-black);
+        --color-background-soft: var(--vt-c-black-soft);
+        --color-background-mute: var(--vt-c-black-mute);
+        --color-border: var(--vt-c-divider-dark-2);
+        --color-border-hover: var(--vt-c-divider-dark-1);
+        --color-heading: var(--vt-c-text-dark-1);
+        --color-text: var(--vt-c-text-dark-2);
+    }
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    font-weight: normal;
+}
+
+body {
+    min-height: 100vh;
+    color: var(--color-text);
+    background: var(--color-background);
+    transition: color 0.5s, background-color 0.5s;
+    line-height: 1.6;
+    font-size: 15px;
+    font-family: CenturyGothic;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+h1 {
+  font-family: "Autography";
+}
+
+.logo {
+    width: 300px;
+    height: 100px;
+}
+
+.blueBtn {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: #86D3E6;
+    border: 1px solid #86D3E6;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    color: #fff;  
+}
+
+.greyBtn {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: #ADA9A8;
+    border: 1px solid #ADA9A8;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    color: #fff;
+}
+
+.icons {
+    width: 24px;
+    height: 24px;
+}
+
+.iconTd {
+    border:none;
+    background-color:#fff;
+    border-top:none;
+    border-bottom:none;
+}
+
+.thIcon {
+    border: none;
+    background-color: #fff;
+    border-top: none;
+    border-bottom: none;
+}
+
+
+@media (hover: hover) {
+    a.blueBtn:hover {
+        background-color: #ADA9A8;
+        border: 1px solid #ADA9A8;
+        color: #fff;
+    }
+    a.greyBtn:hover {
+        background-color: #dbd8d7;
+        border: 1px solid #dbd8d7;
+        color: #fff;
+    }
+
+    button.blueBtn:hover {
+        background-color: #ADA9A8;
+        border: 1px solid #ADA9A8;
+        color: #fff;
+    }
+
+    .paginationBtn {
+        color: #86D3E6;
+        
+    }
+    .paginationBtnActive {
+        color: #fff;
+        background-color: #86D3E6;
+    }
+
+
+}

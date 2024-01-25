@@ -67,5 +67,10 @@ namespace SMSystems.Data.Repositories
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        public Patient? GetPatientBySocialNumber(string socialNumber)
+        {
+            return _context.Patients.Where(patient => patient.SocialNumber == socialNumber).FirstOrDefault();
+        }
     }
 }

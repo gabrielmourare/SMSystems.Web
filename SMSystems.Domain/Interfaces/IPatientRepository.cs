@@ -14,6 +14,7 @@ namespace SMSystems.Domain.Interfaces
         public void SavePatient(Patient patient);
         public void DeletePatient(int patientId);
         public void UpdatePatient(int patientId);
+        public Patient? GetPatientBySocialNumber(string socialNumber);
 
     }
 }
