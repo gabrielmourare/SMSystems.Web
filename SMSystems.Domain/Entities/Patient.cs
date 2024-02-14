@@ -15,7 +15,7 @@ namespace SMSystems.Domain.Entities
         public string? SocialNumber { get; set; }
         public string? Phone { get; set; }
         public string? Email { get; set; }
-        public bool Active { get; set; } = false;
+        public bool Active { get; set; } = true;
         public DateTime BirthDate { get; set; }
         public string? ICD { get; set; }
         public List<Invoice>? Invoices { get; set; }

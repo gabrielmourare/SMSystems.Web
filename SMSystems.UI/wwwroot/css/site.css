@@ -1,33 +1,34 @@
+
+
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 .grid-container {
     display: grid;
     grid-template-columns: auto auto auto auto;
-    gap: 10px;   
+    gap: 10px;
     padding: 10px;
 }
 
 .grid-item {
     padding: 20px;
     font-size: 30px;
-   
 }
 
 .myDiv {
@@ -68,3 +69,4 @@ body {
     background: white;
     z-index: 1000; /* Um valor alto para garantir que o modal esteja sobreposto aos outros elementos */
 }
+

@@ -1,68 +1,79 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SMSystems.Application.Interfaces;
-using SMSystems.Application.Services;
 using SMSystems.Domain.Entities;
+using SMSystems.UI.ViewModels;
+
+
 
 namespace SMSystems.UI.Pages.Patients
 {
     public class RegisterPatientModel : PageModel
     {
         private IPatientService _patientService;
-        [BindProperty]
-        public string ModalMessage { get; set; }
+        private IMapper _mapper;
 
-        public RegisterPatientModel(IPatientService patientService)
+        [BindProperty]
+        public PatientViewModel patientVM { get; set; }
+
+        public List<string>? ModalMessages { get; set; }
+
+        public RegisterPatientModel(IPatientService patientService, IMapper mapper)
         {
             _patientService = patientService;
+            ModalMessages = new List<string>();
+            _mapper = mapper;
+
         }
 
         public void OnGet()
         {
-           
+
         }
 
-        public void OnPost()
+        public IActionResult OnPost()
         {
-
-            var emailAddress = Request.Form["patientEmail"];
-            var name = Request.Form["patientName"];
-            var ICD = Request.Form["patientICD"];
-            var socialNumber = Request.Form["patientSocialNumber"];
-            var phoneNumber = Request.Form["patientNumber"];
-            var birthdate = Request.Form["patientBirthDate"];
             var errorMessage = string.Empty;
-            ValidateFields(out errorMessage);
 
-            if(!string.IsNullOrEmpty(errorMessage))
+            if (!ModelState.IsValid)
             {
-                ModalMessage = errorMessage;
-                return;
+                return Page();
             }
 
-            Patient patient = new Patient();
 
-            patient.Name = name;
-            patient.SocialNumber = socialNumber;
-            patient.Email = emailAddress;
-            patient.BirthDate = DateTime.Parse(birthdate);
-            patient.Phone = phoneNumber;
-            patient.ICD = ICD;
-            patient.Active = true;
-
-            if (_patientService.GetPatientBySN(socialNumber).SocialNumber == socialNumber)
+            if (ModalMessages.Count > 0)
             {
-                ModalMessage="Paciente com este CPF já existe.";
-                return;
+                return Page();
             }
 
-            _patientService.AddPatient(patient);
+            Patient patient = _patientService.GetPatientBySN(patientVM.SocialNumber);
 
-        }
+            if (patient != null)
+            {
+                if (patient.SocialNumber == patientVM.SocialNumber)
+                {
+                    ModalMessages.Add("Paciente com este CPF já existe.");
+                    return Page();
+                }
+            }
 
-        private void ValidateFields(out string? errorMessage)
-        {
-            
+            patientVM = new PatientViewModel
+            {
+                Email = patientVM.Email,
+                Name = patientVM.Name,
+                ICD = patientVM.ICD,
+                SocialNumber = patientVM.SocialNumber,
+                Phone = patientVM.Phone,
+                BirthDate = patientVM.BirthDate
+
+            };
+
+            var patientMapped = _mapper.Map<Patient>(patientVM);
+
+            _patientService.AddPatient(patientMapped);
+            return Page();
+
         }
     }
 }

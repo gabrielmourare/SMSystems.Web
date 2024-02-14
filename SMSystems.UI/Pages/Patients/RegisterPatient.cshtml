@@ -1,74 +1,72 @@
 ﻿@page
-@model SMSystems.UI.Pages.Patients.RegisterPatientModel
+@model SMSystems.UI.Pages.Patients.RegisterPatientModel;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
 }
+
 
 <h1>Registrar Paciente </h1>
 
 <div class="grid-container">
 
-    @if (!string.IsNullOrEmpty(Model.ModalMessage))
-    {
-        @await Html.PartialAsync("_ModalPartial", Model)
-    }
+
 
     <form method="post">
-        <div>
-            <label id="lblpatientName"> Nome:</label>
-            <input type="text" id="txtName" name="patientName" />
-        </div>
 
-        <div>
-            <lable id="lblBirthDate">Data de Nascimento: </lable>
-            <input type="date" id="txtBirthDate" name="patientBirthDate" />
-        </div>
+        @if (Model.ModalMessages.Count > 0)
+        {
+            @foreach (string message in Model.ModalMessages.ToArray())
+            {
 
-        <div>
-            <label id="lblSocialNumber">CPF:</label>
-            <input type="text" id="txtSocialNumber" name="patientSocialNumber" />
-        </div>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong> @message.ToString()</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-        <div>
-            <label id="lblTelephone">Whatsapp:</label>
-            <input type="tel" id="txtPatientNumber" name="patientNumber" />
-        </div>
+            }
+        }
 
-        <div>
-            <label id="lblEmail">Email:</label>
-            <input type="email" id="txtEmail" name="patientEmail" />
-        </div>
 
-        <div>
-            <lbl id="lblICD">CID</lbl>
-            <input type="text" id="txtICD" name="patientICD" />
+        <div class="form-group">
+            <label for="txtName">Nome:</label>
+            <input type="text" id="txtName" asp-for="patientVM.Name" class="form-control" />
+            <span asp-validation-for="patientVM.Name" class="text-danger"></span>
         </div>
 
 
-        <input type="submit" value="Registrar">
-        <button type="button" id="btnCancela">Cancelar</button>
+        <div class="form-group">
+            <label for="txtBirthDate">Data de Nascimento:</label>
+            <input id="txtBirthDate" asp-for="patientVM.BirthDate" class="form-control" />
+            <span asp-validation-for="patientVM.BirthDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="txtSocialNumber">CPF:</label>
+            <input type="text" id="txtSocialNumber" asp-for="patientVM.SocialNumber" class="form-control" />
+            <span asp-validation-for="patientVM.SocialNumber" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="txtPatientNumber">Whatsapp:</label>
+            <input type="tel" id="txtPatientNumber" asp-for="patientVM.Phone" class="form-control" />
+            <span asp-validation-for="patientVM.Phone" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="txtEmail">Email:</label>
+            <input type="email" id="txtEmail" asp-for="patientVM.Email" class="form-control" />
+            <span asp-validation-for="patientVM.Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="txtICD">CID:</label>
+            <input type="text" id="txtICD" asp-for="patientVM.ICD" class="form-control" />
+        </div>
+
+        <input type="submit" class="btn btn-primary" value="Registrar">
+        <button type="reset" class="btn btn-primary" id="btnCancela">Cancelar</button>
     </form>
 
 </div>
-
-@section Scripts {
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('btnCancela').addEventListener('click', function () {
-
-                $('#txtICD').val('');
-                $('#txtEmail').val('');
-                $('#txtPatientNumber').val('');
-                $('#txtSocialNumber').val('');
-                $('#txtBirthDate').val('');
-                $('#txtName').val('');
-
-            });
-        });
-
-        $(document).ready(function () {
-            $('#myModal').modal('show');
-        });
-
-
-    </script>
-}

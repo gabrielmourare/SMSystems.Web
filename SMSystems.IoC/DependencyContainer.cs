@@ -7,6 +7,8 @@ using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 
 namespace SMSystems.IoC
 {
@@ -20,8 +22,7 @@ namespace SMSystems.IoC
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();
             services.AddScoped<ISessionService, SessionService>();
             services.AddScoped<ISessionRepository, SessionRepository>();
-
-
+           
             return services;
         }
 
@@ -33,6 +34,11 @@ namespace SMSystems.IoC
 
 
             });
+           
+            services.AddMvcCore().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
+
     }
+
+   
 }

@@ -2,6 +2,7 @@ using SMSystems.IoC;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSingleton(AutoMapperConfig.Initialize());
 builder.Services.AddRazorPages();
 builder.Services.ConfigureServices(builder.Configuration);
 builder.Services.RegisterServices(builder.Configuration);
