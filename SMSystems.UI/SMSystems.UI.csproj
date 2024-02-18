@@ -27,6 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Pages\Invoices\" />
+    <Folder Include="Pages\Sessions\" />
     <Folder Include="Resources\" />
   </ItemGroup>
 

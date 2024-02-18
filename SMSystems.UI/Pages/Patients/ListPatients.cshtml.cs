@@ -4,7 +4,7 @@ using SMSystems.Application.Interfaces;
 using SMSystems.Application.Services;
 using SMSystems.Domain.Entities;
 
-namespace SMSystems.UI.Pages
+namespace SMSystems.UI.Pages.Patients
 {
     public class ListPatientsModel : PageModel
     {
@@ -14,10 +14,10 @@ namespace SMSystems.UI.Pages
         {
             _patientService = patientService ?? throw new ArgumentNullException(nameof(patientService));
         }
-        
+
         public IQueryable<Patient> Patients { get; set; }
         public void OnGet()
-        {            
+        {
             Patients = _patientService.GetAll();
         }
     }
