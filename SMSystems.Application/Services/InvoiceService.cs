@@ -1,5 +1,7 @@
-﻿using SMSystems.Application.Interfaces;
+﻿using AutoMapper;
+using SMSystems.Application.Interfaces;
 using SMSystems.Domain.Entities;
+using SMSystems.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,21 +12,30 @@ namespace SMSystems.Application.Services
 {
     public class InvoiceService : IInvoiceService
     {
-        private readonly IInvoiceService _invoice;        
-        private readonly ISessionService _session;
+        private readonly IInvoiceRepository _invoice;        
+        private readonly ISessionRepository _session;
+        private readonly IMapper _mapper;
+
+        public InvoiceService(IInvoiceRepository invoice, ISessionRepository session, IMapper mapper)
+        {
+            _invoice = invoice;
+            _session = session;
+            _mapper = mapper;
+        }
+
         public IQueryable<Invoice> GetAll()
         {
-            return _invoice.GetAll();
+            return _invoice.GetAllInvoices();
         }
 
         public IQueryable<Invoice> GetAllPatientInvoices(int patientId)
         {
-            return _invoice.GetAllPatientInvoices(patientId);
+            return _invoice.GetInvoicesByPatientId(patientId);
         }
 
         public IQueryable<Session> GetAllInvoiceSessions(int patientId)
         {
-            return _invoice.GetAllInvoiceSessions(patientId);
+            return _invoice.GetAllSessions(patientId);
         }
         public Invoice GetInvoiceById(int invoiceId)
         {
@@ -35,7 +46,7 @@ namespace SMSystems.Application.Services
             _invoice.AddInvoice(invoice);
             foreach(Session session in invoice.Sessions)
             {
-                _session.AddSession(session);
+                _session.SaveSession(session);
             }
         }
 

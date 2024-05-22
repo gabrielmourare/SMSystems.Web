@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
-namespace SMSystems.UI.Pages.Patients
+namespace SMSystems.UI.Pages.Invoices
 {
     public class IndexModel : PageModel
     {
@@ -19,13 +19,13 @@ namespace SMSystems.UI.Pages.Patients
             _context = context;
         }
 
-        public IList<Patient> Patient { get;set; } = default!;
+        public IList<Invoice> Invoice { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            if (_context.Patients != null)
+            if (_context.Invoices != null)
             {
-                Patient = await _context.Patients.ToListAsync();
+                Invoice = await _context.Invoices.ToListAsync();
             }
         }
     }

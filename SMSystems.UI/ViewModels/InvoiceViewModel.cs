@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using SMSystems.Domain.Entities;
 
-namespace SMSystems.Domain.Entities
+namespace SMSystems.UI.ViewModels
 {
-    public class Invoice
+    public class InvoiceViewModel
     {
-        [Key]
         public int ID { get; set; }
         public decimal SessionValue { get; set; }
         public decimal TotalValue { get; set; }
         public List<Session>? Sessions { get; set; }
         public DateTime EmissionDate { get; set; }
         public int PatientID { get; set; }
+
+        public int SelectedPatientId { get; set; }
+        public IQueryable<SelectListItem> Patients { get; set; }
     }
 }

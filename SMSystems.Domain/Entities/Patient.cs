@@ -10,7 +10,7 @@ namespace SMSystems.Domain.Entities
     public class Patient
     {
         [Key]
-        public int ID { get; private set;}
+        public int ID { get; set;}
         public string? Name { get; set; }
         public string? SocialNumber { get; set; }
         public string? Phone { get; set; }
