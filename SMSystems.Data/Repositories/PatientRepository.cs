@@ -1,4 +1,5 @@
-﻿using SMSystems.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using SMSystems.Domain.Entities;
 using SMSystems.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,18 +9,24 @@ using System.Threading.Tasks;
 
 namespace SMSystems.Data.Repositories
 {
-    public class PatientRepository : IPatientRepository
+    public class PatientRepository : IPatientRepository, IDisposable
     {
-        public SMSystemsDBContext _context;
+        private readonly SMSystemsDBContext _context;
+        private bool _disposed = false;
 
         public PatientRepository(SMSystemsDBContext context)
         {
             _context = context;
         }
 
-        public void DeletePatient(int id)
+        public async Task DeletePatientAsync(int id)
         {
-            _context.Patients.Remove(GetPatientById(id));
+            var patient = await GetPatientByIdAsync(id);
+            if (patient != null)
+            {
+                _context.Patients.Remove(patient);
+                await SaveAsync();
+            }
         }
 
         public IQueryable<Patient> GetAllPatients()
@@ -27,50 +34,54 @@ namespace SMSystems.Data.Repositories
             return _context.Patients;
         }
 
-        public Patient? GetPatientById(int id)
+        public async Task<Patient?> GetPatientByIdAsync(int id)
         {
-            return _context.Patients.Find(id);
+            return await _context.Patients.FindAsync(id);
         }
 
-        public void SavePatient(Patient patient)
+        public async Task SavePatientAsync(Patient patient)
         {
-            _context.Patients.Add(patient);
-            _context.SaveChanges();
-
+            await _context.Patients.AddAsync(patient);
+            await SaveAsync();
         }
 
-        public void UpdatePatient(int patientId)
+        public async Task UpdatePatientAsync(Patient updatedPatient)
         {
-            _context.Patients.Update(GetPatientById(patientId));
+            _context.Patients.Update(updatedPatient);
+            await SaveAsync();
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        private bool disposed = false;
-        public virtual void Dispose(bool disposing)
+        public async Task<Patient?> GetPatientBySocialNumberAsync(string socialNumber)
         {
-            if (!this.disposed)
+            return await _context.Patients.FirstOrDefaultAsync(patient => patient.SocialNumber == socialNumber);
+        }
+
+        public async Task<bool> PatientExistsAsync(int id)
+        {
+            return await _context.Patients.AnyAsync(e => e.ID == id);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
             {
                 if (disposing)
                 {
                     _context.Dispose();
                 }
             }
-            this.disposed = true;
+            _disposed = true;
         }
 
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        public Patient? GetPatientBySocialNumber(string socialNumber)
-        {
-            return _context.Patients.Where(patient => patient.SocialNumber == socialNumber).FirstOrDefault();
         }
     }
 }

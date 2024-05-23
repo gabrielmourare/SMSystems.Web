@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SMSystems.Application.Interfaces;
 using SMSystems.Domain.Entities;
 using SMSystems.Domain.Interfaces;
@@ -30,9 +31,9 @@ public class PatientService : IPatientService
         return _session.GetAllPatientSessions(patientId);
     }
 
-    public Patient GetPatientData(int patientId)
+    public async Task<Patient> GetPatientData(int patientId)
     {
-        return _patient.GetPatientById(patientId);
+        return await _patient.GetPatientByIdAsync(patientId);
     }
 
     public IQueryable<Patient> GetAll()
@@ -40,30 +41,35 @@ public class PatientService : IPatientService
         return _patient.GetAllPatients();
     }
 
-    public Patient GetPatientById(int id)
+    public async Task<Patient> GetPatientById(int id)
     {
-        return _patient.GetPatientById(id);
+        return await _patient.GetPatientByIdAsync(id);
     }
 
-    public void UpdatePatient(Patient patient)
+    public async Task UpdatePatient(Patient patient)
     {
-        _patient.UpdatePatient(patient.ID);
+        await _patient.UpdatePatientAsync(patient);
     }
 
-    public void DeletePatient(int id)
+    public async Task DeletePatient(int id)
     {
-        _patient.DeletePatient(id);
+        await _patient.DeletePatientAsync(id);
     }
 
-    public void AddPatient(Patient patientViewModel)
+    public async Task AddPatient(Patient patientViewModel)
     {
         Patient patient = _mapper.Map<Patient>(patientViewModel);
-        _patient.SavePatient(patient);
+        await _patient.SavePatientAsync(patient);
     }
 
-    public Patient GetPatientBySN(string socialNumber)
+    public async Task<Patient> GetPatientBySN(string socialNumber)
     {
-        return _patient.GetPatientBySocialNumber(socialNumber);
+        return await _patient.GetPatientBySocialNumberAsync(socialNumber);
+    }
+
+    public async Task<bool> PatientExistsAsync(int id)
+    {
+        return await _patient.PatientExistsAsync(id);
     }
 
 }

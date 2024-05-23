@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
@@ -13,11 +14,11 @@ namespace SMSystems.UI.Pages.Patients
 {
     public class EditModel : PageModel
     {
-        private readonly SMSystems.Data.SMSystemsDBContext _context;
+        private readonly IPatientService _patientService;
 
-        public EditModel(SMSystems.Data.SMSystemsDBContext context)
+        public EditModel(IPatientService patientService)
         {
-            _context = context;
+            _patientService = patientService ?? throw new ArgumentNullException(nameof(patientService));
         }
 
         [BindProperty]
@@ -25,17 +26,17 @@ namespace SMSystems.UI.Pages.Patients
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Patients == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var patient =  await _context.Patients.FirstOrDefaultAsync(m => m.ID == id);
+            var patient = _patientService.GetPatientById(id.Value);
             if (patient == null)
             {
                 return NotFound();
             }
-            Patient = patient;
+            Patient = await patient;
             return Page();
         }
 
@@ -48,15 +49,15 @@ namespace SMSystems.UI.Pages.Patients
                 return Page();
             }
 
-            _context.Attach(Patient).State = EntityState.Modified;
+
 
             try
             {
-                await _context.SaveChangesAsync();
+                _patientService.UpdatePatient(Patient);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PatientExists(Patient.ID))
+                if (!await PatientExists(Patient.ID))
                 {
                     return NotFound();
                 }
@@ -69,9 +70,9 @@ namespace SMSystems.UI.Pages.Patients
             return RedirectToPage("./Index");
         }
 
-        private bool PatientExists(int id)
+        async Task<bool> PatientExists(int id)
         {
-          return (_context.Patients?.Any(e => e.ID == id)).GetValueOrDefault();
+            return (await _patientService.PatientExistsAsync(id));
         }
     }
 }
