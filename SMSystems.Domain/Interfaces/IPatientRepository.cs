@@ -12,7 +12,7 @@ namespace SMSystems.Domain.Interfaces
         IQueryable<Patient> GetAllPatients();
         Task<Patient?> GetPatientByIdAsync(int id);
         Task SavePatientAsync(Patient patient);
-        Task DeletePatientAsync(int patientId);
+        Task DeletePatientAsync(Patient patient);
         Task UpdatePatientAsync(Patient updatedPatient);
         Task<Patient?> GetPatientBySocialNumberAsync(string socialNumber);
         Task<bool> PatientExistsAsync(int id);

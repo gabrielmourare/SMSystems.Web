@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
@@ -12,21 +13,20 @@ namespace SMSystems.UI.Pages.Invoices
 {
     public class IndexModel : PageModel
     {
-        private readonly SMSystems.Data.SMSystemsDBContext _context;
+        private readonly IInvoiceService _invoiceService;
 
-        public IndexModel(SMSystems.Data.SMSystemsDBContext context)
+        public IndexModel(IInvoiceService invoiceService)
         {
-            _context = context;
+            _invoiceService = invoiceService;
         }
 
-        public IList<Invoice> Invoice { get;set; } = default!;
+        public IList<Invoice> Invoice { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
-            if (_context.Invoices != null)
-            {
-                Invoice = await _context.Invoices.ToListAsync();
-            }
+
+            Invoice = await _invoiceService.GetAll().ToListAsync();
+
         }
     }
 }

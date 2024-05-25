@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
@@ -12,21 +13,20 @@ namespace SMSystems.UI.Pages.Patients
 {
     public class IndexModel : PageModel
     {
-        private readonly SMSystems.Data.SMSystemsDBContext _context;
+        private readonly IPatientService _patientService;
 
-        public IndexModel(SMSystems.Data.SMSystemsDBContext context)
+        public IndexModel(IPatientService patientService)
         {
-            _context = context;
+            _patientService = patientService ?? throw new ArgumentNullException(nameof(patientService));
         }
 
-        public IList<Patient> Patient { get;set; } = default!;
+        [BindProperty]
+        public IList<Patient> Patient { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
-            if (_context.Patients != null)
-            {
-                Patient = await _context.Patients.ToListAsync();
-            }
+            Patient = await _patientService.GetAll().ToListAsync();
+
         }
     }
 }

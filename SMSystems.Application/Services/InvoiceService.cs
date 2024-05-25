@@ -12,7 +12,7 @@ namespace SMSystems.Application.Services
 {
     public class InvoiceService : IInvoiceService
     {
-        private readonly IInvoiceRepository _invoice;        
+        private readonly IInvoiceRepository _invoice;
         private readonly ISessionRepository _session;
         private readonly IMapper _mapper;
 
@@ -37,27 +37,48 @@ namespace SMSystems.Application.Services
         {
             return _invoice.GetAllSessions(patientId);
         }
-        public Invoice GetInvoiceById(int invoiceId)
+
+        public async Task<Invoice> GetInvoiceByIdAsync(int invoiceId)
         {
-            return _invoice.GetInvoiceById(invoiceId);
-        }
-        public void AddInvoice(Invoice invoice)
-        {
-            _invoice.AddInvoice(invoice);
-            foreach(Session session in invoice.Sessions)
+            var invoice = await _invoice.GetInvoiceByIdAsync(invoiceId);
+            if (invoice == null)
             {
-                _session.SaveSession(session);
+                throw new KeyNotFoundException("Invoice not found");
             }
+            return invoice;
         }
 
-        public void UpdateInvoice(int id)
+        public async Task AddInvoiceAsync(Invoice invoice)
         {
-            _invoice.UpdateInvoice(id);
+            Invoice invoiceMapped = _mapper.Map<Invoice>(invoice);
+
+            await _invoice.AddInvoiceAsync(invoiceMapped);
+
+
         }
 
-        public void DeleteInvoice(int id)
+        public async Task UpdateInvoiceAsync(int id)
         {
-            _invoice.DeleteInvoice(id);
+            var invoice = await _invoice.GetInvoiceByIdAsync(id);
+            if (invoice == null)
+            {
+                throw new KeyNotFoundException("Invoice not found");
+            }
+            await _invoice.UpdateInvoiceAsync(invoice);
         }
+
+        public async Task DeleteInvoiceAsync(int id)
+        {
+            var invoice = await _invoice.GetInvoiceByIdAsync(id);
+            if (invoice == null)
+            {
+                throw new KeyNotFoundException("Invoice not found");
+            }              
+
+            await _invoice.DeleteInvoiceAsync(invoice);
+        }
+
+
     }
+
 }

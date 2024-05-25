@@ -15,7 +15,7 @@ namespace SMSystems.Application.Interfaces
         IQueryable<Patient> GetAll();
         Task<Patient?> GetPatientById(int id);
         Task UpdatePatient(Patient patient);
-        Task DeletePatient(int id);
+        Task DeletePatient(Patient patient);
         Task AddPatient(Patient patientViewModel);
         Task<Patient?> GetPatientBySN(string socialNumber);
         Task<bool> PatientExistsAsync(int id);

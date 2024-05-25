@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
@@ -12,49 +13,59 @@ namespace SMSystems.UI.Pages.Invoices
 {
     public class DeleteModel : PageModel
     {
-        private readonly SMSystems.Data.SMSystemsDBContext _context;
+        private readonly IInvoiceService _invoiceService;
+        private readonly ISessionService _sessionService;
 
-        public DeleteModel(SMSystems.Data.SMSystemsDBContext context)
+        public DeleteModel(IInvoiceService invoiceService, ISessionService sessionService)
         {
-            _context = context;
+            _invoiceService = invoiceService;
+            _sessionService = sessionService;
         }
 
         [BindProperty]
-      public Invoice Invoice { get; set; } = default!;
+        public Invoice Invoice { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null || _context.Invoices == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var invoice = await _context.Invoices.FirstOrDefaultAsync(m => m.ID == id);
+            var invoice = await _invoiceService.GetInvoiceByIdAsync(id);
 
             if (invoice == null)
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Invoice = invoice;
             }
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (id == null || _context.Invoices == null)
+            if (id == 0)
             {
                 return NotFound();
             }
-            var invoice = await _context.Invoices.FindAsync(id);
+            var invoice = await _invoiceService.GetInvoiceByIdAsync(id);
+
+            IQueryable<Session> sessions = _sessionService.GetAllInvoiceSessions(id);
+
+            foreach (Session session in sessions)
+            {
+               await _sessionService.DeleteSessionAsync(session);
+            }
+
 
             if (invoice != null)
             {
                 Invoice = invoice;
-                _context.Invoices.Remove(Invoice);
-                await _context.SaveChangesAsync();
+
+                await _invoiceService.DeleteInvoiceAsync(id);
             }
 
             return RedirectToPage("./Index");

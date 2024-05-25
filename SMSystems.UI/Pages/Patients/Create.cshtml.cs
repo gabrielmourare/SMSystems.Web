@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
@@ -12,11 +13,11 @@ namespace SMSystems.UI.Pages.Patients
 {
     public class CreateModel : PageModel
     {
-        private readonly SMSystems.Data.SMSystemsDBContext _context;
+        private readonly IPatientService _patientService;
 
-        public CreateModel(SMSystems.Data.SMSystemsDBContext context)
+        public CreateModel(IPatientService patientService)
         {
-            _context = context;
+            _patientService = patientService ?? throw new ArgumentNullException(nameof(patientService));
         }
 
         public IActionResult OnGet()
@@ -26,18 +27,23 @@ namespace SMSystems.UI.Pages.Patients
 
         [BindProperty]
         public Patient Patient { get; set; } = default!;
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Patients == null || Patient == null)
+            if (!ModelState.IsValid)
             {
                 return Page();
             }
-
-            _context.Patients.Add(Patient);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _patientService.AddPatient(Patient);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
 
             return RedirectToPage("./Index");
         }

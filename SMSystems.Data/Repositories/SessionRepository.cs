@@ -10,45 +10,50 @@ namespace SMSystems.Data.Repositories
 {
     public class SessionRepository : ISessionRepository
     {
-        public SMSystemsDBContext _context;
+        private readonly SMSystemsDBContext _context;
 
         public SessionRepository(SMSystemsDBContext context)
         {
             _context = context;
         }
+
         public IQueryable<Session> GetAllSessions()
         {
             return _context.Sessions;
         }
 
-        public Session? GetSessionById(int id)
-        {
-            return _context.Sessions.Find(id);
-        }
-
-        public void SaveSession(Session session)
-        {
-            _context.Sessions.Add(session);
-        }
-
-        public void UpdateSession(Session session)
-        {
-            _context.Sessions.Update(this.GetSessionById(session.ID));
-        }
-
-        public void DeleteSession(int id)
-        {
-            _context.Remove(this.GetSessionById(id));
-        }
-
         public IQueryable<Session> GetAllPatientSessions(int patientId)
         {
-            return _context.Sessions.Where(sessions => sessions.PatientID == patientId);
+            return _context.Sessions.Where(session => session.PatientID == patientId);
         }
 
-        public void UpdateSession(int sessionID)
+        public async Task<Session?> GetSessionByIdAsync(int id)
         {
-           _context.Sessions.Update(GetSessionById(sessionID));
+            return await _context.Sessions.FindAsync(id);
+        }
+
+        public async Task SaveSessionAsync(Session session)
+        {
+            await _context.Sessions.AddAsync(session);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateSessionAsync(Session session)
+        {
+            _context.Sessions.Update(session);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteSessionAsync(Session session)
+        {
+            _context.Sessions.Remove(session);
+            await _context.SaveChangesAsync();
+        }
+
+        public IQueryable<Session> GetAllInvoiceSessions(int invoiceId)
+        {
+            return _context.Sessions.Where(session => session.InvoiceID == invoiceId);
         }
     }
+
 }

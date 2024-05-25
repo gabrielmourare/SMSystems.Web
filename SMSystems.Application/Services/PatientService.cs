@@ -51,9 +51,9 @@ public class PatientService : IPatientService
         await _patient.UpdatePatientAsync(patient);
     }
 
-    public async Task DeletePatient(int id)
+    public async Task DeletePatient(Patient patient)
     {
-        await _patient.DeletePatientAsync(id);
+        await _patient.DeletePatientAsync(patient);
     }
 
     public async Task AddPatient(Patient patientViewModel)

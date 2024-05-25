@@ -10,7 +10,7 @@ namespace SMSystems.Data.Repositories
 {
     public class InvoiceRepository : IInvoiceRepository
     {
-        public SMSystemsDBContext _context;
+        private readonly SMSystemsDBContext _context;
 
         public InvoiceRepository(SMSystemsDBContext context)
         {
@@ -22,9 +22,9 @@ namespace SMSystems.Data.Repositories
             return _context.Invoices;
         }
 
-        public Invoice GetInvoiceById(int id)
+        public async Task<Invoice?> GetInvoiceByIdAsync(int id)
         {
-            return _context.Invoices.Find(id);
+            return await _context.Invoices.FindAsync(id);
         }
 
         public IQueryable<Invoice> GetInvoicesByPatientId(int patientId)
@@ -32,19 +32,22 @@ namespace SMSystems.Data.Repositories
             return _context.Invoices.Where(invoice => invoice.PatientID == patientId);
         }
 
-        public void AddInvoice(Invoice invoice)
+        public async Task AddInvoiceAsync(Invoice invoice)
         {
-            _context.Invoices.Add(invoice);
+            await _context.Invoices.AddAsync(invoice);
+            await _context.SaveChangesAsync();
         }
 
-        public void UpdateInvoice(int invoiceId)
+        public async Task UpdateInvoiceAsync(Invoice invoice)
         {
-            _context.Invoices.Update(this.GetInvoiceById(invoiceId));
+            _context.Invoices.Update(invoice);
+            await _context.SaveChangesAsync();
         }
 
-        public void DeleteInvoice(int invoiceId)
+        public async Task DeleteInvoiceAsync(Invoice invoice)
         {
-            _context.Remove(this.GetInvoiceById(invoiceId));
+            _context.Remove(invoice);
+            await _context.SaveChangesAsync();
         }
 
         public IQueryable<Session> GetAllSessions(int patientId)
@@ -52,4 +55,5 @@ namespace SMSystems.Data.Repositories
             return _context.Sessions.Where(session => session.PatientID == patientId);
         }
     }
+
 }

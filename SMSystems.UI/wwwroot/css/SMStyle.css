@@ -11,6 +11,8 @@
     src: url("Fonts/Autography/Autography.woff2") format('woff2');
 }
 
+
+
 :root {
     --vt-c-white: #ffffff;
     --vt-c-white-soft: #f8f8f8;
@@ -126,6 +128,17 @@ h1 {
 }
 
 
+.fixed-column {
+    
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 150px;
+    min-width: 150px;
+    width:150px;
+}
+
+
 @media (hover: hover) {
     a.blueBtn:hover {
         background-color: #ADA9A8;
@@ -152,6 +165,9 @@ h1 {
         color: #fff;
         background-color: #86D3E6;
     }
+
+  
+
 
 
 }

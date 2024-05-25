@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
@@ -12,23 +13,23 @@ namespace SMSystems.UI.Pages.Patients
 {
     public class DetailsModel : PageModel
     {
-        private readonly SMSystems.Data.SMSystemsDBContext _context;
+        private readonly IPatientService _patientService;
 
-        public DetailsModel(SMSystems.Data.SMSystemsDBContext context)
+        public DetailsModel(IPatientService patientService)
         {
-            _context = context;
+            _patientService = patientService;
         }
 
       public Patient Patient { get; set; } = default!; 
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null || _context.Patients == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var patient = await _context.Patients.FirstOrDefaultAsync(m => m.ID == id);
+            var patient = await _patientService.GetPatientData(id);
             if (patient == null)
             {
                 return NotFound();

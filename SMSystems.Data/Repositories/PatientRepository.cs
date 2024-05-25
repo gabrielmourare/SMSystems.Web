@@ -19,9 +19,8 @@ namespace SMSystems.Data.Repositories
             _context = context;
         }
 
-        public async Task DeletePatientAsync(int id)
-        {
-            var patient = await GetPatientByIdAsync(id);
+        public async Task DeletePatientAsync(Patient patient)
+        {           
             if (patient != null)
             {
                 _context.Patients.Remove(patient);

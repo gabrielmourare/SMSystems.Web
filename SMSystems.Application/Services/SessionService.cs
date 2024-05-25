@@ -1,4 +1,5 @@
-﻿using SMSystems.Application.Interfaces;
+﻿using AutoMapper;
+using SMSystems.Application.Interfaces;
 using SMSystems.Domain.Entities;
 using SMSystems.Domain.Interfaces;
 using System;
@@ -12,15 +13,27 @@ namespace SMSystems.Application.Services
     public class SessionService : ISessionService
     {
         private readonly ISessionRepository _session;
+        private readonly IMapper _mapper;
 
-        public void AddSession(Session session)
+        public SessionService(ISessionRepository session, IMapper mapper)
         {
-            _session.SaveSession(session);
+            _session = session;
+            _mapper = mapper;
         }
 
-        public void DeleteSession(int id)
+        public async Task AddSessionAsync(Session session)
         {
-           _session.DeleteSession(id);
+            Session sessionMapped = _mapper.Map<Session>(session);
+            await _session.SaveSessionAsync(sessionMapped);
+        }
+
+        public async Task DeleteSessionAsync(Session session)
+        {           
+            if (session == null)
+            {
+                throw new KeyNotFoundException("Session not found");
+            }
+            await _session.DeleteSessionAsync(session);
         }
 
         public IQueryable<Session> GetAll()
@@ -30,17 +43,22 @@ namespace SMSystems.Application.Services
 
         public IQueryable<Session> GetAllPatientSessions(int patientId)
         {
-           return _session.GetAllPatientSessions(patientId);
+            return _session.GetAllPatientSessions(patientId);
         }
 
-        public Session GetSessionById(int id)
+        public async Task<Session?> GetSessionByIdAsync(int id)
         {
-           return _session.GetSessionById(id);
+            return await _session.GetSessionByIdAsync(id);
         }
 
-        public void UpdateSession(Session session)
+        public async Task UpdateSessionAsync(Session session)
         {
-            _session.UpdateSession(session.ID);
+            await _session.UpdateSessionAsync(session);
+        }
+
+        public IQueryable<Session> GetAllInvoiceSessions(int invoiceId)
+        {
+            return _session.GetAllInvoiceSessions(invoiceId);
         }
     }
 }
