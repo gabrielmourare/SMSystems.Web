@@ -9,12 +9,13 @@ namespace SMSystems.Application.Interfaces
 {
     public interface ISessionService
     {
-        public IQueryable<Session> GetAll();
-        public IQueryable<Session> GetAllPatientSessions(int patientId);
-        public Session GetSessionById(int id);
-        
-        public void UpdateSession(Session sessionId);
-        public void DeleteSession(int id);
-        public void AddSession(Session session);
+        Task AddSessionAsync(Session session);
+        Task DeleteSessionAsync(Session session);
+        IQueryable<Session> GetAll();
+        IQueryable<Session> GetAllPatientSessions(int patientId);
+        Task<Session?> GetSessionByIdAsync(int id);
+        Task UpdateSessionAsync(Session session);
+
+        IQueryable<Session> GetAllInvoiceSessions(int invoiceId);
     }
 }

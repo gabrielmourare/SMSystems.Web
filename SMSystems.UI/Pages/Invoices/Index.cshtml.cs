@@ -9,23 +9,23 @@ using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
-namespace SMSystems.UI.Pages.Patients
+namespace SMSystems.UI.Pages.Invoices
 {
     public class IndexModel : PageModel
     {
-        private readonly IPatientService _patientService;
+        private readonly IInvoiceService _invoiceService;
 
-        public IndexModel(IPatientService patientService)
+        public IndexModel(IInvoiceService invoiceService)
         {
-            _patientService = patientService ?? throw new ArgumentNullException(nameof(patientService));
+            _invoiceService = invoiceService;
         }
 
-        [BindProperty]
-        public IList<Patient> Patient { get; set; } = default!;
+        public IList<Invoice> Invoice { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
-            Patient = await _patientService.GetAll().ToListAsync();
+
+            Invoice = await _invoiceService.GetAll().ToListAsync();
 
         }
     }

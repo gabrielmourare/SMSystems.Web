@@ -9,14 +9,16 @@ namespace SMSystems.Application.Interfaces
 {
     public interface IPatientService
     {
-        public IQueryable<Patient> GetAll();
-        public IQueryable<Session> GetAllPatientSessions(int patientId);
-        public Patient GetPatientById(int id);
-        public void UpdatePatient(Patient patient);
-        public void DeletePatient(int id);
-        public void AddPatient(Patient patient);
-        public Patient GetPatientBySN(string socialNumber);
-
-
+        IQueryable<Invoice> ObtainAllInvoices(int patientId);
+        IQueryable<Session> GetAllPatientSessions(int patientId);
+        Task<Patient?> GetPatientData(int patientId);
+        IQueryable<Patient> GetAll();
+        Task<Patient?> GetPatientById(int id);
+        Task UpdatePatient(Patient patient);
+        Task DeletePatient(Patient patient);
+        Task AddPatient(Patient patientViewModel);
+        Task<Patient?> GetPatientBySN(string socialNumber);
+        Task<bool> PatientExistsAsync(int id);
     }
+
 }

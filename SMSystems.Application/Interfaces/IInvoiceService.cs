@@ -9,15 +9,14 @@ namespace SMSystems.Application.Interfaces
 {
     public interface IInvoiceService
     {
-        public IQueryable<Invoice> GetAll();
-        public Invoice GetInvoiceById(int id);
-        public IQueryable<Invoice> GetAllPatientInvoices(int patientId);
-        public IQueryable<Session> GetAllInvoiceSessions(int patientId);
-        public void DeleteInvoice(int invoiceId);
-        public void UpdateInvoice(int invoiceId);
-        public void AddInvoice(Invoice invoice);
-        
-
-
+        IQueryable<Invoice> GetAll();
+        Task<Invoice?> GetInvoiceByIdAsync(int invoiceId);
+        IQueryable<Invoice> GetAllPatientInvoices(int patientId);
+        IQueryable<Session> GetAllInvoiceSessions(int patientId);
+        Task DeleteInvoiceAsync(int invoiceId);
+        Task UpdateInvoiceAsync(Invoice invoice);
+        Task AddInvoiceAsync(Invoice invoice);
+        Task<bool> InvoiceExistsAsync(int id);
     }
+
 }

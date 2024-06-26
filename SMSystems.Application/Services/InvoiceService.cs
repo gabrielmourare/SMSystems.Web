@@ -1,5 +1,8 @@
-﻿using SMSystems.Application.Interfaces;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using SMSystems.Application.Interfaces;
 using SMSystems.Domain.Entities;
+using SMSystems.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,43 +13,82 @@ namespace SMSystems.Application.Services
 {
     public class InvoiceService : IInvoiceService
     {
-        private readonly IInvoiceService _invoice;        
-        private readonly ISessionService _session;
+        private readonly IInvoiceRepository _invoice;
+        private readonly ISessionRepository _session;
+        private readonly IMapper _mapper;
+
+        public InvoiceService(IInvoiceRepository invoice, ISessionRepository session, IMapper mapper)
+        {
+            _invoice = invoice;
+            _session = session;
+            _mapper = mapper;
+        }
+
         public IQueryable<Invoice> GetAll()
         {
-            return _invoice.GetAll();
+            return _invoice.GetAllInvoices();
         }
 
         public IQueryable<Invoice> GetAllPatientInvoices(int patientId)
         {
-            return _invoice.GetAllPatientInvoices(patientId);
+            return _invoice.GetInvoicesByPatientId(patientId);
         }
 
         public IQueryable<Session> GetAllInvoiceSessions(int patientId)
         {
-            return _invoice.GetAllInvoiceSessions(patientId);
+            return _invoice.GetAllSessions(patientId);
         }
-        public Invoice GetInvoiceById(int invoiceId)
+
+        public async Task<Invoice> GetInvoiceByIdAsync(int invoiceId)
         {
-            return _invoice.GetInvoiceById(invoiceId);
-        }
-        public void AddInvoice(Invoice invoice)
-        {
-            _invoice.AddInvoice(invoice);
-            foreach(Session session in invoice.Sessions)
+            var invoice = await _invoice.GetInvoiceByIdAsync(invoiceId);
+            if (invoice == null)
             {
-                _session.AddSession(session);
+                throw new KeyNotFoundException("Invoice not found");
             }
+            return invoice;
         }
 
-        public void UpdateInvoice(int id)
+        public async Task AddInvoiceAsync(Invoice invoice)
         {
-            _invoice.UpdateInvoice(id);
+            Invoice invoiceMapped = _mapper.Map<Invoice>(invoice);
+
+            await _invoice.AddInvoiceAsync(invoiceMapped);
+
+
         }
 
-        public void DeleteInvoice(int id)
+        public async Task UpdateInvoiceAsync(Invoice invoice)
         {
-            _invoice.DeleteInvoice(id);
+            if (invoice == null)
+            {
+                throw new KeyNotFoundException("Invoice not found");
+            }
+            
+                       
+            Invoice invoiceMapped = _mapper.Map<Invoice>(invoice);                 
+   
+            await _invoice.UpdateInvoiceAsync(invoiceMapped);
         }
+
+        public async Task DeleteInvoiceAsync(int id)
+        {
+            var invoice = await _invoice.GetInvoiceByIdAsync(id);
+            if (invoice == null)
+            {
+                throw new KeyNotFoundException("Invoice not found");
+            }
+
+            Invoice invoiceMapped = _mapper.Map<Invoice>(invoice);
+
+            await _invoice.DeleteInvoiceAsync(invoiceMapped);
+        }
+
+        public async Task<bool> InvoiceExistsAsync(int id)
+        {
+            return await _invoice.InvoiceExistsAsync(id);
+        }
+
     }
+
 }

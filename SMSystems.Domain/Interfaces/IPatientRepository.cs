@@ -9,12 +9,13 @@ namespace SMSystems.Domain.Interfaces
 {
     public interface IPatientRepository
     {
-        public IQueryable<Patient> GetAllPatients();
-        public Patient? GetPatientById(int id);
-        public void SavePatient(Patient patient);
-        public void DeletePatient(int patientId);
-        public void UpdatePatient(int patientId);
-        public Patient? GetPatientBySocialNumber(string socialNumber);
+        IQueryable<Patient> GetAllPatients();
+        Task<Patient?> GetPatientByIdAsync(int id);
+        Task SavePatientAsync(Patient patient);
+        Task DeletePatientAsync(Patient patient);
+        Task UpdatePatientAsync(Patient updatedPatient);
+        Task<Patient?> GetPatientBySocialNumberAsync(string socialNumber);
+        Task<bool> PatientExistsAsync(int id);
 
     }
 }

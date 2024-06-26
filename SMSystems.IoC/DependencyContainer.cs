@@ -16,12 +16,12 @@ namespace SMSystems.IoC
     {
         public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration Configuration)
         {
-            services.AddScoped<IPatientService, PatientService>();
-            services.AddScoped<IPatientRepository, PatientRepository>();
-            services.AddScoped<IInvoiceService, InvoiceService>();
-            services.AddScoped<IInvoiceRepository, InvoiceRepository>();
-            services.AddScoped<ISessionService, SessionService>();
-            services.AddScoped<ISessionRepository, SessionRepository>();
+            services.AddTransient<IPatientService, PatientService>();
+            services.AddTransient<IPatientRepository, PatientRepository>();
+            services.AddTransient<IInvoiceService, InvoiceService>();
+            services.AddTransient<IInvoiceRepository, InvoiceRepository>();
+            services.AddTransient<ISessionService, SessionService>();
+            services.AddTransient<ISessionRepository, SessionRepository>();
            
             return services;
         }

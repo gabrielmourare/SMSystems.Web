@@ -1,0 +1,49 @@
+﻿@page
+@model SMSystems.UI.Pages.Invoices.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Invoice[0].SessionValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invoice[0].TotalValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invoice[0].EmissionDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Invoice) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SessionValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmissionDate)
+            </td>
+            <td>
+                    <a asp-page="./Edit" asp-route-id="@item.ID"><img src="~/css/Icons/edit.png" alt="Editar" width="32" height="32" /></a> |
+                    <a asp-page="./Details" asp-route-id="@item.ID"> <img src="~/css/Icons/details.png" alt="Detalhes" width="32" height="32" /></a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ID">  <img src="~/css/Icons/delete.png" alt="Deletar" width="32" height="32" /></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
