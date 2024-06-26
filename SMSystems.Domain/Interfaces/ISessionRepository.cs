@@ -14,7 +14,7 @@ namespace SMSystems.Domain.Interfaces
         Task<Session?> GetSessionByIdAsync(int id);
         Task SaveSessionAsync(Session session);
         Task UpdateSessionAsync(Session session);
-        Task DeleteSessionAsync(Session session);
+        Task DeleteSessionAsync(List<Session> session);
         IQueryable<Session> GetAllInvoiceSessions(int invoiceId);
     }
 }

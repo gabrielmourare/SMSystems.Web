@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using System.Globalization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Localization;
 
 namespace SMSystems.IoC
 {
@@ -22,7 +25,7 @@ namespace SMSystems.IoC
             services.AddTransient<IInvoiceRepository, InvoiceRepository>();
             services.AddTransient<ISessionService, SessionService>();
             services.AddTransient<ISessionRepository, SessionRepository>();
-           
+
             return services;
         }
 
@@ -34,11 +37,25 @@ namespace SMSystems.IoC
 
 
             });
+
            
+            // Configurações de localização
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                new CultureInfo("pt-BR")
+            };
+
+                options.DefaultRequestCulture = new RequestCulture("pt-BR");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
+
             services.AddMvcCore().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
     }
 
-   
+
 }

@@ -10,7 +10,7 @@ namespace SMSystems.Application.Interfaces
     public interface ISessionService
     {
         Task AddSessionAsync(Session session);
-        Task DeleteSessionAsync(Session session);
+        Task DeleteSessionAsync(List<Session> session);
         IQueryable<Session> GetAll();
         IQueryable<Session> GetAllPatientSessions(int patientId);
         Task<Session?> GetSessionByIdAsync(int id);

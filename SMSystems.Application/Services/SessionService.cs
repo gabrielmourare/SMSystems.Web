@@ -27,15 +27,14 @@ namespace SMSystems.Application.Services
             await _session.SaveSessionAsync(sessionMapped);
         }
 
-        public async Task DeleteSessionAsync(Session session)
-        {           
-            if (session == null)
+        public async Task DeleteSessionAsync(List<Session> sessions)
+        {
+            if (sessions == null)
             {
                 throw new KeyNotFoundException("Session not found");
             }
 
-            Session sessionMapped = _mapper.Map<Session>(session);
-            await _session.DeleteSessionAsync(sessionMapped);
+            await _session.DeleteSessionAsync(sessions);
         }
 
         public IQueryable<Session> GetAll()

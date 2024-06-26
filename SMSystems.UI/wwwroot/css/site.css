@@ -70,3 +70,6 @@ body {
     z-index: 1000; /* Um valor alto para garantir que o modal esteja sobreposto aos outros elementos */
 }
 
+#mainContent {
+    overflow:auto;
+}
