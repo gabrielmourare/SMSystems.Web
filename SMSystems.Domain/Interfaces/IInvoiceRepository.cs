@@ -16,6 +16,7 @@ namespace SMSystems.Domain.Interfaces
         Task UpdateInvoiceAsync(Invoice invoice);
         Task DeleteInvoiceAsync(Invoice invoice);
         IQueryable<Session> GetAllSessions(int patientId);
+        Task<bool> InvoiceExistsAsync(int id);
     }
 
 }

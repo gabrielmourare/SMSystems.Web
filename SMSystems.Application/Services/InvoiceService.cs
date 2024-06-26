@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SMSystems.Application.Interfaces;
 using SMSystems.Domain.Entities;
 using SMSystems.Domain.Interfaces;
@@ -57,14 +58,17 @@ namespace SMSystems.Application.Services
 
         }
 
-        public async Task UpdateInvoiceAsync(int id)
+        public async Task UpdateInvoiceAsync(Invoice invoice)
         {
-            var invoice = await _invoice.GetInvoiceByIdAsync(id);
             if (invoice == null)
             {
                 throw new KeyNotFoundException("Invoice not found");
             }
-            await _invoice.UpdateInvoiceAsync(invoice);
+            
+                       
+            Invoice invoiceMapped = _mapper.Map<Invoice>(invoice);                 
+   
+            await _invoice.UpdateInvoiceAsync(invoiceMapped);
         }
 
         public async Task DeleteInvoiceAsync(int id)
@@ -73,11 +77,17 @@ namespace SMSystems.Application.Services
             if (invoice == null)
             {
                 throw new KeyNotFoundException("Invoice not found");
-            }              
+            }
 
-            await _invoice.DeleteInvoiceAsync(invoice);
+            Invoice invoiceMapped = _mapper.Map<Invoice>(invoice);
+
+            await _invoice.DeleteInvoiceAsync(invoiceMapped);
         }
 
+        public async Task<bool> InvoiceExistsAsync(int id)
+        {
+            return await _invoice.InvoiceExistsAsync(id);
+        }
 
     }
 

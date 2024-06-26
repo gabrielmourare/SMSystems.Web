@@ -33,7 +33,9 @@ namespace SMSystems.Application.Services
             {
                 throw new KeyNotFoundException("Session not found");
             }
-            await _session.DeleteSessionAsync(session);
+
+            Session sessionMapped = _mapper.Map<Session>(session);
+            await _session.DeleteSessionAsync(sessionMapped);
         }
 
         public IQueryable<Session> GetAll()
@@ -53,7 +55,8 @@ namespace SMSystems.Application.Services
 
         public async Task UpdateSessionAsync(Session session)
         {
-            await _session.UpdateSessionAsync(session);
+            Session sessionMapped = _mapper.Map<Session>(session);
+            await _session.UpdateSessionAsync(sessionMapped);
         }
 
         public IQueryable<Session> GetAllInvoiceSessions(int invoiceId)

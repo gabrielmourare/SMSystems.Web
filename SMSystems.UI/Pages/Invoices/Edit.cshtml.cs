@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SMSystems.Application.Interfaces;
+using SMSystems.Application.Services;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
@@ -13,29 +15,46 @@ namespace SMSystems.UI.Pages.Invoices
 {
     public class EditModel : PageModel
     {
-        private readonly SMSystems.Data.SMSystemsDBContext _context;
+        private readonly IInvoiceService _invoiceService;
+        private readonly IPatientService _patientService;
+        private readonly ISessionService _sessionService;
 
-        public EditModel(SMSystems.Data.SMSystemsDBContext context)
+        public EditModel(IInvoiceService invoiceService, IPatientService patientService, ISessionService sessionService)
         {
-            _context = context;
+            _invoiceService = invoiceService;
+            _patientService = patientService;
+            _sessionService = sessionService;
         }
 
         [BindProperty]
         public Invoice Invoice { get; set; } = default!;
+        public List<Session> Sessions { get; set; } = new List<Session>();
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        [BindProperty]
+        public List<DateTime> SessionDates { get; set; } = new List<DateTime>();
+
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null || _context.Invoices == null)
+            PopulatePatientsDropdown();
+            if (id == 0)
             {
                 return NotFound();
             }
 
-            var invoice =  await _context.Invoices.FirstOrDefaultAsync(m => m.ID == id);
+            var invoice = await _invoiceService.GetInvoiceByIdAsync(id);
             if (invoice == null)
             {
                 return NotFound();
             }
+
+            List<Session> sessions = _sessionService.GetAllInvoiceSessions(id).ToList();
+
+            invoice.Sessions = sessions;
+
+            Sessions = sessions;
+
             Invoice = invoice;
+
             return Page();
         }
 
@@ -48,15 +67,30 @@ namespace SMSystems.UI.Pages.Invoices
                 return Page();
             }
 
-            _context.Attach(Invoice).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                foreach (var sessionDate in SessionDates)
+                {
+                    Session session = new Session()
+                    {
+                        Date = sessionDate,
+                        InvoiceID = Invoice.ID,
+                        PatientID = Invoice.PatientID,
+                        Value = Invoice.SessionValue
+                    };
+                    Sessions.Add(session);
+                    Invoice.TotalValue += Invoice.SessionValue;
+                }
+
+                // Atribuir as sessões preparadas à fatura
+                Invoice.Sessions = Sessions;
+
+                // Chamar o serviço para atualizar a fatura e as sessões associadas
+                await _invoiceService.UpdateInvoiceAsync(Invoice);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InvoiceExists(Invoice.ID))
+                if (!await InvoiceExists(Invoice.ID))
                 {
                     return NotFound();
                 }
@@ -69,9 +103,15 @@ namespace SMSystems.UI.Pages.Invoices
             return RedirectToPage("./Index");
         }
 
-        private bool InvoiceExists(int id)
+        private async Task<bool> InvoiceExists(int id)
         {
-          return (_context.Invoices?.Any(e => e.ID == id)).GetValueOrDefault();
+            return (await _invoiceService.InvoiceExistsAsync(id));
+        }
+
+        private void PopulatePatientsDropdown()
+        {
+            var patients = _patientService.GetAll();
+            ViewData["PatientID"] = new SelectList(patients, "ID", "Name");
         }
     }
 }
