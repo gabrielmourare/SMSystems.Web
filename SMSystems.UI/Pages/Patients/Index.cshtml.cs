@@ -21,11 +21,24 @@ namespace SMSystems.UI.Pages.Patients
         }
 
         [BindProperty]
-        public IList<Patient> Patient { get; set; } = default!;
+        public IList<Patient> Patients { get; set; } = default!;
+
+        [BindProperty(SupportsGet =true)]
+        public string? SearchString { get; set; }
+
+        [BindProperty(SupportsGet =true)]
+        public string? PatientName { get; set; }
 
         public async Task OnGetAsync()
-        {
-            Patient = await _patientService.GetAll().ToListAsync();
+        {          
+            var patients = await _patientService.GetAll().ToListAsync();
+
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                patients = patients.Where(search => search.Name.Contains(SearchString)).ToList();
+            }
+
+            Patients = patients;
 
         }
     }
