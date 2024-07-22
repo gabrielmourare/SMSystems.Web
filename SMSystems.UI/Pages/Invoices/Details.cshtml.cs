@@ -22,14 +22,14 @@ namespace SMSystems.UI.Pages.Invoices
     {
         private readonly IInvoiceService _invoiceService;
         private readonly ISessionService _sessionService;
-        
+        private readonly ReportService _reportService;
 
 
-        public DetailsModel(IInvoiceService invoiceService, ISessionService sessionservice)
+        public DetailsModel(IInvoiceService invoiceService, ISessionService sessionservice, ReportService reportService)
         {
             _invoiceService = invoiceService;
             _sessionService = sessionservice;
-            
+            _reportService = reportService;
         }
 
         public Invoice Invoice { get; set; } = default!;
@@ -64,13 +64,11 @@ namespace SMSystems.UI.Pages.Invoices
         }
 
 
-       public async Task<IActionResult> OnPostAsync()
+       public async Task<IActionResult> OnPostAsync(int id)
         {
-            PrinterService printerService = new PrinterService();
-
-           
+                        
             // Sua lógica para gerar o PDF aqui
-            byte[] doc = printerService.PrintPDF();
+            byte[] doc = _reportService.GenerateReport(id);
             // Exemplo: retornar um arquivo PDF
 
             return File(doc, "application/pdf", "document.pdf");

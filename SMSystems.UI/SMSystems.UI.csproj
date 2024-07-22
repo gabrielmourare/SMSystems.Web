@@ -32,6 +32,7 @@
   <ItemGroup>
     <Folder Include="Pages\Sessions\" />
     <Folder Include="Resources\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

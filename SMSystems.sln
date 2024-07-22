@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMSystems.UI", "SMSystems.U
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMSystems.IoC", "SMSystems.IoC\SMSystems.IoC.csproj", "{05328860-A477-4D73-B6BF-FFC13F5F98B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMSystems.Printer", "SMSystems.Printer\SMSystems.Printer.csproj", "{7F46C687-E9EF-4E59-84FE-BDAA492B86F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMSystems.Printer", "SMSystems.Printer\SMSystems.Printer.csproj", "{7F46C687-E9EF-4E59-84FE-BDAA492B86F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
