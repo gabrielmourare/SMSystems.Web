@@ -55,10 +55,9 @@ namespace SMSystems.UI.Pages.Invoices
 
             IQueryable<Session> sessions = _sessionService.GetAllInvoiceSessions(id);
 
-            foreach (Session session in sessions)
-            {
-               await _sessionService.DeleteSessionAsync(session);
-            }
+
+            await _sessionService.DeleteSessionAsync(sessions.ToList());
+
 
 
             if (invoice != null)

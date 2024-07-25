@@ -10,56 +10,61 @@
 
 <h4>Invoice</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Invoice.ID" />
-            <div class="form-group">
-                <label asp-for="Invoice.SessionValue" class="control-label"></label>
-                <input asp-for="Invoice.SessionValue" class="form-control" />
-                <span asp-validation-for="Invoice.SessionValue" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Invoice.TotalValue" class="control-label"></label>
-                <input asp-for="Invoice.TotalValue" class="form-control" />
-                <span asp-validation-for="Invoice.TotalValue" class="text-danger"></span>
+<div class="container" style="height:600px;overflow-y:scroll; box-shadow:5px 5px 5px 5px rgba(0.2, 0.2, 0.2, 0.2);">
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Invoice.ID" />
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Invoice.SessionValue" class="control-label"></label>
+                    <input asp-for="Invoice.SessionValue" class="form-control" />
+                    <span asp-validation-for="Invoice.SessionValue" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Invoice.TotalValue" class="control-label"></label>
+                    <input asp-for="Invoice.TotalValue" type="text" class="form-control" />
+                    <span asp-validation-for="Invoice.TotalValue" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Invoice.EmissionDate" class="control-label"></label>
+                    <input asp-for="Invoice.EmissionDate" class="form-control" />
+                    <span asp-validation-for="Invoice.EmissionDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Invoice.PatientID" class="control-label"></label>
+                    <select asp-for="Invoice.PatientID" class="form-control" asp-items="@(ViewData["PatientID"] as SelectList)"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Gravar" class="btn btn-primary" />
+                    <a class="btn btn-secondary" asp-page="./Index">Voltar</a>
+                </div>
             </div>
 
-            <div id="session-dates">
-                <label>Session Dates</label>
-
-                @foreach (var session in Model.Sessions)
-                {
-                    <div class="form-group">
-                        <input name="SessionDates" asp-for="@session.Date" class="form-control" />
-                        <button type="button" class="btn btn-danger remove-date">Remover</button>
-                    </div>
-                }
-
+            <div class="col-md-4">
+                <div id="session-dates">
+                    <label>Session Dates</label>
+                    @foreach (var session in Model.Sessions)
+                    {
+                        <div class="form-group">
+                            <input name="SessionDates" asp-for="@session.Date" class="form-control" />
+                            <button type="button" class="btn btn-danger remove-date">Remover</button>
+                        </div>
+                    }
+                </div>
+                <div class="form-group">
+                    <button type="button" id="add-date" class="btn btn-secondary">Add Date</button>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="chkEmissaoSessao" />
+                    <label for="chkEmissaoSessao"> Emissão no mesmo dia da Sessão? </label>
+                </div>
             </div>
-
-            <button type="button" id="add-date" class="btn btn-secondary">Add Date</button>
-
-            <div class="form-group">
-                <label asp-for="Invoice.EmissionDate" class="control-label"></label>
-                <input asp-for="Invoice.EmissionDate" class="form-control" />
-                <span asp-validation-for="Invoice.EmissionDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Invoice.PatientID" class="control-label"></label>
-                <select asp-for="Invoice.PatientID" class="form-control" asp-items="@(ViewData["PatientID"] as SelectList)"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
 
 @section Scripts {
     <script>

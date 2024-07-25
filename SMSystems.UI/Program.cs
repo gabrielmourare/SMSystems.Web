@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using SMSystems.IoC;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,8 +25,10 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapRazorPages();
+// Add the localization middleware
 
+app.MapRazorPages();
+app.UseRequestLocalization("pt-br");
 app.Run();
 
 

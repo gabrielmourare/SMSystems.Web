@@ -44,15 +44,23 @@ namespace SMSystems.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteSessionAsync(Session session)
+        public async Task DeleteSessionAsync(List<Session> sessions)
         {
-            _context.Sessions.Remove(session);
-            await _context.SaveChangesAsync();
+            foreach(Session session in sessions)
+            {
+                _context.Sessions.Remove(session);
+            }           
+            await SaveAsync();
         }
 
         public IQueryable<Session> GetAllInvoiceSessions(int invoiceId)
         {
             return _context.Sessions.Where(session => session.InvoiceID == invoiceId);
+        }
+
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 

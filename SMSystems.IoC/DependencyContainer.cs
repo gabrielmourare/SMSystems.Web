@@ -9,6 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using System.Globalization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Localization;
+using SMSystems.Printer.Interfaces;
+using SMSystems.Printer.Services;
 
 namespace SMSystems.IoC
 {
@@ -22,7 +27,9 @@ namespace SMSystems.IoC
             services.AddTransient<IInvoiceRepository, InvoiceRepository>();
             services.AddTransient<ISessionService, SessionService>();
             services.AddTransient<ISessionRepository, SessionRepository>();
-           
+            services.AddTransient<IPrinterService, PrinterService>();
+            services.AddTransient<ReportService>();
+
             return services;
         }
 
@@ -34,11 +41,25 @@ namespace SMSystems.IoC
 
 
             });
+
            
+            // Configurações de localização
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                new CultureInfo("pt-BR")
+            };
+
+                options.DefaultRequestCulture = new RequestCulture("pt-BR");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
+
             services.AddMvcCore().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
     }
 
-   
+
 }

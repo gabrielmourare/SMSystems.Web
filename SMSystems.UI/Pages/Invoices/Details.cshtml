@@ -30,9 +30,33 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Invoice.EmissionDate)
         </dd>
+
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <td>
+                        Sessões
+                    </td>
+                </tr>
+
+                @foreach (var session in Model.Sessions)
+                {
+                    <tr>
+                        <td>
+                            @session.Date.ToShortDateString() -  @session.Value.ToString("C")
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+
     </dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.Invoice?.ID">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
+    <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.Invoice?.ID">Editar</a>
+    <a class="btn btn-primary" asp-page="./Index">Voltar</a>
+    <form method="post">
+        <button class="btn btn-primary" type="submit">Gerar PDF</button>
+    </form>
+    
 </div>
