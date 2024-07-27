@@ -16,6 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SMSystems.Application\SMSystems.Application.csproj" />
+    <ProjectReference Include="..\SMSystems.Data\SMSystems.Data.csproj" />
     <ProjectReference Include="..\SMSystems.Domain\SMSystems.Domain.csproj" />
   </ItemGroup>
 

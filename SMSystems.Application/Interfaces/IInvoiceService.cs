@@ -1,4 +1,5 @@
-﻿using SMSystems.Domain.Entities;
+﻿using SMSystems.Application.DTOs;
+using SMSystems.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace SMSystems.Application.Interfaces
         Task UpdateInvoiceAsync(Invoice invoice);
         Task AddInvoiceAsync(Invoice invoice);
         Task<bool> InvoiceExistsAsync(int id);
+        Task<InvoiceDetailsDTO> GetInvoiceDetails(int invoiceId);
     }
 
 }

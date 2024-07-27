@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Pages\Configurations\" />
     <Folder Include="Pages\Sessions\" />
     <Folder Include="Resources\" />
     <Folder Include="wwwroot\images\" />
