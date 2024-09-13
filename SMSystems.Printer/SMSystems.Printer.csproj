@@ -1,18 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+  <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="itext7" Version="8.0.4" />
+    <Folder Include="Resources\Images\" />
+    <Folder Include="Resources\Fonts\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Images\" />
-    <Folder Include="Resources\Fonts\" />
+    <PackageReference Include="QuestPDF" Version="2024.7.1" />
   </ItemGroup>
 
   <ItemGroup>

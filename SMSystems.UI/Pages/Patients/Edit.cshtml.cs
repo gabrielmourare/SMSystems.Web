@@ -49,11 +49,10 @@ namespace SMSystems.UI.Pages.Patients
                 return Page();
             }
 
-
-
             try
             {
-                _patientService.UpdatePatient(Patient);
+                // Verifique se o método de atualização realmente salva as mudanças
+                await _patientService.UpdatePatient(Patient);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -63,6 +62,8 @@ namespace SMSystems.UI.Pages.Patients
                 }
                 else
                 {
+                    // Log para debug: verificar o erro de concorrência
+                    // Por exemplo, Log.Error("Concurrency issue occurred while updating patient: ", ex);
                     throw;
                 }
             }

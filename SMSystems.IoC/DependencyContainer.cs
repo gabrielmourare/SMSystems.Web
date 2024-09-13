@@ -7,11 +7,8 @@ using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using System.Globalization;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Localization;
 using SMSystems.Printer.Interfaces;
 using SMSystems.Printer.Services;
 
@@ -40,23 +37,9 @@ namespace SMSystems.IoC
                 options.UseSqlServer(Configuration.GetConnectionString("SMSystemsDevelopment"));
 
 
-            });
+            });         
+       
 
-           
-            // Configurações de localização
-            services.Configure<RequestLocalizationOptions>(options =>
-            {
-                var supportedCultures = new[]
-                {
-                new CultureInfo("pt-BR")
-            };
-
-                options.DefaultRequestCulture = new RequestCulture("pt-BR");
-                options.SupportedCultures = supportedCultures;
-                options.SupportedUICultures = supportedCultures;
-            });
-
-            services.AddMvcCore().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
     }
