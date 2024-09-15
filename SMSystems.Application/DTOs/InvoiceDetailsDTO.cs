@@ -9,7 +9,7 @@ namespace SMSystems.Application.DTOs
     public class InvoiceDetailsDTO
     {
         public string SessionValue { get; set; }
-        public string TotalValue { get; set; }
+        public decimal TotalValue { get; set; }
         public string WrittenTotal { get; set; }
         public string EmissionDate { get; set; }
         public string City { get; set; }
@@ -24,6 +24,7 @@ namespace SMSystems.Application.DTOs
         public string PatientSocialNumber { get; set; }
         public string Motivo { get; set; }
         public string PatientICD { get; set; }
+        public DateTime PatientBirthDate { get; set; }
 
 
     }

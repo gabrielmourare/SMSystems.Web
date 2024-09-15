@@ -1,6 +1,9 @@
 using Microsoft.Extensions.Options;
+using QuestPDF.Infrastructure;
 using SMSystems.IoC;
+QuestPDF.Settings.License = LicenseType.Community;
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddSingleton(AutoMapperConfig.Initialize());

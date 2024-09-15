@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using QuestPDF.Fluent;
 using SMSystems.Application.DTOs;
 using SMSystems.Application.Interfaces;
 using SMSystems.Application.Services;
@@ -15,6 +16,7 @@ using SMSystems.Domain.Entities;
 using SMSystems.Printer;
 using SMSystems.Printer.Interfaces;
 using SMSystems.Printer.Services;
+
 
 namespace SMSystems.UI.Pages.Invoices
 {
@@ -71,10 +73,12 @@ namespace SMSystems.UI.Pages.Invoices
             List<Session> sessions = _sessionService.GetAllInvoiceSessions(id).ToList();
 
             // Sua lógica para gerar o PDF aqui
-            byte[] doc = _reportService.GeneratePDF(invoiceDetails, sessions);
+            var doc = _reportService.GeneratePDF(invoiceDetails, sessions);
+
+            var pdf = doc.GeneratePdf();
             // Exemplo: retornar um arquivo PDF
 
-            return File(doc, "application/pdf", "document.pdf");
+            return File(pdf, "application/pdf", "document.pdf");
         }
        
     }
