@@ -53,10 +53,23 @@
     </dl>
 </div>
 <div>
-    <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.Invoice?.ID">Editar</a>
-    <a class="btn btn-primary" asp-page="./Index">Voltar</a>
-    <form method="post">
-        <button class="btn btn-primary" type="submit">Gerar PDF</button>
-    </form>
-    
+    <table width="100%">
+        <tr>
+            <td>
+                <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.Invoice?.ID">Editar</a>
+
+            </td>
+            <td>
+                <a class="btn btn-primary" asp-page="./Index">Voltar</a>
+
+            </td>
+            <td>
+                <form method="post">
+                    <button class="btn btn-primary" type="submit">Gerar PDF</button>
+                </form>
+
+            </td>
+        </tr>
+    </table>
+
 </div>
