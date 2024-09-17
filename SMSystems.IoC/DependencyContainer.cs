@@ -25,6 +25,8 @@ namespace SMSystems.IoC
             services.AddTransient<ISessionService, SessionService>();
             services.AddTransient<ISessionRepository, SessionRepository>();
             services.AddTransient<IPrinterService, PrinterService>();
+            services.AddTransient<IContractService, ContractService>();
+            services.AddTransient<IContractRepository, ContractRepository>();
           
 
             return services;
