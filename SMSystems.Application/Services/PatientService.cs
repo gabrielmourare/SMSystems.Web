@@ -72,5 +72,9 @@ public class PatientService : IPatientService
         return await _patient.PatientExistsAsync(id);
     }
 
+    public async Task<Contract> GetPatientContract(int contractId)
+    {
+        return await _patient.GetContract(contractId);
+    }
 }
 

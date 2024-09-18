@@ -12,50 +12,78 @@
     <h4>Patient</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Patient.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Patient.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Patient.SocialNumber)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Patient.SocialNumber)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Patient.Phone)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Patient.Phone)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Patient.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Patient.Email)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Patient.Active)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Patient.Active)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Patient.BirthDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Patient.BirthDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Patient.ICD)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Patient.ICD)
-        </dd>
+        <!-- Coluna 1 -->
+        <div class="col-md-4">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Patient.Name)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Patient.Name)
+            </dd>
+        </div>
+
+        <!-- Coluna 2 -->
+        <div class="col-md-4">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Patient.SocialNumber)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Patient.SocialNumber)
+            </dd>
+        </div>
+
+        <!-- Coluna 3 -->
+        <div class="col-md-4">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Patient.Phone)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Patient.Phone)
+            </dd>
+        </div>
+
+        <!-- Coluna 4 -->
+        <div class="col-md-4">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Patient.Email)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Patient.Email)
+            </dd>
+        </div>
+
+        <!-- Coluna 5 -->
+        <div class="col-md-4">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Patient.Active)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Patient.Active)
+            </dd>
+        </div>
+
+        <!-- Coluna 6 -->
+        <div class="col-md-4">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Patient.BirthDate)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Patient.BirthDate)
+            </dd>
+        </div>
+
+        <!-- Coluna 7 -->
+        <div class="col-md-4">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Patient.ICD)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Patient.ICD)
+            </dd>
+        </div>
     </dl>
 </div>
+
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Patient?.ID">Edit</a> |
     <a asp-page="./Index">Back to List</a>

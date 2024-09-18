@@ -1,10 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Pages\NovaPasta1\**" />
+    <Compile Remove="Pages\Sessions\**" />
+    <Content Remove="Pages\NovaPasta1\**" />
+    <Content Remove="Pages\Sessions\**" />
+    <EmbeddedResource Remove="Pages\NovaPasta1\**" />
+    <EmbeddedResource Remove="Pages\Sessions\**" />
+    <None Remove="Pages\NovaPasta1\**" />
+    <None Remove="Pages\Sessions\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Remove="Pages\Shared\MessageShow.razor" />
@@ -12,15 +23,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.1" />
-    <PackageReference Include="itext.bouncy-castle-adapter" Version="8.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.29" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.29" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.29">
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="8.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,7 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Sessions\" />
+    <Folder Include="Pages\Configurations\" />
     <Folder Include="Resources\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>

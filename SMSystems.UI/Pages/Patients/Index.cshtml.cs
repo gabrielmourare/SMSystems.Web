@@ -30,16 +30,31 @@ namespace SMSystems.UI.Pages.Patients
         public string? PatientName { get; set; }
 
         public async Task OnGetAsync()
-        {          
-            var patients = await _patientService.GetAll().ToListAsync();
-
-            if (!string.IsNullOrEmpty(SearchString))
+        {
+            try
             {
-                patients = patients.Where(search => search.Name.Contains(SearchString)).ToList();
+                // Verifique se a conexão com o banco está OK antes de realizar o GetAll
+                var patients = await _patientService.GetAll().ToListAsync();
+
+                if (!string.IsNullOrEmpty(SearchString))
+                {
+                    patients = patients.Where(search => search.Name.Contains(SearchString)).ToList();
+                }
+
+                Patients = patients;
             }
+            catch (Exception ex)
+            {
+                // Log da exceção ou ação adequada (ex: exibir uma mensagem de erro)
+                Console.WriteLine("Erro ao conectar ao banco de dados: " + ex.Message);
 
-            Patients = patients;
+                // Opcionalmente, definir um valor de fallback para Patients (ex: lista vazia)
+                Patients = new List<Patient>();
 
+                // Aqui você também pode redirecionar para uma página de erro ou mostrar uma mensagem
+                ModelState.AddModelError(string.Empty, "Não foi possível conectar ao banco de dados.");
+            }
         }
+
     }
 }

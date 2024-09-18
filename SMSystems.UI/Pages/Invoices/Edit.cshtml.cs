@@ -69,6 +69,7 @@ namespace SMSystems.UI.Pages.Invoices
 
             try
             {
+                Invoice.TotalValue = 0;
                 foreach (var sessionDate in SessionDates)
                 {
                     Session session = new Session()
@@ -79,6 +80,7 @@ namespace SMSystems.UI.Pages.Invoices
                         Value = Invoice.SessionValue
                     };
                     Sessions.Add(session);
+                    
                     Invoice.TotalValue += Invoice.SessionValue;
                 }
 

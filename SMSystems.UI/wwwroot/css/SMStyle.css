@@ -166,7 +166,10 @@ h1 {
         background-color: #86D3E6;
     }
 
-  
+    .custom-images img {
+        width: 25px;
+        height: 25px;
+    }
 
 
 

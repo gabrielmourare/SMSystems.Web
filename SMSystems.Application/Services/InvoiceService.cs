@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using SMSystems.Application.DTOs;
 using SMSystems.Application.Interfaces;
+using SMSystems.Data.Repositories;
 using SMSystems.Domain.Entities;
 using SMSystems.Domain.Interfaces;
+using SMSystems.Printer.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +18,15 @@ namespace SMSystems.Application.Services
     {
         private readonly IInvoiceRepository _invoice;
         private readonly ISessionRepository _session;
+        private readonly IPatientRepository _patient;
         private readonly IMapper _mapper;
 
-        public InvoiceService(IInvoiceRepository invoice, ISessionRepository session, IMapper mapper)
+        public InvoiceService(IInvoiceRepository invoice, ISessionRepository session, IMapper mapper, IPatientRepository patient)
         {
             _invoice = invoice;
             _session = session;
             _mapper = mapper;
+            _patient = patient;
         }
 
         public IQueryable<Invoice> GetAll()
@@ -89,6 +94,32 @@ namespace SMSystems.Application.Services
             return await _invoice.InvoiceExistsAsync(id);
         }
 
+        public async Task<InvoiceDetailsDTO> GetInvoiceDetails(int invoiceId)
+        {
+            Invoice? invoice = await _invoice.GetInvoiceByIdAsync(invoiceId);
+            Patient? patient = await _patient.GetPatientByIdAsync(invoice.PatientID);
+            List<Session> sessions = invoice.Sessions.ToList();
+
+            return new InvoiceDetailsDTO()
+            {
+                PatientName = patient.Name,
+                City = "São Caetano do Sul",
+                ProfessionalRCNumber = "06/87574",
+                PatientSocialNumber = patient.SocialNumber,
+                Profession = "Psicóloga",
+                ProfessionalName = "Andiara Sarraf",
+                ProfessionalSocialNumber = "066.171.616-37",
+                EmissionDate = DateTime.Now.ToString("dd/MM/yyyy"),
+                FullAddress = " ",
+                SessionValue = invoice.SessionValue.ToString("C"),
+                Telephone = "+55 (11) 984614824",
+                TotalValue = invoice.TotalValue,
+                WrittenTotal = ConverterExtenso.toExtenso(invoice.TotalValue),
+                PatientBirthDate = patient.BirthDate
+
+            };                      
+            
+        }
     }
 
 }

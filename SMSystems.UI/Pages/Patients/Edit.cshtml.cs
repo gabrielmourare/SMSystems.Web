@@ -15,10 +15,11 @@ namespace SMSystems.UI.Pages.Patients
     public class EditModel : PageModel
     {
         private readonly IPatientService _patientService;
-
-        public EditModel(IPatientService patientService)
+        private readonly IContractService _contractService;
+        public EditModel(IPatientService patientService, IContractService contractService)
         {
             _patientService = patientService ?? throw new ArgumentNullException(nameof(patientService));
+            _contractService = contractService ?? throw new ArgumentNullException(nameof(contractService));
         }
 
         [BindProperty]
@@ -26,6 +27,7 @@ namespace SMSystems.UI.Pages.Patients
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            PopulateContractsDropdown();
             if (id == null)
             {
                 return NotFound();
@@ -49,11 +51,10 @@ namespace SMSystems.UI.Pages.Patients
                 return Page();
             }
 
-
-
             try
             {
-                _patientService.UpdatePatient(Patient);
+                // Verifique se o método de atualização realmente salva as mudanças
+                await _patientService.UpdatePatient(Patient);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -63,6 +64,8 @@ namespace SMSystems.UI.Pages.Patients
                 }
                 else
                 {
+                    // Log para debug: verificar o erro de concorrência
+                    // Por exemplo, Log.Error("Concurrency issue occurred while updating patient: ", ex);
                     throw;
                 }
             }
@@ -73,6 +76,18 @@ namespace SMSystems.UI.Pages.Patients
         async Task<bool> PatientExists(int id)
         {
             return (await _patientService.PatientExistsAsync(id));
+        }
+
+        private void PopulateContractsDropdown()
+        {
+            var contracts = _contractService.GetAll()
+                .Select(c => new {
+                    c.ID,
+                    DisplayName = $"{c.Name} - {c.SessionValue.ToString("C2")}"
+                }).ToList();
+
+            ViewData["ContractID"] = new SelectList(contracts, "ID", "DisplayName");
+
         }
     }
 }
