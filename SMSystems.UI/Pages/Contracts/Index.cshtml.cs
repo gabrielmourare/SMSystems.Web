@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
@@ -12,18 +13,21 @@ namespace SMSystems.UI.Pages.Contracts
 {
     public class IndexModel : PageModel
     {
-        private readonly SMSystems.Data.SMSystemsDBContext _context;
+        private readonly IContractService _contractService;
 
-        public IndexModel(SMSystems.Data.SMSystemsDBContext context)
+        public IndexModel(IContractService contractService)
         {
-            _context = context;
+            _contractService = contractService;
         }
 
-        public IList<Contract> Contract { get;set; } = default!;
+        public IList<Contract> Contracts { get; set; } = default!;
+
+        [BindProperty(SupportsGet = true)]
+        public string? ContractID { get; set; }
 
         public async Task OnGetAsync()
         {
-            Contract = await _context.Contracts.ToListAsync();
+           Contracts = await _contractService.GetAll().ToListAsync();
         }
     }
 }

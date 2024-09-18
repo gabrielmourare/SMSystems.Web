@@ -33,22 +33,35 @@ namespace SMSystems.UI.Pages.Invoices
 
         public async Task OnGetAsync()
         {
+            // Inicializamos a consulta de faturas
+            IQueryable<Invoice> invoiceQuery = _invoiceService.GetAll();
 
-            var invoices = await _invoiceService.GetAll().ToListAsync();
-
+            // Se há uma string de busca, aplicamos o filtro
             if (!string.IsNullOrEmpty(SearchString))
             {
+                // Buscamos os pacientes que correspondem ao nome digitado (case-insensitive por padrão no SQL Server)
+                var patients = await _patientService
+                    .GetAll()
+                    .Where(p => p.Name.Contains(SearchString)) // Usamos o Contains simples
+                    .Select(p => p.ID) // Seleciona apenas os IDs dos pacientes
+                    .ToListAsync();
 
-                var patients = await _patientService.GetAll().ToListAsync();
-
-                patients = patients.Where(p => p.Name.Contains(SearchString, StringComparison.OrdinalIgnoreCase)).ToList();
-
-                var patientIDs = patients.Select(p => p.ID).ToList();
-
-                invoices = invoices.Where(inv => patientIDs.Contains(inv.PatientID)).ToList();
+                // Verificamos se há pacientes que correspondem à busca
+                if (patients.Any())
+                {
+                    // Filtramos as faturas para incluir apenas as que pertencem aos pacientes encontrados
+                    invoiceQuery = invoiceQuery.Where(inv => patients.Contains(inv.PatientID));
+                }
+                else
+                {
+                    // Se nenhum paciente foi encontrado, retornamos uma lista vazia de faturas
+                    invoiceQuery = invoiceQuery.Where(inv => false); // Nenhum resultado
+                }
             }
 
-            Invoices = invoices;
+            // Por fim, carregamos as faturas após aplicar o filtro
+            Invoices = await invoiceQuery.ToListAsync();
         }
+
     }
 }

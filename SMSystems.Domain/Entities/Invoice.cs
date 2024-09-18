@@ -27,6 +27,7 @@ namespace SMSystems.Domain.Entities
 
         public int PatientID { get; set; }
 
+        [DisplayName("Emitido?")]
         public bool Issued { get; set; }
     }
 }

@@ -69,3 +69,11 @@ body {
     background: white;
     z-index: 1000; /* Um valor alto para garantir que o modal esteja sobreposto aos outros elementos */
 }
+
+
+.custom-images img {
+    width: 25px;
+    height: 25px;
+}
+
+
