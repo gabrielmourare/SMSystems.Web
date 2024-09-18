@@ -82,5 +82,10 @@ namespace SMSystems.Data.Repositories
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        public async Task<Contract?> GetContract(int contractId)
+        {
+            return await _context.Contracts.FindAsync(contractId);
+        }
     }
 }

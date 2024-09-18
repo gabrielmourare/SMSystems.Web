@@ -17,5 +17,6 @@ namespace SMSystems.Domain.Interfaces
         Task<Patient?> GetPatientBySocialNumberAsync(string socialNumber);
         Task<bool> PatientExistsAsync(int id);
 
+        Task<Contract> GetContract(int contractId);
     }
 }

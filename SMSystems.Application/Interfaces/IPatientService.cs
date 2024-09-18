@@ -19,6 +19,7 @@ namespace SMSystems.Application.Interfaces
         Task AddPatient(Patient patientViewModel);
         Task<Patient?> GetPatientBySN(string socialNumber);
         Task<bool> PatientExistsAsync(int id);
+        Task<Contract> GetPatientContract(int contractId);
     }
 
 }

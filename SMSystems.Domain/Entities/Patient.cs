@@ -11,7 +11,7 @@ namespace SMSystems.Domain.Entities
     public class Patient
     {
         [Key]
-        public int ID { get; set;}
+        public int ID { get; set; }
         [DisplayName("Nome")]
         public string? Name { get; set; }
         [DisplayName("CPF")]
@@ -22,14 +22,16 @@ namespace SMSystems.Domain.Entities
         [DisplayName("Ativo?")]
         public bool Active { get; set; } = true;
         [DisplayName("Dt. Nascimento")]
-        [DataType(DataType.Date)]       
+        [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
 
         [DisplayName("CID")]
         public string? ICD { get; set; }
         public List<Invoice>? Invoices { get; set; }
         public List<Session>? Sessions { get; set; }
+        [DisplayName("Contrato")]
+        public int ContractID { get; set; }
     }
 
-    
+
 }

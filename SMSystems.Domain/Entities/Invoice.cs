@@ -26,5 +26,7 @@ namespace SMSystems.Domain.Entities
         public DateTime EmissionDate { get; set; }
 
         public int PatientID { get; set; }
+
+        public bool Issued { get; set; }
     }
 }
