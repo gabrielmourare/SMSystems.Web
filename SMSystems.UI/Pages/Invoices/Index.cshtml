@@ -49,8 +49,11 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Invoices[0].SessionValue)
+                            @Html.DisplayNameFor(model => model.Invoices[0].PatientID)
                         </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Invoices[0].SessionValue)
+                        </th>                       
                         <th>
                             @Html.DisplayNameFor(model => model.Invoices[0].TotalValue)
                         </th>
@@ -75,6 +78,10 @@
                     @foreach (var item in Model.Invoices)
                     {
                         <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.PatientNames[item.PatientID])
+                            </td>
+
                             <td>
                                 @Html.DisplayFor(modelItem => item.SessionValue)
                             </td>

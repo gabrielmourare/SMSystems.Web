@@ -26,9 +26,9 @@ namespace SMSystems.UI.Pages.Invoices
             _contractService = contractService;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-            PopulatePatientsDropdown();
+            await PopulatePatientsDropdown();
             return Page();
         }
 
@@ -124,9 +124,9 @@ namespace SMSystems.UI.Pages.Invoices
             return RedirectToPage("./Index");
         }
 
-        private void PopulatePatientsDropdown()
+        private async Task PopulatePatientsDropdown()
         {
-            var patients = _patientService.GetAll();
+            var patients = await _patientService.GetAll();
             ViewData["PatientID"] = new SelectList(patients, "ID", "Name");
         }
     }

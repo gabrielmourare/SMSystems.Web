@@ -12,7 +12,7 @@ namespace SMSystems.Application.Interfaces
         IQueryable<Invoice> ObtainAllInvoices(int patientId);
         IQueryable<Session> GetAllPatientSessions(int patientId);
         Task<Patient?> GetPatientData(int patientId);
-        IQueryable<Patient> GetAll();
+        Task<List<Patient>> GetAll();
         Task<Patient?> GetPatientById(int id);
         Task UpdatePatient(Patient patient);
         Task DeletePatient(Patient patient);

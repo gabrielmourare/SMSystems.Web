@@ -36,9 +36,9 @@ public class PatientService : IPatientService
         return await _patient.GetPatientByIdAsync(patientId);
     }
 
-    public IQueryable<Patient> GetAll()
+    public async Task<List<Patient>> GetAll()
     {
-        return _patient.GetAllPatients();
+        return await _patient.GetAllPatientsAsync();
     }
 
     public async Task<Patient> GetPatientById(int id)

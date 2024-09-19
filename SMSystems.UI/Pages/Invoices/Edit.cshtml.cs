@@ -108,7 +108,7 @@ namespace SMSystems.UI.Pages.Invoices
         private void PopulatePatientsDropdown()
         {
             var patients = _patientService.GetAll();
-            ViewData["PatientID"] = new SelectList(patients, "ID", "Name");
+            ViewData["PatientID"] = new SelectList((System.Collections.IEnumerable)patients, "ID", "Name");
         }
     }
 }

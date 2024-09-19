@@ -34,7 +34,7 @@ namespace SMSystems.UI.Pages.Patients
             try
             {
                 // Verifique se a conexão com o banco está OK antes de realizar o GetAll
-                var patients = await _patientService.GetAll().ToListAsync();
+                var patients = await _patientService.GetAll();
 
                 if (!string.IsNullOrEmpty(SearchString))
                 {

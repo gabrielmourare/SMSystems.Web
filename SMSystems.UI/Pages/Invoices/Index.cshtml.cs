@@ -24,6 +24,8 @@ namespace SMSystems.UI.Pages.Invoices
         }
 
         public IList<Invoice> Invoices { get; set; } = default!;
+        public Dictionary<int, string> PatientNames { get; set; } = new Dictionary<int, string>();
+
 
         [BindProperty(SupportsGet = true)]
         public string? SearchString { get; set; }
@@ -33,26 +35,31 @@ namespace SMSystems.UI.Pages.Invoices
         [BindProperty(SupportsGet = true)]
         public DateTime? StartDate { get; set; }
         [BindProperty(SupportsGet = true)]
-        public DateTime? EndDate { get; set; }   
+        public DateTime? EndDate { get; set; }
 
 
         public async Task OnGetAsync()
         {
             // Inicializamos a consulta de faturas
             IQueryable<Invoice> invoiceQuery = _invoiceService.GetAll();
+            var patients = await _patientService.GetAll(); // Supondo que tenha um método assíncrono
+            foreach (var patient in patients)
+            {
+                PatientNames[patient.ID] = patient.Name;
+            }
 
             // Filtro por nome de paciente (se fornecido)
             if (!string.IsNullOrEmpty(SearchString))
             {
-                var patients = await _patientService
-                    .GetAll()
+                // Filtra os pacientes com base na SearchString
+                var filteredPatientIds = patients
                     .Where(p => p.Name.Contains(SearchString))
                     .Select(p => p.ID)
-                    .ToListAsync();
+                    .ToList(); // Cria uma lista com os IDs filtrados
 
                 if (patients.Any())
                 {
-                    invoiceQuery = invoiceQuery.Where(inv => patients.Contains(inv.PatientID));
+                    invoiceQuery = invoiceQuery.Where(inv => filteredPatientIds.Contains(inv.PatientID));
                 }
                 else
                 {
@@ -90,6 +97,10 @@ namespace SMSystems.UI.Pages.Invoices
             };
         }
 
-
+        public async Task<string> GetPatientNameAsync(int patientID)
+        {
+            var patient = await _patientService.GetPatientById(patientID);
+            return patient?.Name ?? "Unknown"; // Retorna "Unknown" se o paciente não for encontrado
+        }
     }
 }

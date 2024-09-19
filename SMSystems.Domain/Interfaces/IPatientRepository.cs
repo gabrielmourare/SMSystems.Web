@@ -9,7 +9,7 @@ namespace SMSystems.Domain.Interfaces
 {
     public interface IPatientRepository
     {
-        IQueryable<Patient> GetAllPatients();
+        Task<List<Patient>> GetAllPatientsAsync();
         Task<Patient?> GetPatientByIdAsync(int id);
         Task SavePatientAsync(Patient patient);
         Task DeletePatientAsync(Patient patient);

@@ -28,9 +28,9 @@ namespace SMSystems.Data.Repositories
             }
         }
 
-        public IQueryable<Patient> GetAllPatients()
+        public async Task<List<Patient>> GetAllPatientsAsync()
         {
-            return _context.Patients;
+            return await _context.Patients.ToListAsync();
         }
 
         public async Task<Patient?> GetPatientByIdAsync(int id)
