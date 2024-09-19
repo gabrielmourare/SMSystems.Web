@@ -85,6 +85,7 @@ namespace SMSystems.UI.Pages.Invoices
                 }
 
                 Invoice.EmissionDate = DateTime.Now.Date;
+                Invoice.Status = (InvoiceStatus)4;
 
 
                 await _invoiceService.AddInvoiceAsync(Invoice);
@@ -95,6 +96,7 @@ namespace SMSystems.UI.Pages.Invoices
                 Invoice.SessionValue = contract?.SessionValue ?? 0;
                 foreach (var sessionDate in SessionDates)
                 {
+                    Invoice.Status = (InvoiceStatus)4;
                     Invoice.TotalValue = Invoice.SessionValue;
                     // Cria uma nova fatura para cada SessionDate
                     var newInvoice = new Invoice

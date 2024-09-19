@@ -78,5 +78,18 @@ namespace SMSystems.UI.Pages.Invoices
             Invoices = await invoiceQuery.ToListAsync();
         }
 
+        public string GetStatusColor(InvoiceStatus status)
+        {
+            return status switch
+            {
+                InvoiceStatus.Pending => "text-muted",  // Classe CSS para cor amarela
+                InvoiceStatus.WaitingSignature => "text-info",    // Classe CSS para cor verde
+                InvoiceStatus.Issued => "text-primary",  // Classe CSS para cor vermelha
+                InvoiceStatus.Sent => "text-success", // Classe CSS para cor cinza
+                _ => "text-dark"                         // Classe padrão
+            };
+        }
+
+
     }
 }
