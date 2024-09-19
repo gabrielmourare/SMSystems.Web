@@ -10,6 +10,7 @@ namespace SMSystems.Domain.Entities
 {
     public class Contract
     {
+        [Key]
         public int ID { get; set; }
         [DisplayName("Descrição")]
         public string Name { get; set; }

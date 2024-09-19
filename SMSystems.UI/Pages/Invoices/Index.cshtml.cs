@@ -30,36 +30,51 @@ namespace SMSystems.UI.Pages.Invoices
 
         [BindProperty(SupportsGet = true)]
         public string? InvoiceID { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public DateTime? StartDate { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public DateTime? EndDate { get; set; }   
+
 
         public async Task OnGetAsync()
         {
             // Inicializamos a consulta de faturas
             IQueryable<Invoice> invoiceQuery = _invoiceService.GetAll();
 
-            // Se há uma string de busca, aplicamos o filtro
+            // Filtro por nome de paciente (se fornecido)
             if (!string.IsNullOrEmpty(SearchString))
             {
-                // Buscamos os pacientes que correspondem ao nome digitado (case-insensitive por padrão no SQL Server)
                 var patients = await _patientService
                     .GetAll()
-                    .Where(p => p.Name.Contains(SearchString)) // Usamos o Contains simples
-                    .Select(p => p.ID) // Seleciona apenas os IDs dos pacientes
+                    .Where(p => p.Name.Contains(SearchString))
+                    .Select(p => p.ID)
                     .ToListAsync();
 
-                // Verificamos se há pacientes que correspondem à busca
                 if (patients.Any())
                 {
-                    // Filtramos as faturas para incluir apenas as que pertencem aos pacientes encontrados
                     invoiceQuery = invoiceQuery.Where(inv => patients.Contains(inv.PatientID));
                 }
                 else
                 {
-                    // Se nenhum paciente foi encontrado, retornamos uma lista vazia de faturas
-                    invoiceQuery = invoiceQuery.Where(inv => false); // Nenhum resultado
+                    invoiceQuery = invoiceQuery.Where(inv => false);
                 }
             }
 
-            // Por fim, carregamos as faturas após aplicar o filtro
+            // Filtro por período (se as datas forem válidas)
+            if (StartDate.HasValue && EndDate.HasValue)
+            {
+                invoiceQuery = invoiceQuery.Where(inv => inv.EmissionDate >= StartDate.Value && inv.EmissionDate <= EndDate.Value);
+            }
+            else if (StartDate.HasValue) // Se só a data inicial for fornecida
+            {
+                invoiceQuery = invoiceQuery.Where(inv => inv.EmissionDate >= StartDate.Value);
+            }
+            else if (EndDate.HasValue) // Se só a data final for fornecida
+            {
+                invoiceQuery = invoiceQuery.Where(inv => inv.EmissionDate <= EndDate.Value);
+            }
+
+            // Carregamos as faturas filtradas
             Invoices = await invoiceQuery.ToListAsync();
         }
 

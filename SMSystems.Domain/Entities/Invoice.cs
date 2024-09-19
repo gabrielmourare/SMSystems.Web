@@ -25,6 +25,7 @@ namespace SMSystems.Domain.Entities
         [DataType(DataType.Date)]
         public DateTime EmissionDate { get; set; }
 
+        [DisplayName("Paciente")]
         public int PatientID { get; set; }
 
         [DisplayName("Emitido?")]

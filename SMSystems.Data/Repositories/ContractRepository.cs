@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SMSystems.Data.Repositories
 {
-    public class ContractRepository : IContractRepository
+    public class ContractRepository : IContractRepository, IDisposable
     {
         private readonly SMSystemsDBContext _context;
         private bool _disposed = false;

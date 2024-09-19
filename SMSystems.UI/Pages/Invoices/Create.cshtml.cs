@@ -16,11 +16,14 @@ namespace SMSystems.UI.Pages.Invoices
     {
         private readonly IInvoiceService _invoiceService;
         private readonly IPatientService _patientService;
+        private readonly IContractService _contractService;
 
-        public CreateModel(IInvoiceService invoiceService, IPatientService patientService)
+
+        public CreateModel(IInvoiceService invoiceService, IPatientService patientService, IContractService contractService)
         {
             _invoiceService = invoiceService;
             _patientService = patientService;
+            _contractService = contractService;
         }
 
         public IActionResult OnGet()
@@ -44,7 +47,31 @@ namespace SMSystems.UI.Pages.Invoices
                 return Page();
             }
 
-            Invoice.Sessions = new List<Session>();            
+            // Inicializa a lista de sessões, mas a cria apenas se for necessário
+            Invoice.Sessions = new List<Session>();
+
+            // Usa Task.WhenAll para buscar paciente e contrato em paralelo
+            var patientTask = _patientService.GetPatientById(Invoice.PatientID);
+
+            // Inicia a tarefa para obter o contrato somente se o paciente for encontrado
+            var contractTask = patientTask.ContinueWith(t =>
+            {
+                if (t.Result != null)
+                {
+                    return _contractService.GetContractById(t.Result.ContractID);
+                }
+                return Task.FromResult<Contract>(null);
+            }).Unwrap(); // Desembrulha a tarefa aninhada
+
+            // Aguarda ambas as tarefas
+            await Task.WhenAll(patientTask, contractTask);
+
+            Patient patient = await patientTask;
+            Contract contract = await contractTask;
+
+            // Atualiza o valor da sessão de forma segura
+            Invoice.SessionValue = contract?.SessionValue ?? 0;
+
 
             // Add the sessions to the invoice
             foreach (var date in SessionDates)
@@ -54,7 +81,7 @@ namespace SMSystems.UI.Pages.Invoices
             }
 
             Invoice.EmissionDate = DateTime.Now.Date;
-         
+
 
             await _invoiceService.AddInvoiceAsync(Invoice);
 

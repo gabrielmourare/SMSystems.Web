@@ -2,57 +2,59 @@
 @model SMSystems.UI.Pages.Invoices.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Gerar Recibo";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>Invoice</h4>
+<h4>Gerar Recibos</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Invoice.SessionValue" class="control-label"></label>
-                <input asp-for="Invoice.SessionValue" class="form-control" />
-                <span asp-validation-for="Invoice.SessionValue" class="text-danger"></span>
-            </div>           
-            <div id="session-dates">
-                <label>Session Dates</label>
-                <div class="form-group">
-                    <input type="date" name="SessionDates" class="form-control" />
-                </div>
-            </div>
-
-            <button type="button" id="add-date" class="btn btn-secondary">Add Date</button>
-            <div class="form-group">
+              <div class="form-group">
                 <label asp-for="Invoice.PatientID" class="control-label"></label>
                 <select asp-for="Invoice.PatientID" class="form-control" asp-items="@(ViewData["PatientID"] as SelectList)"></select>
-            </div>                      
+            </div>       
+            <div id="session-dates">
+                <label>Sessões</label>
+                <div class="form-group">
+                    <input type="date" name="SessionDates" class="form-control" />         
 
-                  <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
             </div>
+            <div class="form-group">
+                <button type="button" id="add-date" class="btn btn-secondary">Adicionar Data</button>
+            </div>
+            <div class ="form-group">
+                 <input type="submit" value="Gerar" class="btn btn-primary" />
+            </div>                         
+
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a class="btn btn-primary" asp-page="Index">Voltar</a>
 </div>
 
 @section Scripts {
-    <script>
-        document.getElementById('add-date').addEventListener('click', function () {
+            <script>
+                document.getElementById('add-date').addEventListener('click', function () {
             var container = document.getElementById('session-dates');
             var newInput = document.createElement('div');
             newInput.className = 'form-group';
-            newInput.innerHTML = '<input type="date" name="SessionDates" class="form-control" />';
+            newInput.innerHTML = '<input type="date" name="SessionDates" class="form-control" />' +
+                '<button type="button" class="btn btn-danger remove-date">Remover</button>';
             container.appendChild(newInput);
         });
-    </script>
+
+        document.getElementById('session-dates').addEventListener('click', function (event) {
+            if (event.target.classList.contains('remove-date')) {
+                event.target.parentNode.remove();
+            }
+        });
+            </script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }    

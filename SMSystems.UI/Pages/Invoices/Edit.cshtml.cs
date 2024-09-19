@@ -18,12 +18,14 @@ namespace SMSystems.UI.Pages.Invoices
         private readonly IInvoiceService _invoiceService;
         private readonly IPatientService _patientService;
         private readonly ISessionService _sessionService;
+        private readonly IContractService _contractService;
 
-        public EditModel(IInvoiceService invoiceService, IPatientService patientService, ISessionService sessionService)
+        public EditModel(IInvoiceService invoiceService, IPatientService patientService, ISessionService sessionService, IContractService contractService)
         {
             _invoiceService = invoiceService;
             _patientService = patientService;
             _sessionService = sessionService;
+            _contractService = contractService;
         }
 
         [BindProperty]
@@ -32,6 +34,7 @@ namespace SMSystems.UI.Pages.Invoices
 
         [BindProperty]
         public List<DateTime> SessionDates { get; set; } = new List<DateTime>();
+
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
@@ -67,40 +70,33 @@ namespace SMSystems.UI.Pages.Invoices
                 return Page();
             }
 
-            try
-            {
-                Invoice.TotalValue = 0;
-                foreach (var sessionDate in SessionDates)
-                {
-                    Session session = new Session()
-                    {
-                        Date = sessionDate,
-                        InvoiceID = Invoice.ID,
-                        PatientID = Invoice.PatientID,
-                        Value = Invoice.SessionValue
-                    };
-                    Sessions.Add(session);
-                    
-                    Invoice.TotalValue += Invoice.SessionValue;
-                }
+            Patient patient = await _patientService.GetPatientById(Invoice.PatientID);
 
-                // Atribuir as sessões preparadas à fatura
-                Invoice.Sessions = Sessions;
+            Contract contract = await _contractService.GetContractById(patient.ContractID);
 
-                // Chamar o serviço para atualizar a fatura e as sessões associadas
-                await _invoiceService.UpdateInvoiceAsync(Invoice);
-            }
-            catch (DbUpdateConcurrencyException)
+
+            Invoice.TotalValue = 0;
+            foreach (var sessionDate in SessionDates)
             {
-                if (!await InvoiceExists(Invoice.ID))
+                Invoice.SessionValue = contract != null ? contract.SessionValue : 0;
+
+                Session session = new Session()
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                    Date = sessionDate,
+                    InvoiceID = Invoice.ID,
+                    PatientID = Invoice.PatientID,
+                    Value = Invoice.SessionValue
+                };
+                Sessions.Add(session);
+
+                Invoice.TotalValue += Invoice.SessionValue;
             }
+
+            // Atribuir as sessões preparadas à fatura
+            Invoice.Sessions = Sessions;
+
+            // Chamar o serviço para atualizar a fatura e as sessões associadas
+            await _invoiceService.UpdateInvoiceAsync(Invoice);
 
             return RedirectToPage("./Index");
         }

@@ -42,9 +42,9 @@ namespace SMSystems.Application.Services
             return _contract.GetAllContracts();
         }
 
-        public Task<Contract?> GetContractById(int id)
+        public async Task<Contract?> GetContractById(int id)
         {
-            throw new NotImplementedException();
+            return await _contract.GetContractByIdAsync(id);
         }
 
         public Task UpdateContract(Contract patient)

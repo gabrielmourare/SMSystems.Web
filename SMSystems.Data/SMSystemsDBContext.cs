@@ -22,7 +22,6 @@ namespace SMSystems.Data
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<Session> Sessions { get; set; }
-
         public DbSet<Contract> Contracts { get; set; }
     }
 }
