@@ -26,6 +26,16 @@
             <div class="form-group">
                 <button type="button" id="add-date" class="btn btn-secondary">Adicionar Data</button>
             </div>
+             <div class="form-group">
+                    <input type="checkbox" id="chkUmReciboSessao" asp-for="ReciboSessao"/>
+                    <label for="chkUmReciboSessao"> Um recibo por Sessão? </label>
+                </div>
+
+              <div class="form-group">
+                    <input type="checkbox" id="chkEmissaoSessao" asp-for="EmissaoSessao"/>
+                    <label for="chkEmissaoSessao"> Emissão no mesmo dia da Sessão? </label>
+                </div>
+
             <div class ="form-group">
                  <input type="submit" value="Gerar" class="btn btn-primary" />
             </div>                         

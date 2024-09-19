@@ -38,6 +38,12 @@ namespace SMSystems.UI.Pages.Invoices
         [BindProperty]
         public List<DateTime> SessionDates { get; set; } = new List<DateTime>();
 
+        [BindProperty]
+        public bool EmissaoSessao { get; set; }
+
+        [BindProperty]
+        public bool ReciboSessao { get; set; }
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -46,10 +52,8 @@ namespace SMSystems.UI.Pages.Invoices
             {
                 return Page();
             }
-
             // Inicializa a lista de sessões, mas a cria apenas se for necessário
             Invoice.Sessions = new List<Session>();
-
             // Usa Task.WhenAll para buscar paciente e contrato em paralelo
             var patientTask = _patientService.GetPatientById(Invoice.PatientID);
 
@@ -69,23 +73,52 @@ namespace SMSystems.UI.Pages.Invoices
             Patient patient = await patientTask;
             Contract contract = await contractTask;
 
-            // Atualiza o valor da sessão de forma segura
-            Invoice.SessionValue = contract?.SessionValue ?? 0;
-
-
-            // Add the sessions to the invoice
-            foreach (var date in SessionDates)
+            if (!ReciboSessao)
             {
-                Invoice.Sessions.Add(new Session { Date = date, PatientID = Invoice.PatientID, Value = Invoice.SessionValue });
-                Invoice.TotalValue += Invoice.SessionValue;
+                // Atualiza o valor da sessão de forma segura
+                Invoice.SessionValue = contract?.SessionValue ?? 0;
+                // Add the sessions to the invoice
+                foreach (var date in SessionDates)
+                {
+                    Invoice.Sessions.Add(new Session { Date = date, PatientID = Invoice.PatientID, Value = Invoice.SessionValue });
+                    Invoice.TotalValue += Invoice.SessionValue;
+                }
+
+                Invoice.EmissionDate = DateTime.Now.Date;
+
+
+                await _invoiceService.AddInvoiceAsync(Invoice);
+
             }
+            else
+            {
+                Invoice.SessionValue = contract?.SessionValue ?? 0;
+                foreach (var sessionDate in SessionDates)
+                {
+                    Invoice.TotalValue = Invoice.SessionValue;
+                    // Cria uma nova fatura para cada SessionDate
+                    var newInvoice = new Invoice
+                    {
+                        PatientID = Invoice.PatientID,
+                        EmissionDate = EmissaoSessao ? sessionDate : DateTime.Now,
+                        SessionValue = contract?.SessionValue ?? 0,
+                        Sessions = new List<Session>
+                                                {
+                                                    new Session
+                                                    {
+                                                        Date = sessionDate,
+                                                        PatientID = Invoice.PatientID,
+                                                        Value = Invoice.SessionValue
+                                                    }
+                                                },
+                        TotalValue = Invoice.TotalValue
+                    };
 
-            Invoice.EmissionDate = DateTime.Now.Date;
+                    // Adiciona a nova fatura
+                    await _invoiceService.AddInvoiceAsync(newInvoice);
+                }
 
-
-            await _invoiceService.AddInvoiceAsync(Invoice);
-
-
+            }
             return RedirectToPage("./Index");
         }
 

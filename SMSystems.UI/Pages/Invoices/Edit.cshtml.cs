@@ -35,7 +35,6 @@ namespace SMSystems.UI.Pages.Invoices
         [BindProperty]
         public List<DateTime> SessionDates { get; set; } = new List<DateTime>();
 
-
         public async Task<IActionResult> OnGetAsync(int id)
         {
             PopulatePatientsDropdown();
