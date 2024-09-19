@@ -58,7 +58,7 @@
                             @Html.DisplayNameFor(model => model.Invoices[0].EmissionDate)
                         </th>
                         <th class="text-center">
-                            @Html.DisplayNameFor(model => model.Invoices[0].Issued)
+                            @Html.DisplayNameFor(model => model.Invoices[0].Status)
                         </th>
                         <th class="text-center">
                             Editar
@@ -85,7 +85,9 @@
                                 @Html.DisplayFor(modelItem => item.EmissionDate)
                             </td>
                             <td class="text-center">
-                                @Html.DisplayFor(modelItem => item.Issued)
+                                <span class="@Model.GetStatusColor(item.Status)">
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </span>
                             </td>
                             <td>
                                 <div class="d-flex justify-content-center">

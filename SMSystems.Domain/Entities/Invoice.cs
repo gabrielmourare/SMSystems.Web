@@ -30,5 +30,19 @@ namespace SMSystems.Domain.Entities
 
         [DisplayName("Emitido?")]
         public bool Issued { get; set; }
+        [DisplayName("Status")]
+        public InvoiceStatus Status { get; set; }
+    }
+
+    public enum InvoiceStatus
+    {
+        [Display(Name ="Aguardando Emissão")]
+        Pending = 4,
+        [Display(Name = "Aguardando Assinatura Digital")]
+        WaitingSignature = 3,
+        [Display(Name = "Aguardando Envio")]
+        Issued = 2,
+        [Display(Name = "Enviado ao Paciente")]
+        Sent = 1
     }
 }
