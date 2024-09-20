@@ -1,0 +1,22 @@
+﻿@page
+@model BulkDeleteModel
+
+<h1>Confirmar Exclusão</h1>
+
+<h3>Deseja realmente deletar os seguintes invoices?</h3>
+
+<ul>
+    @foreach (var invoice in Model.Invoices)
+    {
+        <li>Invoice ID: @invoice.ID - Total: @invoice.TotalValue</li>
+    }
+</ul>
+<form method="post" asp-page="/Invoices/BulkDelete">
+    @foreach (var id in Model.SelectedIds)
+    {
+        <input type="hidden" name="SelectedIds" value="@id" />
+    }
+    <div class="w-100">
+        <button type="submit" class="btn btn-danger">Deletar Selecionados</button>
+    </div>
+</form>

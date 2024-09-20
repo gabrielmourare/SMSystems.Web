@@ -96,10 +96,6 @@ namespace SMSystems.Data.Repositories
             }
         }
 
-
-
-
-
         public async Task DeleteInvoiceAsync(Invoice invoice)
         {
             _context.Remove(invoice);
@@ -115,6 +111,19 @@ namespace SMSystems.Data.Repositories
         {
             return await _context.Patients.AnyAsync(e => e.ID == id);
         }
+
+        public async Task<List<Invoice>> GetInvoicesByIdsAsync(List<int> ids)
+        {
+            return await _context.Invoices.Where(i => ids.Contains(i.ID)).ToListAsync();
+        }
+
+        public async Task DeleteInvoicesAsync(List<int> ids)
+        {
+            var invoices = await _context.Invoices.Where(i => ids.Contains(i.ID)).ToListAsync();
+            _context.Invoices.RemoveRange(invoices);
+            await _context.SaveChangesAsync();
+        }
+
     }
 
 }

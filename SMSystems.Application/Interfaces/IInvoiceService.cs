@@ -19,6 +19,8 @@ namespace SMSystems.Application.Interfaces
         Task AddInvoiceAsync(Invoice invoice);
         Task<bool> InvoiceExistsAsync(int id);
         Task<InvoiceDetailsDTO> GetInvoiceDetails(int invoiceId);
+        Task<List<Invoice>> GetInvoicesByIdsAsync(List<int> ids);
+        Task DeleteInvoicesAsync(List<int> ids);
     }
 
 }

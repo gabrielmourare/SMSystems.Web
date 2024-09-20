@@ -69,10 +69,10 @@ namespace SMSystems.Application.Services
             {
                 throw new KeyNotFoundException("Invoice not found");
             }
-            
-                       
-            Invoice invoiceMapped = _mapper.Map<Invoice>(invoice);                 
-   
+
+
+            Invoice invoiceMapped = _mapper.Map<Invoice>(invoice);
+
             await _invoice.UpdateInvoiceAsync(invoiceMapped);
         }
 
@@ -117,9 +117,19 @@ namespace SMSystems.Application.Services
                 WrittenTotal = ConverterExtenso.toExtenso(invoice.TotalValue),
                 PatientBirthDate = patient.BirthDate
 
-            };                      
-            
+            };
+
         }
+        public async Task<List<Invoice>> GetInvoicesByIdsAsync(List<int> ids)
+        {
+            return await _invoice.GetInvoicesByIdsAsync(ids);
+        }
+
+        public async Task DeleteInvoicesAsync(List<int> ids)
+        {
+            await _invoice.DeleteInvoicesAsync(ids);
+        }
+
     }
 
 }

@@ -77,6 +77,7 @@ namespace SMSystems.UI.Pages.Invoices
             {
                 // Atualiza o valor da sessão de forma segura
                 Invoice.SessionValue = contract?.SessionValue ?? 0;
+                
                 // Add the sessions to the invoice
                 foreach (var date in SessionDates)
                 {
@@ -96,7 +97,7 @@ namespace SMSystems.UI.Pages.Invoices
                 Invoice.SessionValue = contract?.SessionValue ?? 0;
                 foreach (var sessionDate in SessionDates)
                 {
-                    Invoice.Status = (InvoiceStatus)4;
+                   
                     Invoice.TotalValue = Invoice.SessionValue;
                     // Cria uma nova fatura para cada SessionDate
                     var newInvoice = new Invoice
@@ -113,7 +114,8 @@ namespace SMSystems.UI.Pages.Invoices
                                                         Value = Invoice.SessionValue
                                                     }
                                                 },
-                        TotalValue = Invoice.TotalValue
+                        TotalValue = Invoice.TotalValue,
+                        Status = (InvoiceStatus)4
                     };
 
                     // Adiciona a nova fatura

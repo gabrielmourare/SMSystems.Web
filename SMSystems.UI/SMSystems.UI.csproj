@@ -41,7 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Configurations\" />
     <Folder Include="Resources\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>

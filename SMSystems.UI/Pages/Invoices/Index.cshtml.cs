@@ -4,11 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 using SMSystems.UI.Pages.Patients;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace SMSystems.UI.Pages.Invoices
 {
@@ -24,6 +27,8 @@ namespace SMSystems.UI.Pages.Invoices
         }
 
         public IList<Invoice> Invoices { get; set; } = default!;
+
+        public Invoice Invoice { get; set; }
         public Dictionary<int, string> PatientNames { get; set; } = new Dictionary<int, string>();
 
 
@@ -37,6 +42,12 @@ namespace SMSystems.UI.Pages.Invoices
         [BindProperty(SupportsGet = true)]
         public DateTime? EndDate { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public int? SearchStatus { get; set; }
+
+        [BindProperty]
+        public List<int> SelectedIds { get; set; } = new List<int>();
+
 
         public async Task OnGetAsync()
         {
@@ -48,12 +59,22 @@ namespace SMSystems.UI.Pages.Invoices
                 PatientNames[patient.ID] = patient.Name;
             }
 
+            // Preencha o dropdown de Status
+            ViewData["SearchStatus"] = new SelectList(new[]
+                                                             {
+                                                                new {Value = 0, Text = "Selecione um Status..."},
+                                                                new { Value = 1, Text = "Enviado ao Paciente" },
+                                                                new { Value = 2, Text = "Emitido" },
+                                                                new { Value = 3, Text = "Aguardando Assinatura" },
+                                                                new { Value = 4, Text = "Aguardando Emissão" }
+                                                            }, "Value", "Text");
+
             // Filtro por nome de paciente (se fornecido)
             if (!string.IsNullOrEmpty(SearchString))
             {
                 // Filtra os pacientes com base na SearchString
                 var filteredPatientIds = patients
-                    .Where(p => p.Name.Contains(SearchString))
+                    .Where(p => p.Name.ToLower().Contains(SearchString.ToLower()))
                     .Select(p => p.ID)
                     .ToList(); // Cria uma lista com os IDs filtrados
 
@@ -81,6 +102,13 @@ namespace SMSystems.UI.Pages.Invoices
                 invoiceQuery = invoiceQuery.Where(inv => inv.EmissionDate <= EndDate.Value);
             }
 
+            // Filtro por status (se fornecido)
+            if (SearchStatus.HasValue && SearchStatus.Value != 0)
+            {
+                var statusEnum = (InvoiceStatus)SearchStatus.Value; // Converte o valor int para o enum correspondente
+                invoiceQuery = invoiceQuery.Where(inv => inv.Status == statusEnum);
+            }
+
             // Carregamos as faturas filtradas
             Invoices = await invoiceQuery.ToListAsync();
         }
@@ -101,6 +129,16 @@ namespace SMSystems.UI.Pages.Invoices
         {
             var patient = await _patientService.GetPatientById(patientID);
             return patient?.Name ?? "Unknown"; // Retorna "Unknown" se o paciente não for encontrado
+        }
+
+        public IActionResult OnPostDeleteSelected()
+        {
+            if (SelectedIds == null || !SelectedIds.Any())
+            {
+                return RedirectToPage("./Index"); // Volta para a listagem se nada for selecionado
+            }
+
+            return RedirectToPage("/Invoices/BulkDelete", new { ids = string.Join(",", SelectedIds) });
         }
     }
 }

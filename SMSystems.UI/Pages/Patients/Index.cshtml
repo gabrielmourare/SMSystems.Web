@@ -25,6 +25,9 @@
                     <div class="mb-2 w-100">
                         <a class="btn btn-primary w-100 w-md-auto" asp-page="Create">Cadastrar Novo</a>
                     </div>
+                    <div class="w-100">
+                        <button type="button" class="btn btn-secondary w-100 w-md-auto" onclick="clearForm()">Limpar</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -105,5 +108,37 @@
         </div>
     </div>
 </div>
+<!-- Botão "Voltar ao topo" -->
+<button id="scrollToTop" class="btn btn-primary" style="display: none; position: fixed; bottom: 20px; right: 20px;">
+    <i class="fas fa-arrow-up"></i> Voltar ao Topo
+</button>
 
 
+<script>
+    function clearForm() {
+        document.querySelector('form').reset(); // Limpa todos os campos do formulário
+        // Limpa o campo de busca específico
+        document.getElementById('searchBar').value = '';
+        // Submete o formulário
+        document.querySelector('form').submit();
+    }
+
+    // Quando o usuário rolar, execute a função
+    window.onscroll = function () {
+        scrollFunction();
+    };
+
+    function scrollFunction() {
+        const button = document.getElementById("scrollToTop");
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            button.style.display = "block"; // Exibe o botão
+        } else {
+            button.style.display = "none"; // Oculta o botão
+        }
+    }
+
+    // Quando o botão for clicado, role para o topo da página
+    document.getElementById("scrollToTop").onclick = function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+</script>
