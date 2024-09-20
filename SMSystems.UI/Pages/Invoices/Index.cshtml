@@ -6,6 +6,8 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
+
+
 <div class="container">
     <div class="table-responsive">
         <div class="row justify-content-center mb-3">
@@ -13,8 +15,13 @@
                 <form class="d-flex flex-column align-items-center">
                     <!-- Campo de busca por nome -->
                     <div class="mb-2 w-100">
-                        <label for="searchBar" class="form-label">Buscar</label>
-                        <input id="searchBar" type="text" asp-for="SearchString" class="form-control" placeholder="Buscar" />
+                        <label for="searchBar" class="form-label">Buscar por Paciente</label>
+                        <input id="searchBar" type="text" asp-for="SearchString" class="form-control" placeholder="Paciente" />
+                    </div>
+
+                    <div class="mb-2 w-100">
+                        <label class="control-label">Buscar por Status</label>
+                        <select asp-for="SearchStatus" class="form-control" asp-items="@(ViewData["SearchStatus"] as SelectList)"></select>
                     </div>
 
                     <!-- Campo de data de início e fim -->
@@ -36,8 +43,11 @@
                     </div>
 
                     <!-- Botão "Cadastrar Novo" -->
-                    <div class="w-100">
+                    <div class="mb-2 w-100">
                         <a class="btn btn-primary w-100 w-md-auto" asp-page="Create">Cadastrar Novo</a>
+                    </div>
+                    <div class="w-100">
+                        <button type="button" class="btn btn-secondary w-100 w-md-auto" onclick="clearForm()">Limpar</button>
                     </div>
                 </form>
             </div>
@@ -45,15 +55,22 @@
 
 
         <div class="table-responsive">
+
+            <div class="w-100">
+                <button id="deleteSelected" class="btn btn-danger w-100 w-md-auto">Deletar Selecionados</button>
+            </div>
             <table class="table table-striped table-hover" width="100%">
                 <thead>
                     <tr>
+                        <th>
+                            <input type="checkbox" id="selectAll" />
+                        </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Invoices[0].PatientID)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Invoices[0].SessionValue)
-                        </th>                       
+                        </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Invoices[0].TotalValue)
                         </th>
@@ -78,6 +95,9 @@
                     @foreach (var item in Model.Invoices)
                     {
                         <tr>
+                            <td>
+                                <input type="checkbox" class="patient-checkbox" value="@item.ID" />
+                            </td>
                             <td>
                                 @Html.DisplayFor(modelItem => Model.PatientNames[item.PatientID])
                             </td>
@@ -127,4 +147,58 @@
         </div>
     </div>
 </div>
+<!-- Botão "Voltar ao topo" -->
+<button id="scrollToTop" class="btn btn-primary" style="display: none; position: fixed; bottom: 20px; right: 20px;">
+    <i class="fas fa-arrow-up"></i> Voltar ao Topo
+</button>
 
+<script>
+    function clearForm() {
+        document.querySelector('form').reset(); // Limpa todos os campos do formulário
+        // Limpa o campo de busca específico
+        document.getElementById('searchBar').value = '';
+        // Submete o formulário
+        document.querySelector('form').submit();
+    }
+
+
+    // Quando o usuário rolar, execute a função
+    window.onscroll = function () {
+        scrollFunction();
+    };
+
+    function scrollFunction() {
+        const button = document.getElementById("scrollToTop");
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            button.style.display = "block"; // Exibe o botão
+        } else {
+            button.style.display = "none"; // Oculta o botão
+        }
+    }
+
+    // Quando o botão for clicado, role para o topo da página
+    document.getElementById("scrollToTop").onclick = function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    document.getElementById("selectAll").addEventListener("change", function () {
+        const checkboxes = document.querySelectorAll(".patient-checkbox");
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+
+    document.getElementById("deleteSelected").addEventListener("click", function () {
+        const selectedIds = Array.from(document.querySelectorAll(".patient-checkbox:checked"))
+            .map(checkbox => checkbox.value);
+
+        if (selectedIds.length > 0) {
+            // Redireciona para a página BulkDelete com os IDs selecionados na query string
+            const url = '/Invoices/BulkDelete?ids=' + selectedIds.join(",");
+            window.location.href = url; // Redireciona para a página de confirmação
+        } else {
+            alert("Por favor, selecione pelo menos um invoice para excluir.");
+        }
+    });
+
+</script>
