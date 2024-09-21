@@ -6,50 +6,54 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>Contract</h4>
+<h4>Cadastrar Contrato</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Contract.Name" class="control-label"></label>
-                <input asp-for="Contract.Name" class="form-control" />
-                <span asp-validation-for="Contract.Name" class="text-danger"></span>
+<div class="container">
+    <div class="table-responsive">
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6 col-sm-12 mb-2">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="mb-2 w-100">
+                        <label asp-for="Contract.Name" class="control-label"></label>
+                        <input asp-for="Contract.Name" class="form-control" />
+                        <span asp-validation-for="Contract.Name" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2 w-100">
+                        <label asp-for="Contract.Text" class="control-label"></label>
+                        <input asp-for="Contract.Text" class="form-control" />
+                        <span asp-validation-for="Contract.Text" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2 w-100">
+                        <label asp-for="Contract.SessionValue" class="control-label"></label>
+                        <input asp-for="Contract.SessionValue" class="form-control" />
+                        <span asp-validation-for="Contract.SessionValue" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2 w-100">
+                        <label asp-for="Contract.ExpirationDate" class="control-label"></label>
+                        <input asp-for="Contract.ExpirationDate" class="form-control" />
+                        <span asp-validation-for="Contract.ExpirationDate" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2 w-100">
+                        <label asp-for="Contract.StartDate" class="control-label"></label>
+                        <input asp-for="Contract.StartDate" class="form-control" />
+                        <span asp-validation-for="Contract.StartDate" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2 w-100">
+                        <input type="submit" value="Gerar" class="btn btn-primary w-100 w-md-auto" />
+                    </div>
+                    <div class="mb-2 w-100">
+                        <a class="btn btn-secondary w-100 w-md-auto" asp-page="Index">Voltar</a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Contract.Text" class="control-label"></label>
-                <input asp-for="Contract.Text" class="form-control" />
-                <span asp-validation-for="Contract.Text" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Contract.SessionValue" class="control-label"></label>
-                <input asp-for="Contract.SessionValue" class="form-control" />
-                <span asp-validation-for="Contract.SessionValue" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Contract.ExpirationDate" class="control-label"></label>
-                <input asp-for="Contract.ExpirationDate" class="form-control" />
-                <span asp-validation-for="Contract.ExpirationDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Contract.StartDate" class="control-label"></label>
-                <input asp-for="Contract.StartDate" class="form-control" />
-                <span asp-validation-for="Contract.StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-page="Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

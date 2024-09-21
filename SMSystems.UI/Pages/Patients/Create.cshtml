@@ -11,7 +11,7 @@
 <div class="row">
     <form method="post" class="col-md-12">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-       
+
         <!-- Painel Dados Pessoais -->
         <div class="form-row">
             <div class="col-md-12">
@@ -32,7 +32,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label asp-for="Patient.SocialNumber" class="control-label"></label>
-                                    <input asp-for="Patient.SocialNumber" class="form-control" />
+                                    <input asp-for="Patient.SocialNumber" class="form-control" maxlength="11" />
                                     <span asp-validation-for="Patient.SocialNumber" class="text-danger"></span>
                                 </div>
                             </div>
@@ -113,17 +113,13 @@
                         </div>
                         <div class="form-row">
                             <div class="col-md-4">
-
                                 <label asp-for="Patient.ContractID" class="control-label"></label>
                                 @Html.DropDownList("ContractID", (SelectList)ViewData["ContractID"], "Selecione um contrato", new { @class = "form-control" })
-
+                                <span asp-validation-for="Patient.ContractID" class="text-danger"></span>
 
                             </div>
-                            <div class="col-md-4">
-                            </div>
 
-                            <div class="col-md-4">
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -143,5 +139,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -30,6 +30,11 @@ namespace SMSystems.UI.Pages.Patients
         {
             await PopulateContractsDropdownAsync();
 
+            Patient = new Patient
+            {
+                Active = true // Definido como marcado por padrão
+            };
+
             return Page();
         }
 
@@ -37,6 +42,9 @@ namespace SMSystems.UI.Pages.Patients
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+
+            await PopulateContractsDropdownAsync();
+
             if (!ModelState.IsValid)
             {
                 return Page();
