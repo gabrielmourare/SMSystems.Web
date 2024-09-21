@@ -24,13 +24,7 @@ namespace SMSystems.UI.Pages.Invoices
             _invoiceService = invoiceService;
             _patientService = patientService;
             _contractService = contractService;
-        }
-
-        public async Task<IActionResult> OnGetAsync()
-        {
-            await PopulatePatientsDropdown();
-            return Page();
-        }
+        }      
 
         [BindProperty]
         public Invoice Invoice { get; set; } = default!;
@@ -44,7 +38,11 @@ namespace SMSystems.UI.Pages.Invoices
         [BindProperty]
         public bool ReciboSessao { get; set; }
 
-
+        public async Task<IActionResult> OnGetAsync()
+        {
+            await PopulatePatientsDropdown();
+            return Page();
+        }
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {

@@ -33,9 +33,9 @@ namespace SMSystems.Data.Repositories
             }
         }
 
-        public IQueryable<Contract> GetAllContracts()
+        public async Task<List<Contract>> GetAllContracts()
         {
-            return _context.Contracts;
+            return await _context.Contracts.ToListAsync();
         }
 
         public async Task<Contract?> GetContractByIdAsync(int id)

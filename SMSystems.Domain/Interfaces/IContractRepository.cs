@@ -9,7 +9,7 @@ namespace SMSystems.Domain.Interfaces
 {
     public interface IContractRepository
     {
-        IQueryable<Contract> GetAllContracts();
+        Task<List<Contract>> GetAllContracts();
         Task<Contract?> GetContractByIdAsync(int id);
         Task AddContractAsync(Contract contract);
         Task UpdateContractAsync(Contract contract);

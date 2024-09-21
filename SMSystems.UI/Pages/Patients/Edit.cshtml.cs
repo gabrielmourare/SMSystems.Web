@@ -27,7 +27,7 @@ namespace SMSystems.UI.Pages.Patients
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            PopulateContractsDropdown();
+            await PopulateContractsDropdownAsync();
             if (id == null)
             {
                 return NotFound();
@@ -78,16 +78,20 @@ namespace SMSystems.UI.Pages.Patients
             return (await _patientService.PatientExistsAsync(id));
         }
 
-        private void PopulateContractsDropdown()
+        private async Task PopulateContractsDropdownAsync()
         {
-            var contracts = _contractService.GetAll()
-                .Select(c => new {
-                    c.ID,
-                    DisplayName = $"{c.Name} - {c.SessionValue.ToString("C2")}"
-                }).ToList();
+            // Materializa os dados em uma lista
+            var contracts = await _contractService.GetAll();
 
-            ViewData["ContractID"] = new SelectList(contracts, "ID", "DisplayName");
+            // Aplica o Select na lista
+            var contractList = contracts.Select(c => new
+            {
+                c.ID,
+                DisplayName = $"{c.Name} - {c.SessionValue.ToString("C2")}"
+            }).ToList();
 
+            ViewData["ContractID"] = new SelectList(contractList, "ID", "DisplayName");
         }
+
     }
 }

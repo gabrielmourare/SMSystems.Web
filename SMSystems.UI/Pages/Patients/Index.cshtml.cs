@@ -38,7 +38,7 @@ namespace SMSystems.UI.Pages.Patients
 
                 if (!string.IsNullOrEmpty(SearchString))
                 {
-                    patients = patients.Where(search => search.Name.Contains(SearchString)).ToList();
+                    patients = patients.Where(search => search.Name.ToLower().Contains(SearchString.ToLower())).ToList();
                 }
 
                 Patients = patients;

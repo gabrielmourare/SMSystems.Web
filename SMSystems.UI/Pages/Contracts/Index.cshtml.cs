@@ -27,7 +27,7 @@ namespace SMSystems.UI.Pages.Contracts
 
         public async Task OnGetAsync()
         {
-           Contracts = await _contractService.GetAll().ToListAsync();
+           Contracts = await _contractService.GetAll();
         }
     }
 }

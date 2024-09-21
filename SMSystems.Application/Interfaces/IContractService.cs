@@ -10,7 +10,7 @@ namespace SMSystems.Application.Interfaces
     public interface IContractService
     {
 
-        IQueryable<Contract> GetAll();
+        Task<List<Contract>> GetAll();
         Task<Contract?> GetContractById(int id);
         Task UpdateContract(Contract patient);
         Task DeleteContract(Contract patient);

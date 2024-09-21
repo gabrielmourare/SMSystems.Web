@@ -37,9 +37,9 @@ namespace SMSystems.Application.Services
             throw new NotImplementedException();
         }
 
-        public IQueryable<Contract> GetAll()
+        public async Task<List<Contract>> GetAll()
         {
-            return _contract.GetAllContracts();
+            return await _contract.GetAllContracts();
         }
 
         public async Task<Contract?> GetContractById(int id)
