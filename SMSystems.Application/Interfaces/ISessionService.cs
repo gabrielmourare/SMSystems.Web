@@ -11,11 +11,11 @@ namespace SMSystems.Application.Interfaces
     {
         Task AddSessionAsync(Session session);
         Task DeleteSessionAsync(List<Session> session);
-        IQueryable<Session> GetAll();
-        IQueryable<Session> GetAllPatientSessions(int patientId);
+        Task<List<Session>> GetAll();
+        Task<List<Session>> GetAllPatientSessions(int patientId);
         Task<Session?> GetSessionByIdAsync(int id);
         Task UpdateSessionAsync(Session session);
 
-        IQueryable<Session> GetAllInvoiceSessions(int invoiceId);
+        Task<List<Session>> GetAllInvoiceSessions(int invoiceId);
     }
 }

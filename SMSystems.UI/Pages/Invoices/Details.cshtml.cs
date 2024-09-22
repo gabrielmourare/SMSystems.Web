@@ -54,7 +54,7 @@ namespace SMSystems.UI.Pages.Invoices
                 return NotFound();
             }
 
-            List<Session> sessions = _sessionService.GetAllInvoiceSessions(id).ToList();
+            List<Session> sessions = await _sessionService.GetAllInvoiceSessions(id);
 
             invoice.Sessions = sessions;
 
@@ -70,7 +70,7 @@ namespace SMSystems.UI.Pages.Invoices
         {
             InvoiceDetailsDTO invoiceDetails = await _invoiceService.GetInvoiceDetails(id);
 
-            List<Session> sessions = _sessionService.GetAllInvoiceSessions(id).ToList();
+            List<Session> sessions = await _sessionService.GetAllInvoiceSessions(id);
 
             // Sua lógica para gerar o PDF aqui
             var doc = _reportService.GeneratePDF(invoiceDetails, sessions);

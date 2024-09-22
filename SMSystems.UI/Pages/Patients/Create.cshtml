@@ -114,7 +114,7 @@
                         <div class="form-row">
                             <div class="col-md-4">
                                 <label asp-for="Patient.ContractID" class="control-label"></label>
-                                @Html.DropDownList("ContractID", (SelectList)ViewData["ContractID"], "Selecione um contrato", new { @class = "form-control" })
+                                @Html.DropDownList("Patient.ContractID", (IEnumerable<SelectListItem>)ViewData["ContractID"], new { @class = "form-control" })
                                 <span asp-validation-for="Patient.ContractID" class="text-danger"></span>
 
                             </div>

@@ -26,7 +26,7 @@ public class PatientService : IPatientService
         return _invoice.GetInvoicesByPatientId(patientId);
     }
 
-    public IQueryable<Session> GetAllPatientSessions(int patientId)
+    public Task<List<Session>> GetAllPatientSessions(int patientId)
     {
         return _session.GetAllPatientSessions(patientId);
     }
@@ -53,6 +53,8 @@ public class PatientService : IPatientService
 
     public async Task DeletePatient(Patient patient)
     {
+        var sessions = await _session.GetAllPatientSessions(patient.ID);
+
         await _patient.DeletePatientAsync(patient);
     }
 

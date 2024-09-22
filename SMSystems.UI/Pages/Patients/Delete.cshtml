@@ -56,7 +56,15 @@
             @Html.DisplayFor(model => model.Patient.ICD)
         </dd>
     </dl>
-    
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                    <p>@error.ErrorMessage</p>
+            }
+        </div>
+    }
     <form method="post">
         <input type="hidden" asp-for="Patient.ID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |

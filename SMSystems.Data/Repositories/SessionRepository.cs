@@ -1,4 +1,5 @@
-﻿using SMSystems.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using SMSystems.Domain.Entities;
 using SMSystems.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,14 +18,14 @@ namespace SMSystems.Data.Repositories
             _context = context;
         }
 
-        public IQueryable<Session> GetAllSessions()
+        public async Task<List<Session>> GetAllSessions()
         {
-            return _context.Sessions;
+            return await _context.Sessions.ToListAsync();
         }
 
-        public IQueryable<Session> GetAllPatientSessions(int patientId)
+        public async Task<List<Session>> GetAllPatientSessions(int patientId)
         {
-            return _context.Sessions.Where(session => session.PatientID == patientId);
+            return await _context.Sessions.Where(session => session.PatientID == patientId).ToListAsync();
         }
 
         public async Task<Session?> GetSessionByIdAsync(int id)
@@ -46,16 +47,16 @@ namespace SMSystems.Data.Repositories
 
         public async Task DeleteSessionAsync(List<Session> sessions)
         {
-            foreach(Session session in sessions)
+            foreach (Session session in sessions)
             {
                 _context.Sessions.Remove(session);
-            }           
+            }
             await SaveAsync();
         }
 
-        public IQueryable<Session> GetAllInvoiceSessions(int invoiceId)
+        public Task<List<Session>> GetAllInvoiceSessions(int invoiceId)
         {
-            return _context.Sessions.Where(session => session.InvoiceID == invoiceId);
+            return _context.Sessions.Where(session => session.InvoiceID == invoiceId).ToListAsync();
         }
 
         public async Task SaveAsync()

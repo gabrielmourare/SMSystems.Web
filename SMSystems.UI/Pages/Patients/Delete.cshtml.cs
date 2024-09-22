@@ -45,16 +45,24 @@ namespace SMSystems.UI.Pages.Patients
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (id == 0 )
+            if (id == 0)
             {
                 return NotFound();
             }
             var patient = await _patientService.GetPatientData(id);
 
-            if (patient != null)
+            try
             {
-                Patient = patient;
-                await _patientService.DeletePatient(Patient);                
+                if (patient != null)
+                {
+                    Patient = patient;
+                    await _patientService.DeletePatient(Patient);
+                }
+            }
+            catch (ApplicationException ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message); // Adiciona a mensagem de erro
+                return Page(); // Retorna para a mesma página com erro
             }
 
             return RedirectToPage("./Index");

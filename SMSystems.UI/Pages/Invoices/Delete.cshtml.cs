@@ -53,7 +53,7 @@ namespace SMSystems.UI.Pages.Invoices
             }
             var invoice = await _invoiceService.GetInvoiceByIdAsync(id);
 
-            IQueryable<Session> sessions = _sessionService.GetAllInvoiceSessions(id);
+            List<Session> sessions = await _sessionService.GetAllInvoiceSessions(id);
 
 
             await _sessionService.DeleteSessionAsync(sessions.ToList());
