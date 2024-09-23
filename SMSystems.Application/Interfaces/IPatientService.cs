@@ -9,8 +9,8 @@ namespace SMSystems.Application.Interfaces
 {
     public interface IPatientService
     {
-        IQueryable<Invoice> ObtainAllInvoices(int patientId);
-        IQueryable<Session> GetAllPatientSessions(int patientId);
+        Task<List<Invoice>> ObtainAllInvoices(int patientId);
+        Task<List<Session>> GetAllPatientSessions(int patientId);
         Task<Patient?> GetPatientData(int patientId);
         Task<List<Patient>> GetAll();
         Task<Patient?> GetPatientById(int id);

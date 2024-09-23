@@ -43,10 +43,9 @@ namespace SMSystems.UI.Pages.Patients
         public async Task<IActionResult> OnPostAsync()
         {
 
-            await PopulateContractsDropdownAsync();
-
             if (!ModelState.IsValid)
             {
+                await PopulateContractsDropdownAsync();
                 return Page();
             }
 
@@ -63,17 +62,23 @@ namespace SMSystems.UI.Pages.Patients
 
         private async Task PopulateContractsDropdownAsync()
         {
-            // Materializa os dados em uma lista
             var contracts = await _contractService.GetAll();
 
-            // Aplica o Select na lista
-            var contractList = contracts.Select(c => new
-            {
-                c.ID,
-                DisplayName = $"{c.Name} - {c.SessionValue.ToString("C2")}"
-            }).ToList();
+            var contractList = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "0", Text = "Selecione um contrato" } // Opção padrão
+    };
 
-            ViewData["ContractID"] = new SelectList(contractList, "ID", "DisplayName");
+            if (contracts != null)
+            {
+                contractList.AddRange(contracts.Select(c => new SelectListItem
+                {
+                    Value = c.ID.ToString(),
+                    Text = $"{c.Name} - {c.SessionValue.ToString("C2")}"
+                }));
+            }
+
+            ViewData["ContractID"] = contractList;
         }
     }
 }

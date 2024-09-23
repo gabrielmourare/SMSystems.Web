@@ -52,7 +52,7 @@ namespace SMSystems.UI.Pages.Invoices
         public async Task OnGetAsync()
         {
             // Inicializamos a consulta de faturas
-            IQueryable<Invoice> invoiceQuery = _invoiceService.GetAll();
+            List<Invoice> invoiceQuery = await _invoiceService.GetAll();
             var patients = await _patientService.GetAll(); // Supondo que tenha um método assíncrono
             foreach (var patient in patients)
             {
@@ -80,37 +80,43 @@ namespace SMSystems.UI.Pages.Invoices
 
                 if (patients.Any())
                 {
-                    invoiceQuery = invoiceQuery.Where(inv => filteredPatientIds.Contains(inv.PatientID));
+                    var query = invoiceQuery.Where(inv => filteredPatientIds.Contains(inv.PatientID)).ToList();
+                    invoiceQuery = query;
                 }
                 else
                 {
-                    invoiceQuery = invoiceQuery.Where(inv => false);
+                    var query = invoiceQuery.Where(inv => false).ToList();
+                    invoiceQuery = query;
                 }
             }
 
             // Filtro por período (se as datas forem válidas)
             if (StartDate.HasValue && EndDate.HasValue)
             {
-                invoiceQuery = invoiceQuery.Where(inv => inv.EmissionDate >= StartDate.Value && inv.EmissionDate <= EndDate.Value);
+                var query = invoiceQuery.Where(inv => inv.EmissionDate >= StartDate.Value && inv.EmissionDate <= EndDate.Value).ToList();
+                invoiceQuery = query;
             }
             else if (StartDate.HasValue) // Se só a data inicial for fornecida
             {
-                invoiceQuery = invoiceQuery.Where(inv => inv.EmissionDate >= StartDate.Value);
+                var query = invoiceQuery.Where(inv => inv.EmissionDate >= StartDate.Value).ToList();
+                invoiceQuery = query;
             }
             else if (EndDate.HasValue) // Se só a data final for fornecida
             {
-                invoiceQuery = invoiceQuery.Where(inv => inv.EmissionDate <= EndDate.Value);
+                var query = invoiceQuery.Where(inv => inv.EmissionDate <= EndDate.Value).ToList();
+                invoiceQuery = query;
             }
 
             // Filtro por status (se fornecido)
             if (SearchStatus.HasValue && SearchStatus.Value != 0)
             {
                 var statusEnum = (InvoiceStatus)SearchStatus.Value; // Converte o valor int para o enum correspondente
-                invoiceQuery = invoiceQuery.Where(inv => inv.Status == statusEnum);
+                var query = invoiceQuery.Where(inv => inv.Status == statusEnum).ToList();
+                invoiceQuery = query;
             }
 
             // Carregamos as faturas filtradas
-            Invoices = await invoiceQuery.ToListAsync();
+            Invoices = invoiceQuery;
         }
 
         public string GetStatusColor(InvoiceStatus status)

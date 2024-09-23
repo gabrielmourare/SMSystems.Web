@@ -37,14 +37,14 @@ namespace SMSystems.Application.Services
             await _session.DeleteSessionAsync(sessions);
         }
 
-        public IQueryable<Session> GetAll()
+        public Task<List<Session>> GetAll()
         {
             return _session.GetAllSessions();
         }
 
-        public IQueryable<Session> GetAllPatientSessions(int patientId)
+        public async Task<List<Session>> GetAllPatientSessions(int patientId)
         {
-            return _session.GetAllPatientSessions(patientId);
+            return await _session.GetAllPatientSessions(patientId);
         }
 
         public async Task<Session?> GetSessionByIdAsync(int id)
@@ -58,7 +58,7 @@ namespace SMSystems.Application.Services
             await _session.UpdateSessionAsync(sessionMapped);
         }
 
-        public IQueryable<Session> GetAllInvoiceSessions(int invoiceId)
+        public Task<List<Session>> GetAllInvoiceSessions(int invoiceId)
         {
             return _session.GetAllInvoiceSessions(invoiceId);
         }

@@ -29,17 +29,17 @@ namespace SMSystems.Application.Services
             _patient = patient;
         }
 
-        public IQueryable<Invoice> GetAll()
+        public Task<List<Invoice>> GetAll()
         {
             return _invoice.GetAllInvoices();
         }
 
-        public IQueryable<Invoice> GetAllPatientInvoices(int patientId)
+        public Task<List<Invoice>> GetAllPatientInvoices(int patientId)
         {
             return _invoice.GetInvoicesByPatientId(patientId);
         }
 
-        public IQueryable<Session> GetAllInvoiceSessions(int patientId)
+        public Task<List<Session>> GetAllInvoiceSessions(int patientId)
         {
             return _invoice.GetAllSessions(patientId);
         }

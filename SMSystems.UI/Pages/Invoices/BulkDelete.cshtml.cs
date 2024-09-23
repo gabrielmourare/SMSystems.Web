@@ -47,8 +47,8 @@ namespace SMSystems.UI.Pages.Invoices
 
             foreach (int id in SelectedIds)
             {
-                IQueryable<Session> sessions = _sessionService.GetAllInvoiceSessions(id);
-                await _sessionService.DeleteSessionAsync(sessions.ToList());
+                List<Session> sessions = await _sessionService.GetAllInvoiceSessions(id);
+                await _sessionService.DeleteSessionAsync(sessions);
             }
 
             // Realiza a exclusão dos invoices com base nos IDs recebidos

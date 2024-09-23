@@ -18,9 +18,9 @@ namespace SMSystems.Data.Repositories
             _context = context;
         }
 
-        public IQueryable<Invoice> GetAllInvoices()
+        public async Task<List<Invoice>> GetAllInvoices()
         {
-            return _context.Invoices;
+            return await _context.Invoices.ToListAsync();
         }
 
         public async Task<Invoice?> GetInvoiceByIdAsync(int id)
@@ -34,9 +34,9 @@ namespace SMSystems.Data.Repositories
             return invoice;
         }
 
-        public IQueryable<Invoice> GetInvoicesByPatientId(int patientId)
+        public async Task<List<Invoice>> GetInvoicesByPatientId(int patientId)
         {
-            return _context.Invoices.Include(invoice => invoice.Sessions).Where(invoice => invoice.PatientID == patientId);
+            return await _context.Invoices.Include(invoice => invoice.Sessions).Where(invoice => invoice.PatientID == patientId).ToListAsync();
         }
 
         public async Task AddInvoiceAsync(Invoice invoice)
@@ -102,9 +102,9 @@ namespace SMSystems.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public IQueryable<Session> GetAllSessions(int patientId)
+        public async Task<List<Session>> GetAllSessions(int patientId)
         {
-            return _context.Sessions.Where(session => session.PatientID == patientId);
+            return await _context.Sessions.Where(session => session.PatientID == patientId).ToListAsync();
         }
 
         public async Task<bool> InvoiceExistsAsync(int id)

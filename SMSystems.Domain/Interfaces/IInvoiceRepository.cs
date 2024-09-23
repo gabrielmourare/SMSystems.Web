@@ -9,13 +9,13 @@ namespace SMSystems.Domain.Interfaces
 {
     public interface IInvoiceRepository
     {
-        IQueryable<Invoice> GetAllInvoices();
+        Task<List<Invoice>> GetAllInvoices();
         Task<Invoice?> GetInvoiceByIdAsync(int id);
-        IQueryable<Invoice> GetInvoicesByPatientId(int patientId);
+        Task<List<Invoice>> GetInvoicesByPatientId(int patientId);
         Task AddInvoiceAsync(Invoice invoice);
         Task UpdateInvoiceAsync(Invoice invoice);
         Task DeleteInvoiceAsync(Invoice invoice);
-        IQueryable<Session> GetAllSessions(int patientId);
+        Task<List<Session>> GetAllSessions(int patientId);
         Task<bool> InvoiceExistsAsync(int id);
         Task<List<Invoice>> GetInvoicesByIdsAsync(List<int> ids);
         Task DeleteInvoicesAsync(List<int> ids);

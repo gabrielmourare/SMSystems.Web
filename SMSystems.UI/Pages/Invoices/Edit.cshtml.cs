@@ -49,7 +49,7 @@ namespace SMSystems.UI.Pages.Invoices
                 return NotFound();
             }
 
-            List<Session> sessions = _sessionService.GetAllInvoiceSessions(id).ToList();
+            List<Session> sessions = await _sessionService.GetAllInvoiceSessions(id);
 
             invoice.Sessions = sessions;
 

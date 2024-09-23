@@ -9,12 +9,12 @@ namespace SMSystems.Domain.Interfaces
 {
     public interface ISessionRepository
     {
-        IQueryable<Session> GetAllSessions();
-        IQueryable<Session> GetAllPatientSessions(int patientId);
+        Task<List<Session?>> GetAllSessions();
+        Task<List<Session?>> GetAllPatientSessions(int patientId);
         Task<Session?> GetSessionByIdAsync(int id);
         Task SaveSessionAsync(Session session);
         Task UpdateSessionAsync(Session session);
         Task DeleteSessionAsync(List<Session> session);
-        IQueryable<Session> GetAllInvoiceSessions(int invoiceId);
+        Task<List<Session>> GetAllInvoiceSessions(int invoiceId);
     }
 }
