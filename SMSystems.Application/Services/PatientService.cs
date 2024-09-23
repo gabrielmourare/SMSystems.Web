@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SMSystems.Application.Interfaces;
 using SMSystems.Domain.Entities;
 using SMSystems.Domain.Interfaces;
+using System.Collections.Generic;
 
 namespace SMSystems.Application.Services;
 
@@ -21,7 +22,7 @@ public class PatientService : IPatientService
         _mapper = mapper;
     }
 
-    public IQueryable<Invoice> ObtainAllInvoices(int patientId)
+    public Task<List<Invoice>> ObtainAllInvoices(int patientId)
     {
         return _invoice.GetInvoicesByPatientId(patientId);
     }
@@ -54,6 +55,29 @@ public class PatientService : IPatientService
     public async Task DeletePatient(Patient patient)
     {
         var sessions = await _session.GetAllPatientSessions(patient.ID);
+
+        List<Session> sessionsToDelete = new List<Session>();
+
+        if (sessions != null)
+        {
+            foreach (var session in sessions)
+            {
+                sessionsToDelete.Add(session);
+            }
+
+            await _session.DeleteSessionAsync(sessionsToDelete);
+
+        }
+
+        var invoices = await _invoice.GetInvoicesByPatientId(patient.ID);
+
+        if (invoices != null)
+        {
+            foreach (var invoice in invoices)
+            {
+               await _invoice.DeleteInvoiceAsync(invoice);
+            }
+        }
 
         await _patient.DeletePatientAsync(patient);
     }

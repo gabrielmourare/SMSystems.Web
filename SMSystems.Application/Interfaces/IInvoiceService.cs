@@ -10,10 +10,10 @@ namespace SMSystems.Application.Interfaces
 {
     public interface IInvoiceService
     {
-        IQueryable<Invoice> GetAll();
+        Task<List<Invoice>> GetAll();
         Task<Invoice?> GetInvoiceByIdAsync(int invoiceId);
-        IQueryable<Invoice> GetAllPatientInvoices(int patientId);
-        IQueryable<Session> GetAllInvoiceSessions(int patientId);
+        Task<List<Invoice>> GetAllPatientInvoices(int patientId);
+        Task<List<Session>> GetAllInvoiceSessions(int patientId);
         Task DeleteInvoiceAsync(int invoiceId);
         Task UpdateInvoiceAsync(Invoice invoice);
         Task AddInvoiceAsync(Invoice invoice);
