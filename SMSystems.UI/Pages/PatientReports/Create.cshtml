@@ -1,0 +1,63 @@
+﻿@page
+@model SMSystems.UI.Pages.PatientReports.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>PatientReport</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">            
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @if (Model.PatientExists)
+            {
+                <input hidden asp-for="PatientIdSelected"/>
+                <div class="form-group">
+                    <label class="control-label">Paciente</label>
+                    <input asp-for="PatientName" class="form-control" readonly />
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="PatientIdSelected" class="control-label"></label>
+                    <select asp-for="PatientIdSelected" class="form-control" asp-items="@(ViewData["PatientIDSelected"] as SelectList)">
+                        <option value="">Selecione um paciente</option>
+                    </select>
+
+
+                </div>
+            }
+
+            <div class="form-group">
+                <label asp-for="PatientReport.ReportDate" class="control-label"></label>
+                <input asp-for="ReportDate" type="date" class="form-control" />
+                <span asp-validation-for="PatientReport.ReportDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PatientReport.Content" class="control-label"></label>
+                <input asp-for="PatientReport.Content" class="form-control" />
+                <span asp-validation-for="PatientReport.Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

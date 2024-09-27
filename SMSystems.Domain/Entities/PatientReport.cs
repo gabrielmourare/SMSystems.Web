@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -13,10 +14,14 @@ namespace SMSystems.Domain.Entities
         public int ID { get; set; }
 
         [Required]
-        public string PatientId { get; set; }
+        [DisplayName("ID do Paciente")]
+        public int PatientId { get; set; }
         [Required]
+        [DisplayName("Data Prontuário")]
+        [DataType(DataType.Date)]
         public DateTime ReportDate { get; set; }
 
+        [DisplayName("Conteúdo/Evolução")]
         public string Content { get; set; }
 
 

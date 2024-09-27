@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SMSystems.Data.Repositories
 {
-    class PatientReportRepository : IPatientReportRepository, IDisposable
+    public class PatientReportRepository : IPatientReportRepository, IDisposable
     {
         private readonly SMSystemsDBContext _context;
         private bool _disposed = false;
@@ -52,7 +52,8 @@ namespace SMSystems.Data.Repositories
         }
         public async Task<List<PatientReport>> GetAllPatientReports(int patientId)
         {
-            return await _context.PatientReports.Where(patientReport => patientReport.PatientId.Equals(patientId)).ToListAsync();
+            Task<List<PatientReport>> reports = _context.PatientReports.Where(patientReport => patientReport.PatientId == patientId).ToListAsync();
+            return await reports;
 
         }
         public async Task<PatientReport?> GetPatientReportById(int id)
