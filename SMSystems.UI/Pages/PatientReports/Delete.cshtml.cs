@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
@@ -12,24 +13,26 @@ namespace SMSystems.UI.Pages.PatientReports
 {
     public class DeleteModel : PageModel
     {
-        private readonly SMSystems.Data.SMSystemsDBContext _context;
+        private readonly IPatientReportService _patientReportService;
 
-        public DeleteModel(SMSystems.Data.SMSystemsDBContext context)
+        public DeleteModel(IPatientReportService patientReportService)
         {
-            _context = context;
+            _patientReportService = patientReportService;
         }
 
         [BindProperty]
         public PatientReport PatientReport { get; set; } = default!;
+        [BindProperty]
+        public int PatientIdSelected { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var patientreport = await _context.PatientReports.FirstOrDefaultAsync(m => m.ID == id);
+            var patientreport = await _patientReportService.GetPatientReportById(id);
 
             if (patientreport == null)
             {
@@ -42,22 +45,22 @@ namespace SMSystems.UI.Pages.PatientReports
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var patientreport = await _context.PatientReports.FindAsync(id);
+            var patientreport = await _patientReportService.GetPatientReportById(id);
             if (patientreport != null)
             {
                 PatientReport = patientreport;
-                _context.PatientReports.Remove(PatientReport);
-                await _context.SaveChangesAsync();
+                PatientIdSelected = PatientReport.PatientId;
+                await _patientReportService.DeletePatientReport(PatientReport);
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new { patientId = PatientIdSelected });
         }
     }
 }

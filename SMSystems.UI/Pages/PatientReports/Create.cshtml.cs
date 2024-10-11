@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
@@ -38,6 +39,7 @@ namespace SMSystems.UI.Pages.PatientReports
 
 
 
+
         public async Task<IActionResult> OnGetAsync(int patientId)
         {
             if (patientId != 0)
@@ -54,7 +56,6 @@ namespace SMSystems.UI.Pages.PatientReports
                     PatientName = patient.Name;
                 }
 
-                // Qualquer lógica necessária para carregar dados antes da criação, como dropdowns
 
                 return Page();
             }
@@ -88,7 +89,10 @@ namespace SMSystems.UI.Pages.PatientReports
 
             // Preenche os dados do relatório do paciente
             PatientReport.ReportDate = ReportDate;
-            PatientReport.PatientId = PatientIdSelected;
+            PatientReport.PatientId = PatientIdSelected;          
+
+            // Obtém o conteúdo do editor no formato Delta
+           
             await _patientReportService.AddPatientReport(PatientReport);
 
             return RedirectToPage("./Index", new { patientId = PatientIdSelected });

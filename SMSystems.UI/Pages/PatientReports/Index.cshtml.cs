@@ -25,6 +25,7 @@ namespace SMSystems.UI.Pages.PatientReports
         }
         public Patient Patient { get; set; }
         public IList<PatientReport> PatientReport { get; set; } = default!;
+        public string PatientName { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int patientId)
         {
@@ -46,6 +47,7 @@ namespace SMSystems.UI.Pages.PatientReports
                     var patient = await _patientService.GetPatientById(patientId);
                     PatientReport = patientreport;
                     Patient = patient;
+                    PatientName = patient.Name;
                 }
                 return Page();
             }

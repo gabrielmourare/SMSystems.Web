@@ -1,9 +1,8 @@
 ﻿@page
 @model BulkDeleteModel
 
-<h1>Confirmar Exclusão</h1>
 
-<h3>Deseja realmente deletar os seguintes invoices?</h3>
+<h4>Deseja realmente deletar os seguintes recibos?</h4>
 
 <ul>
     @foreach (var invoice in Model.Invoices)
@@ -16,7 +15,10 @@
     {
         <input type="hidden" name="SelectedIds" value="@id" />
     }
-    <div class="w-100">
-        <button type="submit" class="btn btn-danger">Deletar Selecionados</button>
+    <div class="mb-2 w-100">
+        <button type="submit" class="btn btn-danger w-100 w-md-auto">Deletar Selecionados</button>
+    </div>
+    <div class="mb-2 w-100">
+        <a class="btn btn-secondary w-100 w-md-auto" asp-page="Index">Voltar</a>
     </div>
 </form>

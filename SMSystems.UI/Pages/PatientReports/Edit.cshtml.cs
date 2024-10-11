@@ -6,36 +6,54 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using Newtonsoft.Json;
+using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
+
 
 namespace SMSystems.UI.Pages.PatientReports
 {
     public class EditModel : PageModel
     {
-        private readonly SMSystems.Data.SMSystemsDBContext _context;
+        private readonly IPatientReportService _patientReportService;
 
-        public EditModel(SMSystems.Data.SMSystemsDBContext context)
+        public EditModel(IPatientReportService patientReportService)
         {
-            _context = context;
+            _patientReportService = patientReportService;
         }
 
         [BindProperty]
         public PatientReport PatientReport { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+
+        [BindProperty]
+        public int PatientIdSelected { get; set; }
+
+
+        public async Task<IActionResult> OnGetAsync(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var patientreport =  await _context.PatientReports.FirstOrDefaultAsync(m => m.ID == id);
+            var patientreport = await _patientReportService.GetPatientReportById(id);
             if (patientreport == null)
             {
                 return NotFound();
             }
+
+            if (patientreport.Content != null)
+            {
+                // Você deve criar um script para definir o conteúdo do Quill aqui
+                ViewData["ContentJson"] = patientreport.Content; // Supondo que seja uma string JSON válida
+            }
+
+            PatientIdSelected = patientreport.PatientId;
             PatientReport = patientreport;
+
             return Page();
         }
 
@@ -48,30 +66,23 @@ namespace SMSystems.UI.Pages.PatientReports
                 return Page();
             }
 
-            _context.Attach(PatientReport).State = EntityState.Modified;
 
-            try
+            // Captura o conteúdo do Quill em formato Delta
+            var deltaJson = Request.Form["contentJson"]; // Certifique-se de que o nome do campo oculto é 'contentJson'
+            if (!string.IsNullOrEmpty(deltaJson))
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PatientReportExists(PatientReport.ID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                // Deserializa o conteúdo Delta e atribui ao PatientReport.Content
+                dynamic delta = JsonConvert.DeserializeObject(deltaJson);
+                PatientReport.Content = JsonConvert.SerializeObject(delta);
             }
 
-            return RedirectToPage("./Index");
+            PatientIdSelected = PatientReport.PatientId;
+
+            await _patientReportService.UpdatePatientReport(PatientReport);
+
+            return RedirectToPage("./Index", new { patientId = PatientIdSelected });
         }
 
-        private bool PatientReportExists(int id)
-        {
-            return _context.PatientReports.Any(e => e.ID == id);
-        }
+
     }
 }
