@@ -1,0 +1,23 @@
+﻿@page
+@model SMSystems.UI.Pages.PatientReports.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h4>Tem certeza que quer deletar este prontuário?</h4>
+<div>
+
+    <hr />
+
+    <form method="post">
+        <input type="hidden" asp-for="PatientReport.ID" />
+        <div class="mb-2 w-100">
+            <input type="submit" value="Delete" class="btn btn-danger w-100 w-md-auto" />
+        </div>
+        <div class="mb-2 w-100">
+            <a class="btn btn-secondary w-100 w-md-auto" asp-page="./Index">Back to List</a>
+        </div>
+    </form>
+</div>
