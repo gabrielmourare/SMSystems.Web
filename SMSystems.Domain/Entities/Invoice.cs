@@ -37,12 +37,12 @@ namespace SMSystems.Domain.Entities
     public enum InvoiceStatus
     {
         [Display(Name ="Aguardando Emissão")]
-        Pending = 4,
+        Pending = 0,
         [Display(Name = "Aguardando Assinatura Digital")]
-        WaitingSignature = 3,
+        WaitingSignature = 1,
         [Display(Name = "Aguardando Envio")]
         Issued = 2,
         [Display(Name = "Enviado ao Paciente")]
-        Sent = 1
+        Sent = 3
     }
 }

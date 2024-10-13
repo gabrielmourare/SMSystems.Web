@@ -18,18 +18,18 @@ namespace SMSystems.IoC
     {
         public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration Configuration)
         {
-            services.AddTransient<IPatientService, PatientService>();
-            services.AddTransient<IPatientRepository, PatientRepository>();
-            services.AddTransient<IInvoiceService, InvoiceService>();
-            services.AddTransient<IInvoiceRepository, InvoiceRepository>();
-            services.AddTransient<ISessionService, SessionService>();
-            services.AddTransient<ISessionRepository, SessionRepository>();
-            services.AddTransient<IPrinterService, PrinterService>();
-            services.AddTransient<IContractService, ContractService>();
-            services.AddTransient<IContractRepository, ContractRepository>();
-            services.AddTransient<IPatientReportService, PatientReportService>();
-            services.AddTransient<IPatientReportRepository, PatientReportRepository>();
-          
+            services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<IPatientRepository, PatientRepository>();
+            services.AddScoped<IInvoiceService, InvoiceService>();
+            services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+            services.AddScoped<ISessionService, SessionService>();
+            services.AddScoped<ISessionRepository, SessionRepository>();
+            services.AddScoped<IPrinterService, PrinterService>();
+            services.AddScoped<IContractService, ContractService>();
+            services.AddScoped<IContractRepository, ContractRepository>();
+            services.AddScoped<IPatientReportService, PatientReportService>();
+            services.AddScoped<IPatientReportRepository, PatientReportRepository>();
+
 
             return services;
         }
@@ -39,9 +39,8 @@ namespace SMSystems.IoC
             services.AddDbContext<SMSystemsDBContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("SMSystemsDevelopment"));
-
-
-            });         
+                
+            }, ServiceLifetime.Scoped);         
        
 
         }

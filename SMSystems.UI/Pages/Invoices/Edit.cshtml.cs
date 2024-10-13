@@ -34,10 +34,13 @@ namespace SMSystems.UI.Pages.Invoices
 
         [BindProperty]
         public List<DateTime> SessionDates { get; set; } = new List<DateTime>();
+        
+        [BindProperty]
+        public string Error { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            PopulatePatientsDropdown();
+            await PopulatePatientsDropdown();
             if (id == 0)
             {
                 return NotFound();
@@ -64,9 +67,10 @@ namespace SMSystems.UI.Pages.Invoices
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+           
             if (!ModelState.IsValid)
             {
-                return Page();
+                return RedirectToPage("./Edit", new { id = Invoice.ID });
             }
 
             Patient patient = await _patientService.GetPatientById(Invoice.PatientID);
@@ -76,7 +80,8 @@ namespace SMSystems.UI.Pages.Invoices
 
             Invoice.TotalValue = 0;
             foreach (var sessionDate in SessionDates)
-            {
+            {              
+
                 Invoice.SessionValue = contract != null ? contract.SessionValue : 0;
 
                 Session session = new Session()
@@ -105,10 +110,10 @@ namespace SMSystems.UI.Pages.Invoices
             return (await _invoiceService.InvoiceExistsAsync(id));
         }
 
-        private void PopulatePatientsDropdown()
+        private async Task PopulatePatientsDropdown() // Agora o retorno é Task
         {
-            var patients = _patientService.GetAll();
-            ViewData["PatientID"] = new SelectList((System.Collections.IEnumerable)patients, "ID", "Name");
+            var patients = await _patientService.GetAll();
+            ViewData["PatientID"] = new SelectList(patients, "ID", "Name");
         }
     }
 }

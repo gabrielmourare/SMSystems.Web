@@ -25,11 +25,9 @@ namespace SMSystems.Data.Repositories
 
         public async Task<Invoice?> GetInvoiceByIdAsync(int id)
         {
-            Invoice? invoice = await _context.Invoices.FindAsync(id);
-
-            List<Session> invoiceSessions = _context.Sessions.Where(sessions => sessions.InvoiceID == id).ToList();
-
-            invoice.Sessions = invoiceSessions;
+            Invoice? invoice = await _context.Invoices
+                                             .Include(i => i.Sessions) // Inclui as sessões associadas à invoice
+                                             .FirstOrDefaultAsync(i => i.ID == id);
 
             return invoice;
         }

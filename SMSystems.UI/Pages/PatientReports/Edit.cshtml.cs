@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using Newtonsoft.Json;
 using SMSystems.Application.Interfaces;
+using SMSystems.Application.Services;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
@@ -18,10 +19,12 @@ namespace SMSystems.UI.Pages.PatientReports
     public class EditModel : PageModel
     {
         private readonly IPatientReportService _patientReportService;
+        private readonly IPatientService _patientService;
 
-        public EditModel(IPatientReportService patientReportService)
+        public EditModel(IPatientReportService patientReportService, IPatientService patientService)
         {
             _patientReportService = patientReportService;
+            _patientService = patientService;
         }
 
         [BindProperty]
@@ -30,6 +33,7 @@ namespace SMSystems.UI.Pages.PatientReports
 
         [BindProperty]
         public int PatientIdSelected { get; set; }
+        public string PatientName { get; set; }
 
 
         public async Task<IActionResult> OnGetAsync(int id)
@@ -49,6 +53,13 @@ namespace SMSystems.UI.Pages.PatientReports
             {
                 // Você deve criar um script para definir o conteúdo do Quill aqui
                 ViewData["ContentJson"] = patientreport.Content; // Supondo que seja uma string JSON válida
+            }
+
+            var patient = await _patientService.GetPatientById(patientreport.PatientId);
+
+            if (patient != null)
+            {
+                PatientName = patient.Name;
             }
 
             PatientIdSelected = patientreport.PatientId;

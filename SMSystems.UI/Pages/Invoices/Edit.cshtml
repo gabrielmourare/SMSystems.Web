@@ -6,14 +6,13 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
-
-<h4>Invoice</h4>
+<h4>Editar Recibo</h4>
 <hr />
 <div class="container" style="height:600px;overflow-y:scroll; box-shadow:5px 5px 5px 5px rgba(0.2, 0.2, 0.2, 0.2);">
     <form method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Invoice.ID" />
+        
 
         <div class="row">
             <div class="col-md-4">
@@ -49,6 +48,11 @@
                     {
                         <div class="form-group">
                             <input name="SessionDates" asp-for="@session.Date" class="form-control" />
+                            @if(!string.IsNullOrEmpty(Model.Error))
+                            {
+                                <span class="text-danger">Model.Error</span>
+                            }
+                           
                             <button type="button" class="btn btn-danger remove-date">Remover</button>
                         </div>
                     }

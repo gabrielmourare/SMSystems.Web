@@ -16,10 +16,11 @@
                 <form method="post" id="formEditarProntuario">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="PatientReport.ID" />
+
+                    <input hidden asp-for="PatientIdSelected" />
                     <div class="form-group">
-                        <label asp-for="PatientReport.PatientId" class="control-label"></label>
-                        <input asp-for="PatientReport.PatientId" class="form-control" />
-                        <span asp-validation-for="PatientReport.PatientId" class="text-danger"></span>
+                        <label class="control-label">Paciente</label>
+                        <input asp-for="PatientName" class="form-control" readonly />
                     </div>
                     <div class="form-group">
                         <label asp-for="PatientReport.ReportDate" class="control-label"></label>
