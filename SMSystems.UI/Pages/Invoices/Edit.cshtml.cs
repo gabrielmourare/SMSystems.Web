@@ -34,9 +34,12 @@ namespace SMSystems.UI.Pages.Invoices
 
         [BindProperty]
         public List<DateTime> SessionDates { get; set; } = new List<DateTime>();
-        
+
+     
+        public string Error { get; set; } = string.Empty;
+
         [BindProperty]
-        public string Error { get; set; }
+        public bool EditaValorSessao { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
@@ -53,6 +56,8 @@ namespace SMSystems.UI.Pages.Invoices
             }
 
             List<Session> sessions = await _sessionService.GetAllInvoiceSessions(id);
+
+            SessionDates = sessions.Select(s => s.Date).ToList();
 
             invoice.Sessions = sessions;
 
@@ -80,9 +85,18 @@ namespace SMSystems.UI.Pages.Invoices
 
             Invoice.TotalValue = 0;
             foreach (var sessionDate in SessionDates)
-            {              
+            {
+                decimal valorFinal = 0;
 
-                Invoice.SessionValue = contract != null ? contract.SessionValue : 0;
+                if (EditaValorSessao)
+                {
+                    valorFinal = Invoice.SessionValue;
+                } else
+                {
+                    valorFinal = contract != null ? contract.SessionValue : 0;
+                }
+
+                Invoice.SessionValue = valorFinal;
 
                 Session session = new Session()
                 {
@@ -98,6 +112,7 @@ namespace SMSystems.UI.Pages.Invoices
 
             // Atribuir as sessões preparadas à fatura
             Invoice.Sessions = Sessions;
+            Invoice.Status = 0;
 
             // Chamar o serviço para atualizar a fatura e as sessões associadas
             await _invoiceService.UpdateInvoiceAsync(Invoice);

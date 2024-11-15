@@ -24,7 +24,7 @@ namespace SMSystems.UI.Pages.Invoices
             _invoiceService = invoiceService;
             _patientService = patientService;
             _contractService = contractService;
-        }      
+        }
 
         [BindProperty]
         public Invoice Invoice { get; set; } = default!;
@@ -37,6 +37,10 @@ namespace SMSystems.UI.Pages.Invoices
 
         [BindProperty]
         public bool ReciboSessao { get; set; }
+        [BindProperty]
+        public decimal ValorRecibo { get; set; }
+        [BindProperty]
+        public bool ValorReciboPersonalizado { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -71,11 +75,25 @@ namespace SMSystems.UI.Pages.Invoices
             Patient patient = await patientTask;
             Contract contract = await contractTask;
 
+            decimal valorContrato = 0;
+
+
+            decimal valorPersonalizado = 0;
+
+
+            decimal valorFinal = 0;
+
             if (!ReciboSessao)
             {
+                valorContrato = contract?.SessionValue ?? 0;
+
+                valorPersonalizado = ValorRecibo;
+
+                valorFinal = ValorReciboPersonalizado ? valorPersonalizado : valorContrato;
+
                 // Atualiza o valor da sessão de forma segura
-                Invoice.SessionValue = contract?.SessionValue ?? 0;
-                
+                Invoice.SessionValue = valorFinal;
+
                 // Add the sessions to the invoice
                 foreach (var date in SessionDates)
                 {
@@ -84,7 +102,7 @@ namespace SMSystems.UI.Pages.Invoices
                 }
 
                 Invoice.EmissionDate = DateTime.Now.Date;
-                Invoice.Status = (InvoiceStatus)4;
+                Invoice.Status = (InvoiceStatus)2;
 
 
                 await _invoiceService.AddInvoiceAsync(Invoice);
@@ -92,10 +110,17 @@ namespace SMSystems.UI.Pages.Invoices
             }
             else
             {
-                Invoice.SessionValue = contract?.SessionValue ?? 0;
+                 valorContrato = contract?.SessionValue ?? 0;
+
+                 valorPersonalizado = ValorRecibo;
+
+                 valorFinal = ValorReciboPersonalizado ? valorPersonalizado : valorContrato;
+
+
+                Invoice.SessionValue = valorFinal;
                 foreach (var sessionDate in SessionDates)
                 {
-                   
+
                     Invoice.TotalValue = Invoice.SessionValue;
                     // Cria uma nova fatura para cada SessionDate
                     var newInvoice = new Invoice

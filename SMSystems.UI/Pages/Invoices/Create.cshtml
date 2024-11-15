@@ -27,6 +27,14 @@
                    <input type="checkbox" id="chkEmissaoSessao" asp-for="EmissaoSessao" />
                    <label for="chkEmissaoSessao"> Emissão no mesmo dia da Sessão? </label>
               </div>
+              <div class="flex-grow-1">
+                  <input type="checkbox" id="chkValorReciboPersonalizado" asp-for="ValorReciboPersonalizado"/>
+                  <label for="chkValorReciboPersonalizado"> Inserir valor?</label>
+              </div>
+              <div class="flex-grow-1">
+                  <label for="txtValorReciboPersonalizado" id="lblValor" > Valor: </label>
+                  <input type="number" id="txtValorReciboPersonalizado" asp-for="ValorRecibo" />
+              </div>
             </div>
 
           
@@ -69,6 +77,23 @@
         document.getElementById('session-dates').addEventListener('click', function (event) {
             if (event.target.classList.contains('remove-date')) {
                 event.target.parentNode.remove();
+            }
+        });
+
+
+        const checkbox = document.querySelector("#chkValorReciboPersonalizado");
+        const textbox = document.querySelector("#txtValorReciboPersonalizado");
+        const labelValor = document.querySelector("#lblValor");
+        textbox.style.visibility = "hidden";
+        labelValor.style.visibility = "hidden";
+
+        checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+                textbox.style.visibility = "visible";
+                labelValor.style.visibility = "visible";
+            } else {
+                textbox.style.visibility = "hidden";  
+                labelValor.style.visibility = "hidden";
             }
         });
     </script>
