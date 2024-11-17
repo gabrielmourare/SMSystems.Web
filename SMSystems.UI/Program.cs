@@ -21,6 +21,11 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+if (!app.Environment.IsProduction())
+{
+    app.UseHsts();
+}
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

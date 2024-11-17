@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,15 @@ namespace SMSystems.Data
     {
         public SMSystemsDBContext CreateDbContext(string[] args)
         {
+            var configuration = new ConfigurationBuilder()
+             .SetBasePath(Directory.GetCurrentDirectory())
+             .AddJsonFile("appsettings.json")
+             .Build();
+
+            var connectionString = configuration.GetConnectionString("SMSystemsProd");
+
             var optionsBuilder = new DbContextOptionsBuilder<SMSystemsDBContext>();
-            optionsBuilder.UseSqlServer("Server=G3B4RB4\\SQLEXPRESS;Database=SMSystemsDev;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer(connectionString);
 
             return new SMSystemsDBContext(optionsBuilder.Options);
         }
