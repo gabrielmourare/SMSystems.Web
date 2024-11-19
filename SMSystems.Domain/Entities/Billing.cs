@@ -7,16 +7,15 @@ using System.Threading.Tasks;
 
 namespace SMSystems.Domain.Entities
 {
-    public class Session
+    public class Billing
     {
+
         [Key]
         public int ID { get; set; }
         public int PatientID { get; set; }
-        public int? InvoiceID { get; set; }
-        public decimal Value { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
-
+        public List<Session>? Sessions { get; set; }
+        public decimal TotalValue { get; set; }        
+        public string? MessageContent { get; set; }
 
     }
 }

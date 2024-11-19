@@ -27,14 +27,14 @@ namespace SMSystems.Application.Services
             await _contract.AddContractAsync(contractmapped);
         }
 
-        public Task<bool> ContractExistsAsync(int id)
+        public async Task<bool> ContractExistsAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _contract.ContractExistsAsync(id);
         }
 
-        public Task DeleteContract(Contract patient)
+        public async Task DeleteContract(Contract contract)
         {
-            throw new NotImplementedException();
+            await _contract.DeleteContractAsync(contract);
         }
 
         public async Task<List<Contract>> GetAll()
@@ -47,9 +47,9 @@ namespace SMSystems.Application.Services
             return await _contract.GetContractByIdAsync(id);
         }
 
-        public Task UpdateContract(Contract patient)
+        public async Task UpdateContract(Contract contract)
         {
-            throw new NotImplementedException();
+            await _contract.UpdateContractAsync(contract);
         }
     }
 }

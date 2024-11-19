@@ -38,7 +38,7 @@ namespace SMSystems.IoC
         {
             services.AddDbContext<SMSystemsDBContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("SMSystemsProd"));
+                options.UseSqlServer(Configuration.GetConnectionString("SMSystemsDevelopment"));
                 
             }, ServiceLifetime.Scoped);         
        

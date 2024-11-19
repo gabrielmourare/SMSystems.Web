@@ -31,7 +31,7 @@ namespace SMSystems.UI.Pages.PatientReports
         {
             if (patientId != 0)
             {
-                if (patientId == null)
+                if (patientId == 0)
                 {
                     return NotFound();
                 }

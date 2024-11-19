@@ -1,0 +1,46 @@
+﻿@page
+@model SMSystems.UI.Pages.Billings.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Billing</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Billing.ID" />
+            <div class="form-group">
+                <label asp-for="Billing.PatientID" class="control-label"></label>
+                <input asp-for="Billing.PatientID" class="form-control" />
+                <span asp-validation-for="Billing.PatientID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Billing.TotalValue" class="control-label"></label>
+                <input asp-for="Billing.TotalValue" class="form-control" />
+                <span asp-validation-for="Billing.TotalValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Billing.MessageContent" class="control-label"></label>
+                <input asp-for="Billing.MessageContent" class="form-control" />
+                <span asp-validation-for="Billing.MessageContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
