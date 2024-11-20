@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SMSystems.Data.Repositories
 {
-    class BillingRepository : IBillingRepository, IDisposable
+    public class BillingRepository : IBillingRepository, IDisposable
     {
         private readonly SMSystemsDBContext _context;
         private bool _disposed = false;
@@ -28,7 +28,7 @@ namespace SMSystems.Data.Repositories
 
         public async Task DeleteBillingAsync(Billing billing)
         {
-            if(billing != null)
+            if (billing != null)
             {
                 _context.Billings.Remove(billing);
                 await SaveAsync();

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
@@ -12,15 +13,25 @@ namespace SMSystems.UI.Pages.Billings
 {
     public class CreateModel : PageModel
     {
-        private readonly SMSystems.Data.SMSystemsDBContext _context;
+        private readonly IPatientService _patientService;
+        private readonly IContractService _contractService;
+        private readonly IBillingService _billingService;
 
-        public CreateModel(SMSystems.Data.SMSystemsDBContext context)
+        public CreateModel(IPatientService patientService, IContractService contractService, IBillingService billingService)
         {
-            _context = context;
+            _billingService = billingService;
+            _contractService = contractService;
+            _patientService = patientService;
         }
 
-        public IActionResult OnGet()
+        [BindProperty]
+        public List<DateTime> SessionDates { get; set; } = new List<DateTime>();
+
+       
+
+        public async Task<IActionResult> OnGet()
         {
+            await PopulatePatientsDropdown();
             return Page();
         }
 
@@ -35,10 +46,13 @@ namespace SMSystems.UI.Pages.Billings
                 return Page();
             }
 
-            _context.Billings.Add(Billing);
-            await _context.SaveChangesAsync();
-
+          
             return RedirectToPage("./Index");
+        }
+        private async Task PopulatePatientsDropdown()
+        {
+            var patients = await _patientService.GetAll();
+            ViewData["PatientID"] = new SelectList(patients, "ID", "Name");
         }
     }
 }

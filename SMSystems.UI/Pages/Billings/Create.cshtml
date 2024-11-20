@@ -2,48 +2,77 @@
 @model SMSystems.UI.Pages.Billings.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
-    Layout = "~/Pages/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Create";
+	Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 <h4>Gerar Fechamento</h4>
 <hr />
 <div class="container">
-    <div class="table-responsive">
-         <div class="row justify-content-center mb-3"> 
-               <div class="col-md-6 col-sm-12 mb-2">
+	<div class="table-responsive">
+		<div class="row justify-content-center mb-3">
+			<div class="col-md-6 col-sm-12 mb-2">
+				<form method="post">
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+					<div class="form-group">
+						<label asp-for="Billing.PatientID" class="control-label"></label>
+						<select asp-for="Billing.PatientID" class="form-control" asp-items="@(ViewData["PatientID"] as SelectList)"></select>
+					</div>
+					<div class="form-group">
+						<label asp-for="Billing.TotalValue" class="control-label"></label>
+						<input asp-for="Billing.TotalValue" class="form-control" />
+						<span asp-validation-for="Billing.TotalValue" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="Billing.MessageContent" class="control-label"></label>
+						<input asp-for="Billing.MessageContent" class="form-control" />
+						<span asp-validation-for="Billing.MessageContent" class="text-danger"></span>
+					</div>
+					<div id="session-dates">
+						<label>Sessões</label>
+						<div class="form-group">
+							<input type="date" name="SessionDates" class="form-control" />
 
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Billing.PatientID" class="control-label"></label>
-                <input asp-for="Billing.PatientID" class="form-control" />
-                <span asp-validation-for="Billing.PatientID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Billing.TotalValue" class="control-label"></label>
-                <input asp-for="Billing.TotalValue" class="form-control" />
-                <span asp-validation-for="Billing.TotalValue" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Billing.MessageContent" class="control-label"></label>
-                <input asp-for="Billing.MessageContent" class="form-control" />
-                <span asp-validation-for="Billing.MessageContent" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-        </div>
-    </div>
+						</div>
+					</div>
+					<div class="mb-2 w-100">
+						<button type="button" id="add-date" class="btn btn-success w-100 w-md-auto">Adicionar Data</button>
+					</div>
+
+					<div class="form-group">
+						<input type="submit" value="Gerar" class="btn btn-primary w-100 w-md-auto" />
+					</div>
+				</form>
+
+				<div class="mb-2 w-100">
+					<a class="btn btn-secondary w-100 w-md-auto" asp-page="Index">Voltar</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
-<div>
-    <a asp-page="Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+	<script>
+		 document.getElementById('add-date').addEventListener('click', function () {
+			var container = document.getElementById('session-dates');
+			var newInput = document.createElement('div');
+			newInput.className = 'form-group';
+			newInput.innerHTML = '<input type="date" name="SessionDates" class="form-control" />' +
+				'<button type="button" class="btn btn-danger remove-date">Remover</button>';
+			container.appendChild(newInput);
+		});
+
+		document.getElementById('session-dates').addEventListener('click', function (event) {
+			if (event.target.classList.contains('remove-date')) {
+				event.target.parentNode.remove();
+			}
+		});
+
+	</script>
+
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
 }
