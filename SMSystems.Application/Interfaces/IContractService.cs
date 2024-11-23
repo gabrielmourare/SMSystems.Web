@@ -12,9 +12,9 @@ namespace SMSystems.Application.Interfaces
 
         Task<List<Contract>> GetAll();
         Task<Contract?> GetContractById(int id);
-        Task UpdateContract(Contract patient);
-        Task DeleteContract(Contract patient);
-        Task AddContract(Contract patientViewModel);
+        Task UpdateContract(Contract contract);
+        Task DeleteContract(Contract contract);
+        Task AddContract(Contract contract);
         Task<bool> ContractExistsAsync(int id);
     }
 }

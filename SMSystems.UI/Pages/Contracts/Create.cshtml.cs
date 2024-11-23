@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
@@ -12,11 +13,11 @@ namespace SMSystems.UI.Pages.Contracts
 {
     public class CreateModel : PageModel
     {
-        private readonly SMSystems.Data.SMSystemsDBContext _context;
+        private readonly IContractService _contractService;
 
-        public CreateModel(SMSystems.Data.SMSystemsDBContext context)
+        public CreateModel(IContractService contractService)
         {
-            _context = context;
+            _contractService = contractService;
         }
 
         public IActionResult OnGet()
@@ -35,9 +36,8 @@ namespace SMSystems.UI.Pages.Contracts
                 return Page();
             }
 
-            _context.Contracts.Add(Contract);
-            await _context.SaveChangesAsync();
-
+            await _contractService.AddContract(Contract);
+            
             return RedirectToPage("./Index");
         }
     }

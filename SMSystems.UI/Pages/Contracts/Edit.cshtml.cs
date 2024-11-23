@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
@@ -13,24 +14,24 @@ namespace SMSystems.UI.Pages.Contracts
 {
     public class EditModel : PageModel
     {
-        private readonly SMSystems.Data.SMSystemsDBContext _context;
+        private readonly IContractService _contractService;
 
-        public EditModel(SMSystems.Data.SMSystemsDBContext context)
+        public EditModel(IContractService contractService)
         {
-            _context = context;
+            _contractService = contractService;
         }
 
         [BindProperty]
         public Contract Contract { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return NotFound();
             }
 
-            var contract =  await _context.Contracts.FirstOrDefaultAsync(m => m.ID == id);
+            var contract = await _contractService.GetContractById(id);
             if (contract == null)
             {
                 return NotFound();
@@ -48,15 +49,16 @@ namespace SMSystems.UI.Pages.Contracts
                 return Page();
             }
 
-            _context.Attach(Contract).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _contractService.UpdateContract(Contract);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ContractExists(Contract.ID))
+                Task<bool> verificaContratoExistente = _contractService.ContractExistsAsync(Contract.ID);
+                bool result = await verificaContratoExistente;
+
+                if (!result)
                 {
                     return NotFound();
                 }
@@ -67,11 +69,6 @@ namespace SMSystems.UI.Pages.Contracts
             }
 
             return RedirectToPage("./Index");
-        }
-
-        private bool ContractExists(int id)
-        {
-            return _context.Contracts.Any(e => e.ID == id);
         }
     }
 }
