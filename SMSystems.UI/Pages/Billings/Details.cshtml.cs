@@ -5,38 +5,37 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
-namespace SMSystems.UI.Pages.Patients
+namespace SMSystems.UI.Pages.Billings
 {
     public class DetailsModel : PageModel
     {
-        private readonly IPatientService _patientService;
+        private readonly SMSystems.Data.SMSystemsDBContext _context;
 
-        public DetailsModel(IPatientService patientService)
+        public DetailsModel(SMSystems.Data.SMSystemsDBContext context)
         {
-            _patientService = patientService;
+            _context = context;
         }
 
-      public Patient Patient { get; set; } = default!; 
+        public Billing Billing { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int id)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == 0)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var patient = await _patientService.GetPatientData(id);
-            if (patient == null)
+            var billing = await _context.Billings.FirstOrDefaultAsync(m => m.ID == id);
+            if (billing == null)
             {
                 return NotFound();
             }
-            else 
+            else
             {
-                Patient = patient;
+                Billing = billing;
             }
             return Page();
         }

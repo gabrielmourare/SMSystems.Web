@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
@@ -12,24 +13,24 @@ namespace SMSystems.UI.Pages.Contracts
 {
     public class DeleteModel : PageModel
     {
-        private readonly SMSystems.Data.SMSystemsDBContext _context;
+        private readonly IContractService _contractService;
 
-        public DeleteModel(SMSystems.Data.SMSystemsDBContext context)
+        public DeleteModel(IContractService contractService)
         {
-            _context = context;
+            _contractService = contractService;
         }
 
         [BindProperty]
         public Contract Contract { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return NotFound();
             }
 
-            var contract = await _context.Contracts.FirstOrDefaultAsync(m => m.ID == id);
+            var contract = await _contractService.GetContractById(id);
 
             if (contract == null)
             {
@@ -42,19 +43,19 @@ namespace SMSystems.UI.Pages.Contracts
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return NotFound();
             }
 
-            var contract = await _context.Contracts.FindAsync(id);
+            var contract = await _contractService.GetContractById(id);
             if (contract != null)
             {
                 Contract = contract;
-                _context.Contracts.Remove(Contract);
-                await _context.SaveChangesAsync();
+                await _contractService.DeleteContract(Contract);
+
             }
 
             return RedirectToPage("./Index");

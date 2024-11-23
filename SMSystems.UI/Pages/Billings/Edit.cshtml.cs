@@ -6,37 +6,36 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
-namespace SMSystems.UI.Pages.Contracts
+namespace SMSystems.UI.Pages.Billings
 {
     public class EditModel : PageModel
     {
-        private readonly IContractService _contractService;
+        private readonly SMSystems.Data.SMSystemsDBContext _context;
 
-        public EditModel(IContractService contractService)
+        public EditModel(SMSystems.Data.SMSystemsDBContext context)
         {
-            _contractService = contractService;
+            _context = context;
         }
 
         [BindProperty]
-        public Contract Contract { get; set; } = default!;
+        public Billing Billing { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int id)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == 0)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var contract = await _contractService.GetContractById(id);
-            if (contract == null)
+            var billing =  await _context.Billings.FirstOrDefaultAsync(m => m.ID == id);
+            if (billing == null)
             {
                 return NotFound();
             }
-            Contract = contract;
+            Billing = billing;
             return Page();
         }
 
@@ -49,16 +48,15 @@ namespace SMSystems.UI.Pages.Contracts
                 return Page();
             }
 
+            _context.Attach(Billing).State = EntityState.Modified;
+
             try
             {
-                await _contractService.UpdateContract(Contract);
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                Task<bool> verificaContratoExistente = _contractService.ContractExistsAsync(Contract.ID);
-                bool result = await verificaContratoExistente;
-
-                if (!result)
+                if (!BillingExists(Billing.ID))
                 {
                     return NotFound();
                 }
@@ -69,6 +67,11 @@ namespace SMSystems.UI.Pages.Contracts
             }
 
             return RedirectToPage("./Index");
+        }
+
+        private bool BillingExists(int id)
+        {
+            return _context.Billings.Any(e => e.ID == id);
         }
     }
 }

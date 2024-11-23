@@ -12,7 +12,7 @@ namespace SMSystems.Domain.Entities
         [Key]
         public int ID { get; set; }
         public int PatientID { get; set; }
-        public int InvoiceID { get; set; }
+        public int? InvoiceID { get; set; }
         public decimal Value { get; set; }
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }

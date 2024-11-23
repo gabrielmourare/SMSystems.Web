@@ -9,24 +9,34 @@ using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
-namespace SMSystems.UI.Pages.Contracts
+namespace SMSystems.UI.Pages.Billings
 {
     public class CreateModel : PageModel
     {
+        private readonly IPatientService _patientService;
         private readonly IContractService _contractService;
+        private readonly IBillingService _billingService;
 
-        public CreateModel(IContractService contractService)
+        public CreateModel(IPatientService patientService, IContractService contractService, IBillingService billingService)
         {
+            _billingService = billingService;
             _contractService = contractService;
+            _patientService = patientService;
         }
 
-        public IActionResult OnGet()
+        [BindProperty]
+        public List<DateTime> SessionDates { get; set; } = new List<DateTime>();
+
+       
+
+        public async Task<IActionResult> OnGet()
         {
+            await PopulatePatientsDropdown();
             return Page();
         }
 
         [BindProperty]
-        public Contract Contract { get; set; } = default!;
+        public Billing Billing { get; set; } = default!;
 
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
@@ -36,9 +46,13 @@ namespace SMSystems.UI.Pages.Contracts
                 return Page();
             }
 
-            await _contractService.AddContract(Contract);
-            
+          
             return RedirectToPage("./Index");
+        }
+        private async Task PopulatePatientsDropdown()
+        {
+            var patients = await _patientService.GetAll();
+            ViewData["PatientID"] = new SelectList(patients, "ID", "Name");
         }
     }
 }

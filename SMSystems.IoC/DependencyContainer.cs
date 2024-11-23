@@ -29,6 +29,8 @@ namespace SMSystems.IoC
             services.AddScoped<IContractRepository, ContractRepository>();
             services.AddScoped<IPatientReportService, PatientReportService>();
             services.AddScoped<IPatientReportRepository, PatientReportRepository>();
+            services.AddScoped<IBillingService, BillingService>();
+            services.AddScoped<IBillingRepository, BillingRepository>();
 
 
             return services;
@@ -38,7 +40,7 @@ namespace SMSystems.IoC
         {
             services.AddDbContext<SMSystemsDBContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("SMSystemsProd"));
+                options.UseSqlServer(Configuration.GetConnectionString("SMSystemsDevelopment"));
                 
             }, ServiceLifetime.Scoped);         
        
