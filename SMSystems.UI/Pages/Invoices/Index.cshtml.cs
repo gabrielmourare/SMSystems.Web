@@ -63,10 +63,9 @@ namespace SMSystems.UI.Pages.Invoices
             ViewData["SearchStatus"] = new SelectList(new[]
                                                              {
                                                                 new {Value = 0, Text = "Selecione um Status..."},
-                                                                new { Value = 1, Text = "Enviado ao Paciente" },
-                                                                new { Value = 2, Text = "Emitido" },
-                                                                new { Value = 3, Text = "Aguardando Assinatura" },
-                                                                new { Value = 4, Text = "Aguardando Emissão" }
+                                                                new { Value = 1, Text = "Aguardando Emissão" },
+                                                                new { Value = 2, Text = "Aguardando Envio" },
+                                                                new { Value = 3, Text = "Enviado ao Paciente" }                                                               
                                                             }, "Value", "Text");
 
             // Filtro por nome de paciente (se fornecido)

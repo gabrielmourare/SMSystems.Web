@@ -45,8 +45,36 @@ namespace SMSystems.UI.Pages.Billings
             {
                 return Page();
             }
+            Billing.Sessions = new List<Session>();
 
-          
+            // Usa Task.WhenAll para buscar paciente e contrato em paralelo
+            var patientTask = _patientService.GetPatientById(Billing.PatientID);
+
+            // Inicia a tarefa para obter o contrato somente se o paciente for encontrado
+            var contractTask = patientTask.ContinueWith(t =>
+            {
+                if (t.Result != null)
+                {
+                    return _contractService.GetContractById(t.Result.ContractID);
+                }
+                return Task.FromResult<Contract>(null);
+            }).Unwrap(); // Desembrulha a tarefa aninhada
+
+            // Aguarda ambas as tarefas
+            await Task.WhenAll(patientTask, contractTask);
+
+            Patient patient = await patientTask;
+            Contract contract = await contractTask;
+
+            decimal valorContrato = 0;
+
+
+            decimal valorPersonalizado = 0;
+
+
+            decimal valorFinal = 0;
+
+
             return RedirectToPage("./Index");
         }
         private async Task PopulatePatientsDropdown()

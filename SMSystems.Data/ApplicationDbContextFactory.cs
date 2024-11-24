@@ -21,7 +21,7 @@ namespace SMSystems.Data
             var connectionString = configuration.GetConnectionString("SMSystemsProd");
 
             var optionsBuilder = new DbContextOptionsBuilder<SMSystemsDBContext>();
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlite(connectionString);
 
             return new SMSystemsDBContext(optionsBuilder.Options);
         }

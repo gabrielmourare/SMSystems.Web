@@ -37,10 +37,10 @@ namespace SMSystems.Domain.Entities
     public enum InvoiceStatus
     {
         [Display(Name ="Aguardando Emissão")]
-        Pending = 0,      
+        Pending = 1,      
         [Display(Name = "Aguardando Envio")]
-        Issued = 1,
+        Issued = 2,
         [Display(Name = "Enviado ao Paciente")]
-        Sent = 2
+        Sent = 3
     }
 }

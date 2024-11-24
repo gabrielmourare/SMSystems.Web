@@ -65,9 +65,9 @@ namespace SMSystems.UI.Pages.Patients
             var contracts = await _contractService.GetAll();
 
             var contractList = new List<SelectListItem>
-    {
+                {
         new SelectListItem { Value = "0", Text = "Selecione um contrato" } // Opção padrão
-    };
+                };
 
             if (contracts != null)
             {
