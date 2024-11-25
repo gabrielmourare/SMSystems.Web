@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
@@ -13,24 +14,24 @@ namespace SMSystems.UI.Pages.Billings
 {
     public class EditModel : PageModel
     {
-        private readonly SMSystems.Data.SMSystemsDBContext _context;
+        private readonly IBillingService _billingService;
 
-        public EditModel(SMSystems.Data.SMSystemsDBContext context)
+        public EditModel(IBillingService billingService)
         {
-            _context = context;
+            _billingService = billingService;
         }
 
         [BindProperty]
         public Billing Billing { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return NotFound();
             }
 
-            var billing =  await _context.Billings.FirstOrDefaultAsync(m => m.ID == id);
+            var billing =  await _billingService.GetBillingById(id);
             if (billing == null)
             {
                 return NotFound();
@@ -48,15 +49,18 @@ namespace SMSystems.UI.Pages.Billings
                 return Page();
             }
 
-            _context.Attach(Billing).State = EntityState.Modified;
+        
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _billingService.UpdateBilling(Billing);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BillingExists(Billing.ID))
+                Task<bool> cobrancaExiste = _billingService.BillingExistsAsync(Billing.ID);
+                bool result = await cobrancaExiste;
+
+                if (!result)
                 {
                     return NotFound();
                 }
@@ -69,9 +73,6 @@ namespace SMSystems.UI.Pages.Billings
             return RedirectToPage("./Index");
         }
 
-        private bool BillingExists(int id)
-        {
-            return _context.Billings.Any(e => e.ID == id);
-        }
+      
     }
 }

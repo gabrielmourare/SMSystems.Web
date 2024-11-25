@@ -5,6 +5,9 @@ QuestPDF.Settings.License = LicenseType.Community;
 var builder = WebApplication.CreateBuilder(args);
 
 
+// Configure o ContentRootPath explicitamente
+builder.Environment.ContentRootPath = AppContext.BaseDirectory;
+
 // Add services to the container.
 builder.Services.AddSingleton(AutoMapperConfig.Initialize());
 builder.Services.AddRazorPages();
@@ -36,7 +39,6 @@ app.UseAuthorization();
 // Add the localization middleware
 
 app.MapRazorPages();
-app.UseRequestLocalization("pt-br");
 app.Run();
 
 

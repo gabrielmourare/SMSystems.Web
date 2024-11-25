@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SMSystems.Application.DTOs;
 using SMSystems.Domain.Entities;
-using SMSystems.Printer.Interfaces;
+using SMSystems.Application.Printer.Interfaces;
 using System.Text;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -10,7 +10,7 @@ using QuestPDF.Previewer;
 
 
 
-namespace SMSystems.Printer.Services
+namespace SMSystems.Application.Printer.Services
 {
     public class PrinterService : IPrinterService
     {

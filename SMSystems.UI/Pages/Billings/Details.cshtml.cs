@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
@@ -12,23 +13,23 @@ namespace SMSystems.UI.Pages.Billings
 {
     public class DetailsModel : PageModel
     {
-        private readonly SMSystems.Data.SMSystemsDBContext _context;
+        private readonly IBillingService _billingService;
 
-        public DetailsModel(SMSystems.Data.SMSystemsDBContext context)
+        public DetailsModel(IBillingService billingService)
         {
-            _context = context;
+            _billingService = billingService;
         }
 
         public Billing Billing { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return NotFound();
             }
 
-            var billing = await _context.Billings.FirstOrDefaultAsync(m => m.ID == id);
+            var billing = await _billingService.GetBillingById(id);
             if (billing == null)
             {
                 return NotFound();

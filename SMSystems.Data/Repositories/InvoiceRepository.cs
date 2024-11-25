@@ -25,12 +25,21 @@ namespace SMSystems.Data.Repositories
 
         public async Task<Invoice?> GetInvoiceByIdAsync(int id)
         {
-            Invoice? invoice = await _context.Invoices
-                                             .Include(i => i.Sessions) // Inclui as sessões associadas à invoice
-                                             .FirstOrDefaultAsync(i => i.ID == id);
+            try
+            {
+                Invoice? invoice = await _context.Invoices
+                                                 .Include(i => i.Sessions) // Inclui as sessões associadas à invoice
+                                                 .FirstOrDefaultAsync(i => i.ID == id);
+                return invoice;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            return invoice;
+            return null;
         }
+
 
         public async Task<List<Invoice>> GetInvoicesByPatientId(int patientId)
         {

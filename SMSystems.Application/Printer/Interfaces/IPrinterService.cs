@@ -10,7 +10,7 @@ using QuestPDF;
 using SMSystems.Application.DTOs;
 using QuestPDF.Fluent;
 
-namespace SMSystems.Printer.Interfaces
+namespace SMSystems.Application.Printer.Interfaces
 {
     public interface IPrinterService
     {

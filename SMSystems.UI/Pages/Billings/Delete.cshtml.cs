@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using SMSystems.Application.Interfaces;
 using SMSystems.Data;
 using SMSystems.Domain.Entities;
 
@@ -12,24 +13,24 @@ namespace SMSystems.UI.Pages.Billings
 {
     public class DeleteModel : PageModel
     {
-        private readonly SMSystems.Data.SMSystemsDBContext _context;
+        private readonly IBillingService _billingService;
 
-        public DeleteModel(SMSystems.Data.SMSystemsDBContext context)
+        public DeleteModel(IBillingService billingService)
         {
-            _context = context;
+            _billingService = billingService;
         }
 
         [BindProperty]
         public Billing Billing { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return NotFound();
             }
 
-            var billing = await _context.Billings.FirstOrDefaultAsync(m => m.ID == id);
+            var billing = await _billingService.GetBillingById(id);
 
             if (billing == null)
             {
@@ -42,19 +43,19 @@ namespace SMSystems.UI.Pages.Billings
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return NotFound();
             }
 
-            var billing = await _context.Billings.FindAsync(id);
+            var billing = await _billingService.GetBillingById(id);
             if (billing != null)
             {
                 Billing = billing;
-                _context.Billings.Remove(Billing);
-                await _context.SaveChangesAsync();
+                await _billingService.DeleteBilling(Billing);
+
             }
 
             return RedirectToPage("./Index");
