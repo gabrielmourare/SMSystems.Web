@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Printing;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
 using SMSystems.Application.DTOs;
 using SMSystems.Application.Interfaces;
-using SMSystems.Application.Services;
-using SMSystems.Data;
 using SMSystems.Domain.Entities;
-using SMSystems.Printer;
-using SMSystems.Printer.Interfaces;
-using SMSystems.Printer.Services;
+using SMSystems.Application.Printer.Interfaces;
+
 
 
 namespace SMSystems.UI.Pages.Invoices

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 using AutoMapper;
 using System.Globalization;
-using SMSystems.Printer.Interfaces;
+using SMSystems.Application.Printer.Interfaces;
 using SMSystems.Printer.Services;
 
 namespace SMSystems.IoC
@@ -24,7 +24,7 @@ namespace SMSystems.IoC
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();
             services.AddScoped<ISessionService, SessionService>();
             services.AddScoped<ISessionRepository, SessionRepository>();
-            services.AddScoped<IPrinterService, PrinterService>();
+            services.AddScoped<IPrinterService, Application.Printer.Services.PrinterService>();
             services.AddScoped<IContractService, ContractService>();
             services.AddScoped<IContractRepository, ContractRepository>();
             services.AddScoped<IPatientReportService, PatientReportService>();
@@ -40,7 +40,7 @@ namespace SMSystems.IoC
         {
             services.AddDbContext<SMSystemsDBContext>(options =>
             {
-                options.UseSqlite(Configuration.GetConnectionString("SMSystemsDevelopment"));
+                options.UseSqlite(Configuration.GetConnectionString("SMSystemsProd"));
                 
             }, ServiceLifetime.Scoped);         
        

@@ -15,7 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\SMSystems.Application\SMSystems.Application.csproj" />
     <ProjectReference Include="..\SMSystems.Data\SMSystems.Data.csproj" />
-    <ProjectReference Include="..\SMSystems.Printer\SMSystems.Printer.csproj" />
   </ItemGroup>
 
 </Project>
