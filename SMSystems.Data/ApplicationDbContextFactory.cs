@@ -13,12 +13,14 @@ namespace SMSystems.Data
     {
         public SMSystemsDBContext CreateDbContext(string[] args)
         {
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
             var configuration = new ConfigurationBuilder()
              .SetBasePath(Directory.GetCurrentDirectory())
              .AddJsonFile("appsettings.json")
+              .AddJsonFile($"appsettings.{environment}.json", optional: true)
              .Build();
 
-            var connectionString = configuration.GetConnectionString("SMSystemsProd");
+            var connectionString = configuration.GetConnectionString("SMSystemsDev");
 
             var optionsBuilder = new DbContextOptionsBuilder<SMSystemsDBContext>();
             optionsBuilder.UseSqlite(connectionString);

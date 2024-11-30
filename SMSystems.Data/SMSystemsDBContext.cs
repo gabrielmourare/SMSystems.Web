@@ -15,7 +15,8 @@ namespace SMSystems.Data
 
         public SMSystemsDBContext(DbContextOptions<SMSystemsDBContext> options) : base(options)
         {
-
+            var connectionString = this.Database.GetConnectionString();
+            Console.WriteLine($"Current Connection String: {connectionString}");
         }
 
 

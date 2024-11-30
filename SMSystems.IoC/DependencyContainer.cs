@@ -40,7 +40,7 @@ namespace SMSystems.IoC
         {
             services.AddDbContext<SMSystemsDBContext>(options =>
             {
-                options.UseSqlite(Configuration.GetConnectionString("SMSystemsProd"));
+                options.UseSqlite(Configuration.GetConnectionString("SMSystems"));
                 
             }, ServiceLifetime.Scoped);         
        
