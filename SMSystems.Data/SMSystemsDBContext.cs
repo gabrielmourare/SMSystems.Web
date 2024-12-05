@@ -26,6 +26,6 @@ namespace SMSystems.Data
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<PatientReport> PatientReports { get; set; }
 
-        public DbSet<Billing> Billings { get; set; }
+    
     }
 }

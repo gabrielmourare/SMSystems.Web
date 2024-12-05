@@ -29,8 +29,7 @@ namespace SMSystems.IoC
             services.AddScoped<IContractRepository, ContractRepository>();
             services.AddScoped<IPatientReportService, PatientReportService>();
             services.AddScoped<IPatientReportRepository, PatientReportRepository>();
-            services.AddScoped<IBillingService, BillingService>();
-            services.AddScoped<IBillingRepository, BillingRepository>();
+        
 
 
             return services;

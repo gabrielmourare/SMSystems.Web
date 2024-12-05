@@ -20,15 +20,11 @@
     --vt-c-black: #ffffff;
     --vt-c-black-soft: #222222;
     --vt-c-black-mute: #ffffff;
-    --vt-c-indigo: #86D3E6;
     --vt-c-divider-light-1: #ADA9A8;
     --vt-c-divider-light-2: #ADA9A8;
     --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
     --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
-    --vt-c-text-light-1: var(--vt-c-indigo);
-    --vt-c-text-light-2: #ffffff;
-    --vt-c-text-dark-1: var(--vt-c-white);
-    --vt-c-text-dark-2: #ADA9A8;
+   
 }
 
 /* semantic color variables for this project */
@@ -39,7 +35,6 @@
     --color-border: var(--vt-c-divider-light-2);
     --color-border-hover: var(--vt-c-divider-light-1);
     --color-heading: var(--vt-c-text-light-1);
-    --color-text: var(--vt-c-text-light-1);
     --section-gap: 160px;
 }
 
@@ -51,7 +46,6 @@
         --color-border: var(--vt-c-divider-dark-2);
         --color-border-hover: var(--vt-c-divider-dark-1);
         --color-heading: var(--vt-c-text-dark-1);
-        --color-text: var(--vt-c-text-dark-2);
     }
 }
 
@@ -65,7 +59,6 @@
 
 body {
     min-height: 100vh;
-    color: var(--color-text);
     background: var(--color-background);
     transition: color 0.5s, background-color 0.5s;
     line-height: 1.6;
@@ -78,7 +71,7 @@ body {
 
 
 h1 {
-  font-family: "Autography";
+    font-family: "Autography";
 }
 
 .logo {
@@ -114,10 +107,10 @@ h1 {
 }
 
 .iconTd {
-    border:none;
-    background-color:#fff;
-    border-top:none;
-    border-bottom:none;
+    border: none;
+    background-color: #fff;
+    border-top: none;
+    border-bottom: none;
 }
 
 .thIcon {
@@ -129,13 +122,12 @@ h1 {
 
 
 .fixed-column {
-    
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    max-width:250px;
+    max-width: 250px;
     min-width: 170px;
-    width:150px;
+    width: 150px;
 }
 
 
@@ -145,6 +137,7 @@ h1 {
         border: 1px solid #ADA9A8;
         color: #fff;
     }
+
     a.greyBtn:hover {
         background-color: #dbd8d7;
         border: 1px solid #dbd8d7;
@@ -159,8 +152,8 @@ h1 {
 
     .paginationBtn {
         color: #86D3E6;
-        
     }
+
     .paginationBtnActive {
         color: #fff;
         background-color: #86D3E6;
@@ -170,7 +163,4 @@ h1 {
         width: 25px;
         height: 25px;
     }
-
-
-
 }

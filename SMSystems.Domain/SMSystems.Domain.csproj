@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Entities\Billing.cs" />
+    <Compile Remove="Interfaces\IBillingRepository.cs" />
+  </ItemGroup>
+
 </Project>
