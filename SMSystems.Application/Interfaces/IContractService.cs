@@ -1,4 +1,5 @@
-﻿using SMSystems.Domain.Entities;
+﻿using SMSystems.Application.DTOs;
+using SMSystems.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,6 @@ namespace SMSystems.Application.Interfaces
         Task DeleteContract(Contract contract);
         Task AddContract(Contract contract);
         Task<bool> ContractExistsAsync(int id);
+        Task<ContractDetailsDTO> GetContractDetails(int invoiceId);
     }
 }

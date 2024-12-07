@@ -2,49 +2,52 @@
 @model SMSystems.UI.Pages.Contracts.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Pages/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Details";
+	Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 <h1>Details</h1>
 
 <div>
-    <h4>Contract</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Contract.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Contract.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Contract.Text)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Contract.Text)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Contract.SessionValue)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Contract.SessionValue)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Contract.ExpirationDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Contract.ExpirationDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Contract.StartDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Contract.StartDate)
-        </dd>
-    </dl>
+	<h4>Contract</h4>
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Contract.Name)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Contract.Name)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Contract.Text)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Contract.Text)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Contract.SessionValue)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Contract.SessionValue)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Contract.ExpirationDate)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Contract.ExpirationDate)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Contract.StartDate)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Contract.StartDate)
+		</dd>
+	</dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.Contract.ID">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
+	<a asp-page="./Edit" asp-route-id="@Model.Contract.ID">Edit</a>
+	<form method="post">
+		<button class="btn btn-primary" type="submit">Gerar PDF</button>
+	</form>|
+	<a asp-page="./Index">Back to List</a>
 </div>

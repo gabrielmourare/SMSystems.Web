@@ -1,0 +1,32 @@
+﻿@page
+@model SMSystems.UI.Pages.SendToWhatsappModel
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Enviar no WhatsApp</title>
+</head>
+<body>
+	<h1>Abrindo o WhatsApp...</h1>
+
+	<script>
+		// Recupera as URLs armazenadas no TempData
+		const whatsappUrl = '@TempData["WhatsappUrl"]';
+		const pdfUrl = '@TempData["PdfUrl"]';
+
+		// Abrir o WhatsApp Web em uma nova aba
+		window.open(whatsappUrl, '_blank');
+
+		// Baixar o arquivo PDF localmente para o usuário anexar manualmente
+		window.location.href = pdfUrl;
+
+		// Opcional: Mostrar uma mensagem enquanto o processo acontece
+		setTimeout(function() {
+			alert("Você pode agora enviar o PDF no WhatsApp Web.");
+		}, 3000);
+	</script>
+</body>
+</html>

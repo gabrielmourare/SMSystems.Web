@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using SMSystems.Application.DTOs;
 using SMSystems.Application.Interfaces;
 using SMSystems.Domain.Entities;
 using SMSystems.Domain.Interfaces;
+using SMSystems.Printer.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +52,24 @@ namespace SMSystems.Application.Services
         public async Task UpdateContract(Contract contract)
         {
             await _contract.UpdateContractAsync(contract);
+        }
+
+
+        public async Task<ContractDetailsDTO> GetContractDetails(int contractId)
+        {
+            Contract? contract = await _contract.GetContractByIdAsync(contractId);
+
+            return new ContractDetailsDTO()
+            {
+                SessionValue = contract.SessionValue,
+                StartDate = contract.StartDate,
+                ExpirationDate = contract.ExpirationDate,
+                Profession = "Psicóloga",
+                ProfessionalName = "Andiara Sarraf",
+                ProfessionalRCNumber = "06/87574",
+                ProfessionalSocialNumber = "066.171.616.37"
+            };
+
         }
     }
 }

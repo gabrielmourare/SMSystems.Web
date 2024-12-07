@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SMSystems.Data.Repositories
 {
-    public class ContractRepository : IContractRepository, IDisposable
+    public class ContractRepository : IContractRepository
     {
         private readonly SMSystemsDBContext _context;
         private bool _disposed = false;
@@ -58,24 +58,6 @@ namespace SMSystems.Data.Repositories
             return await _context.Contracts.AnyAsync(e => e.ID == id);
         }
 
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-            }
-            _disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
 
     }
 }

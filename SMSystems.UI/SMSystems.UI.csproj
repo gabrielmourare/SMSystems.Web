@@ -8,16 +8,17 @@
 
 	<ItemGroup>
 		<Compile Remove="Pages\Billings\**" />
-		<Compile Remove="Pages\NovaPasta\**" />
 		<Content Remove="Pages\Billings\**" />
-		<Content Remove="Pages\NovaPasta\**" />
 		<EmbeddedResource Remove="Pages\Billings\**" />
-		<EmbeddedResource Remove="Pages\NovaPasta\**" />
 		<None Remove="Pages\Billings\**" />
-		<None Remove="Pages\NovaPasta\**" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Pages\SendToWhatsapp.cshtml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Remove="Pages\SendToWhatsapp.cshtml" />
 		<Content Remove="Pages\Shared\MessageShow.razor" />
 		<Content Remove="wwwroot\js\validator.js" />
 	</ItemGroup>
@@ -40,6 +41,10 @@
 	<ItemGroup>
 		<ProjectReference Include="..\SMSystems.Application\SMSystems.Application.csproj" />
 		<ProjectReference Include="..\SMSystems.IoC\SMSystems.IoC.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="wwwroot\temp\" />
 	</ItemGroup>
 
 

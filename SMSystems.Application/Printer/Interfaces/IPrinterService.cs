@@ -15,5 +15,6 @@ namespace SMSystems.Application.Printer.Interfaces
     public interface IPrinterService
     {
         public QuestPDF.Infrastructure.IDocument GeneratePDF(InvoiceDetailsDTO invoiceID, List<Session> sessions);
+        public QuestPDF.Infrastructure.IDocument GeneratePDF(ContractDetailsDTO contractDetails);
     }
 }
