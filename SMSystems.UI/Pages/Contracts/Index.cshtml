@@ -11,20 +11,32 @@
 		<div class="row justify-content-center mb-3">
 			<div class="col-md-6 col-sm-12 mb-2">
 				<form class="d-flex flex-column align-items-center">
-
-
 					<div class="mb-2 w-100">
 						<a class="btn btn-primary w-100 w-md-auto" asp-page="Create">Cadastrar Novo</a>
 					</div>
 				</form>
+				<form id="patientForm" class="d-flex flex-column align-items-center" method="post">
+					<input type="hidden" asp-for="PatientIDS" id="hiddenPatientIDS" name="PatientIDS" />
+					<input type="hidden" asp-for="ContractID" id="hiddenContractID" name="ContractID" />
+					<div class="mb-2 w-100">
+						<button id="btnAplica" class="btn btn-primary w-100 w-md-auto">Aplicar Contrato/Paciente</button>
+					</div>
+
+				</form>
+				@if (!string.IsNullOrEmpty(Model.Message))
+				{
+					<div id="successMessage" class="alert alert-success">
+						@Model.Message
+					</div>
+				}
 			</div>
 		</div>
-
 
 		<div class="table-responsive">
 			<table class="table table-striped table-hover" width="100%">
 				<thead>
 					<tr>
+
 						<th class="text-center">
 							@Html.DisplayNameFor(model => model.Contracts[0].Name)
 						</th>
@@ -55,6 +67,9 @@
 					@foreach (var item in Model.Contracts)
 					{
 						<tr>
+							<td>
+								<input type="checkbox" class="contract-checkbox" value="@item.ID" />
+							</td>
 							<td class="text-center">
 								@Html.DisplayFor(modelItem => item.Name)
 							</td>
@@ -99,6 +114,115 @@
 				</tbody>
 			</table>
 		</div>
+
+
+		<div class="table-responsive">
+			<table class="table table-striped table-hover" width="100%">
+				<thead>
+					<tr>
+						<th>
+							<input type="checkbox" id="selectAllPatients" />
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.Patients[0].Name)
+						</th>
+
+						<th>
+							@Html.DisplayNameFor(model => model.Patients[0].Active)
+						</th>
+						<th>
+							@Html.DisplayNameFor(model => model.Patients[0].BirthDate)
+						</th>
+
+					</tr>
+				</thead>
+
+				<tbody>
+					@foreach (var item in Model.Patients)
+					{
+						<tr>
+							<td>
+								<input type="checkbox" class="patient-checkbox" value="@item.ID" />
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.Name)
+							</td>
+
+							<td>
+								@Html.DisplayFor(modelItem => item.Active)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.BirthDate)
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 
+<script>
+
+	 // Seleciona todos os checkboxes com a classe "contract-checkbox"
+	const checkboxes = document.querySelectorAll('.contract-checkbox');
+
+	// Adiciona um listener de evento a cada checkbox
+	checkboxes.forEach(checkbox => {
+		checkbox.addEventListener('change', () => {
+			// Quando o checkbox é selecionado, desmarque os outros
+			checkboxes.forEach(cb => {
+				if (cb !== checkbox) {
+					cb.checked = false;
+				}
+			});
+		});
+	});
+
+	document.getElementById("selectAllPatients").addEventListener("change", function () {
+		const checkboxes = document.querySelectorAll(".patient-checkbox");
+		checkboxes.forEach(checkbox => {
+			checkbox.checked = this.checked;
+		});
+	});
+
+
+
+		document.getElementById("btnAplica").addEventListener("click", function (event) {
+		// Evita o envio imediato do formulário para manipulação
+		event.preventDefault();
+
+		// Coleta os IDs dos checkboxes selecionados
+		const selectedIds = Array.from(document.querySelectorAll(".patient-checkbox:checked"))
+			.map(checkbox => checkbox.value);
+
+			const selectedContract = Array.from(document.querySelectorAll(".contract-checkbox:checked")).map(checkbox => checkbox.value);
+
+		// Se houver IDs selecionados
+		if (selectedIds.length > 0) {
+			// Preenche o campo hidden com os IDs selecionados
+			var hiddenInpu = document.getElementById("hiddenPatientIDS");
+			var hiddenContractID = document.getElementById("hiddenContractID");
+
+			hiddenContractID.value = selectedContract.join(",");
+			hiddenInpu.value = selectedIds.join(",");
+
+			 // Agora envia o formulário
+			document.getElementById("patientForm").submit();
+		} else {
+			// Se nenhum paciente for selecionado, exibe uma mensagem de alerta
+			alert("Por favor, selecione pelo menos um paciente.");
+		}
+	});
+
+	// Verifica se a div com a mensagem existe e a oculta após 5 segundos
+		window.onload = function() {
+			var successMessage = document.getElementById("successMessage");
+			if (successMessage) {
+				setTimeout(function() {
+					successMessage.style.display = "none";
+				}, 2000); 
+			}
+		}
+
+</script>

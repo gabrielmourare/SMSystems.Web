@@ -2,58 +2,61 @@
 @model SMSystems.UI.Pages.Contracts.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Pages/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Edit";
+	Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 
 <h4>Editar Contrato</h4>
 <hr />
 <div class="container">
-    <div class="table-responsive">
-        <div class="row justify-content-center mb-3">
-            <div class="col-md-6 col-sm-12 mb-2">        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Contract.ID" />
-            <div class="form-group">
-                <label asp-for="Contract.Name" class="control-label"></label>
-                <input asp-for="Contract.Name" class="form-control" />
-                <span asp-validation-for="Contract.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Contract.Text" class="control-label"></label>
-                <input asp-for="Contract.Text" class="form-control" />
-                <span asp-validation-for="Contract.Text" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Contract.SessionValue" class="control-label"></label>
-                <input asp-for="Contract.SessionValue" class="form-control" />
-                <span asp-validation-for="Contract.SessionValue" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Contract.ExpirationDate" class="control-label"></label>
-                <input asp-for="Contract.ExpirationDate" class="form-control" />
-                <span asp-validation-for="Contract.ExpirationDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Contract.StartDate" class="control-label"></label>
-                <input asp-for="Contract.StartDate" class="form-control" />
-                <span asp-validation-for="Contract.StartDate" class="text-danger"></span>
-            </div>
-            <div class="mb-2 w-100">
-                <input type="submit" class="btn btn-primary w-100 w-md-auto" value="Salvar" />
-            </div>
-            <div class="mb-2 w-100">
-                <a class="btn btn-secondary w-100 w-md-auto" asp-page="./Index">Voltar</a>
-            </div>
+	<div class="table-responsive">
+		<div class="row justify-content-center mb-3">
+			<div class="col-md-6 col-sm-12 mb-2">
+				<form method="post">
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+					<input type="hidden" asp-for="Contract.ID" />
+					<div class="form-group">
+						<label asp-for="Contract.Name" class="control-label"></label>
+						<input asp-for="Contract.Name" class="form-control" />
+						<span asp-validation-for="Contract.Name" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="Contract.Text" class="control-label"></label>
+						<input asp-for="Contract.Text" class="form-control" />
+						<span asp-validation-for="Contract.Text" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="Contract.SessionValue" class="control-label"></label>
+						<input asp-for="Contract.SessionValue" class="form-control" />
+						<span asp-validation-for="Contract.SessionValue" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="Contract.ExpirationDate" class="control-label"></label>
+						<input asp-for="Contract.ExpirationDate" class="form-control" />
+						<span asp-validation-for="Contract.ExpirationDate" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="Contract.StartDate" class="control-label"></label>
+						<input asp-for="Contract.StartDate" class="form-control" />
+						<span asp-validation-for="Contract.StartDate" class="text-danger"></span>
+					</div>
+					<div class="mb-2 w-100">
+						<input type="submit" class="btn btn-primary w-100 w-md-auto" value="Salvar" />
+					</div>
+					<div class="mb-2 w-100">
+						<a class="btn btn-secondary w-100 w-md-auto" asp-page="./Index">Voltar</a>
+					</div>
 
-        </form>
-    </div>
-    </div>
-</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
 }
