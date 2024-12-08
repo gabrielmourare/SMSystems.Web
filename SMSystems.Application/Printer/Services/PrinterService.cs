@@ -8,6 +8,7 @@ using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using QuestPDF.Previewer;
 using QuestPDF.Companion;
+using System;
 
 
 
@@ -23,9 +24,9 @@ namespace SMSystems.Application.Printer.Services
                 string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
                 // Navegar para o diretório raiz do projeto (duas pastas para trás, saindo de bin/Debug)
-                string rootDirectory = Directory.GetParent(projectDirectory)?.Parent?.FullName;
+                string rootDirectory = AppContext.BaseDirectory; // Obtém o diretório base da aplicação
 
-                byte[] logoBytes = File.ReadAllBytes(Path.Combine(rootDirectory, @"..\..\Resources\Images\SMlogo.png"));
+                string logoPath = Path.Combine(rootDirectory, "wwwroot", "images", "SMLogo.png");
 
                 string nomeProfissional = invoiceDetails.ProfessionalName;//"Andiara Sarraf Moura";
                 string cpfProfissional = invoiceDetails.ProfessionalSocialNumber;// "066.171.616-37";
@@ -53,7 +54,7 @@ namespace SMSystems.Application.Printer.Services
                     page.DefaultTextStyle(x => x.FontSize(20));
                     page.DefaultTextStyle(x => x.FontFamily("Century Gothic"));
 
-                    page.Header().Image(logoBytes);
+                    page.Header().Image(logoPath);
 
 
                     page.Content()
@@ -183,10 +184,13 @@ namespace SMSystems.Application.Printer.Services
                  string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
                  // Navegar para o diretório raiz do projeto (duas pastas para trás, saindo de bin/Debug)
-                 string rootDirectory = Directory.GetParent(projectDirectory)?.Parent?.FullName;
+                 string rootDirectory = AppContext.BaseDirectory; // Obtém o diretório base da aplicação
+                 string logoPath = Path.Combine(rootDirectory, "wwwroot", "images", "SMLogo.png");
+                 byte[] logoBytes = File.ReadAllBytes(logoPath);
 
-                 byte[] logoBytes = File.ReadAllBytes(Path.Combine(rootDirectory, @"..\..\Resources\Images\SMlogo.png"));
-                 byte[] signatureBytes = File.ReadAllBytes(Path.Combine(rootDirectory, @"..\..\Resources\Images\assinatura.png"));
+                 string signaturePath = Path.Combine(rootDirectory, "wwwroot", "images", "assinatura.png");
+                 byte[] signatureBytes = File.ReadAllBytes(signaturePath);
+
 
                  string startDate = contractDetails.StartDate.ToString("MMMM").ToUpper();
                  string mesFormatado = char.ToUpper(startDate[0]) + startDate.Substring(1).ToLower();
@@ -322,8 +326,7 @@ namespace SMSystems.Application.Printer.Services
                                  text.Span("será de ");
                                  text.Span(string.Format("{0}.", sessionValue)).Bold();
                                  text.EmptyLine();
-                                 text.EmptyLine();
-                                 text.EmptyLine();
+                              
                              });
 
 
