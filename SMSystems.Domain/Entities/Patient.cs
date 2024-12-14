@@ -38,6 +38,10 @@ namespace SMSystems.Domain.Entities
         [Required(ErrorMessage = "Selecione um contrato!")]
         [Range(1, int.MaxValue, ErrorMessage = "Selecione um contrato válido!")]
         public int ContractID { get; set; }
+        [DisplayName("Envia mensagem de Aniversário?")]
+        public bool SendBirthdayMessage { get; set; } = false;
+        [DisplayName("Emite recibos?")]
+        public bool GetsInvoice { get; set; } = false;
     }
 
 
