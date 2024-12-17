@@ -2,92 +2,137 @@
 @model SMSystems.UI.Pages.Patients.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
-    Layout = "~/Pages/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Details";
+	Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="form-row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				Dados Pessoais
+			</div>
+			<div class="card-body">
+				<!-- Row 1 - Nome, SocialNumber e Telefone -->
+				<div class="form-row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label asp-for="Patient.Name" class="control-label"></label>
+							<input asp-for="Patient.Name" class="form-control" readonly />
+							<span asp-validation-for="Patient.Name" class="text-danger"></span>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label asp-for="Patient.SocialNumber" class="control-label"></label>
+							<input asp-for="Patient.SocialNumber" class="form-control" readonly />
+							<span asp-validation-for="Patient.SocialNumber" class="text-danger"></span>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label asp-for="Patient.Phone" class="control-label"></label>
+							<input asp-for="Patient.Phone" class="form-control" readonly />
+							<span asp-validation-for="Patient.Phone" class="text-danger"></span>
+						</div>
+					</div>
+				</div>
 
-<div>
-    <h4>Patient</h4>
-    <hr />
-    <dl class="row">
-        <!-- Coluna 1 -->
-        <div class="col-md-4">
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Patient.Name)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Patient.Name)
-            </dd>
-        </div>
+				<!-- Row 2 - Email, ICD e Data de Nascimento -->
+				<div class="form-row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label asp-for="Patient.Email" class="control-label"></label>
+							<input asp-for="Patient.Email" class="form-control" readonly />
+							<span asp-validation-for="Patient.Email" class="text-danger"></span>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label asp-for="Patient.ICD" class="control-label"></label>
+							<input asp-for="Patient.ICD" class="form-control" readonly />
+							<span asp-validation-for="Patient.ICD" class="text-danger"></span>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label asp-for="Patient.BirthDate" class="control-label"></label>
+							<input asp-for="Patient.BirthDate" type="date" readonly class="form-control" />
+							<span asp-validation-for="Patient.BirthDate" class="text-danger"></span>
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label asp-for="Patient.Observation" class="control-label"></label>
+							<input asp-for="Patient.Observation" readonly class="form-control" />
+							<span asp-validation-for="Patient.Observation" class="text-danger"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-        <!-- Coluna 2 -->
-        <div class="col-md-4">
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Patient.SocialNumber)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Patient.SocialNumber)
-            </dd>
-        </div>
+<div class="form-row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				Configurações
+			</div>
+			<div class="card-body">
+				<div class="form-row">
+					<div class="col-md-4">
+						<!-- Checkbox existente -->
+						<div class="form-group form-check">
+							<input class="form-check-input" readonly asp-for="Patient.Active" />
+							<label class="form-check-label">
+								@Html.DisplayNameFor(model => model.Patient.Active)
+							</label>
+						</div>
+					</div>
 
-        <!-- Coluna 3 -->
-        <div class="col-md-4">
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Patient.Phone)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Patient.Phone)
-            </dd>
-        </div>
+					<div class="col-md-4">
+						<!-- Adicionando outros checkboxes -->
+						<div class="form-group form-check">
+							<input class="form-check-input" readonly asp-for="Patient.SendBirthdayMessage" />
+							<label class="form-check-label">
+								@Html.DisplayNameFor(model => model.Patient.SendBirthdayMessage)
+							</label>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group form-check">
+							<input class="form-check-input" readonly asp-for="Patient.GetsInvoice" />
+							<label class="form-check-label">
+								@Html.DisplayNameFor(model => model.Patient.GetsInvoice)
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-md-4">
 
-        <!-- Coluna 4 -->
-        <div class="col-md-4">
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Patient.Email)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Patient.Email)
-            </dd>
-        </div>
+						<label asp-for="Patient.ContractID" class="control-label"></label>
+						<select asp-for="Patient.ContractID" class="form-control" readonly asp-items="@(ViewData["ContractID"] as SelectList)"></select>
 
-        <!-- Coluna 5 -->
-        <div class="col-md-4">
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Patient.Active)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Patient.Active)
-            </dd>
-        </div>
+					</div>
+					<div class="col-md-4">
+					</div>
 
-        <!-- Coluna 6 -->
-        <div class="col-md-4">
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Patient.BirthDate)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Patient.BirthDate)
-            </dd>
-        </div>
-
-        <!-- Coluna 7 -->
-        <div class="col-md-4">
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Patient.ICD)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Patient.ICD)
-            </dd>
-        </div>
-    </dl>
+					<div class="col-md-4">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div>
-    <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.Patient?.ID">Editar</a> |
-    <a class="btn btn-primary" href="/PatientReports?patientID=@Model.Patient.ID">Prontuários</a>
-    |
-    <a class="btn btn-primary" asp-page="./Index">Voltar</a>
+	<a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.Patient?.ID">Editar</a>
+	<a class="btn btn-primary" href="/PatientReports?patientID=@Model.Patient.ID">Prontuários</a>
+	<a class="btn btn-primary" asp-page="./Index">Voltar</a>
 
 </div>

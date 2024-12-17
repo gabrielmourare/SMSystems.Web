@@ -42,6 +42,8 @@ namespace SMSystems.Domain.Entities
         public bool SendBirthdayMessage { get; set; } = false;
         [DisplayName("Emite recibos?")]
         public bool GetsInvoice { get; set; } = false;
+        [DisplayName("Observações")]
+        public string? Observation { get; set; }
     }
 
 

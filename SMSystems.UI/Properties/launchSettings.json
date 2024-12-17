@@ -1,10 +1,10 @@
 {
   "profiles": {
     "SMSystems.UI": {
-      "commandName": "Project",
+      "commandName": "Production",
       "launchBrowser": true,
         "environmentVariables": {
-            "ASPNETCORE_ENVIRONMENT": "Production"
+            "ASPNETCORE_ENVIRONMENT": "Development"
         },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7224;http://localhost:5205;"
