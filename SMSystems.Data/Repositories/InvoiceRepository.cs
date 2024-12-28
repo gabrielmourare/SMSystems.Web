@@ -116,7 +116,7 @@ namespace SMSystems.Data.Repositories
 
         public async Task<bool> InvoiceExistsAsync(int id)
         {
-            return await _context.Patients.AnyAsync(e => e.ID == id);
+            return await _context.Invoices.AnyAsync(e => e.ID == id);
         }
 
         public async Task<List<Invoice>> GetInvoicesByIdsAsync(List<int> ids)
